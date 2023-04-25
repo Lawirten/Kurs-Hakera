@@ -1,44 +1,27 @@
-📅 01.10.2022 🕘 [09:00]
-
 Global Windows Server
-
-Wykładowca: Bogusław Grunwald
-@: boguslaw.grunwald@hackeru.com
-
 Chapter 1 Creating an Organization & Active Directory Management
 = - = - = - = - = - = - =  - = - = - = - = - = - = - = - = - = -
 
-ℹ️ Przerwy: 
-
-10:30 - 11:00
-12:30 - 13:15
-15:00 - 15:15
-
-🔗 -- Download Windows Machines
+Download Windows Machines
 
 - https://software-download.microsoft.com/download/pr/Windows_Server_2016_Datacenter_EVAL_en-us_14393_refresh.ISO
 - https://www.microsoft.com/pl-pl/windows-server/windows-admin-center
 - https://www.microsoft.com/en-US/download/details.aspx?id=45520
 
----
+
 
 Sprawdzenie wersji Windows:
-
-    winver
-
+winver
 Właściwości systemu Windows:
-    
-    sysdm.cpl
+sysdm.cpl
 
 ---
 
-🔗 -- Microsoft Download
+Microsoft Download
 https://www.microsoft.com/en-us/software-download/
-
-🔗 -- Baza obrazów ISO (PL)
+Baza obrazów ISO (PL)
 https://winiso.pl/
-
-🔗 -- Dokumentacja Microsoft
+Dokumentacja Microsoft
 
 https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/active-directory-domain-services
 https://docs.microsoft.com/pl-pl/windows-server/get-started-19/get-started-19
@@ -46,56 +29,39 @@ https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/using-the-or
 https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/active-directory-functional-levels
 https://docs.microsoft.com/en-us/deployoffice/vlactivation/configure-a-kms-host-computer-for-office
 
-🔗 -- Dodatkowe
+Dodatkowe
 https://www.thomas-krenn.com/pl/wiki/Kategoria:Windows
 https://pl.wikipedia.org/wiki/Zmienna_środowiskowa
 https://nsix.pl/kb/tworzenie-kopii-zapasowej-w-systemie-windows-server/
 https://pl.if-koubou.com/articles/how-to/what-windows-10s-optional-features-do-and-how-to-turn-them-on-or-off.html
 
-🔗 -- Procesy w windows
+Procesy w windows
 https://testerzy.pl/artykuly/procesy-w-windows
 
-🔗 -- Dokumentacja Vbox
+Dokumentacja Vbox
 https://www.virtualbox.org/wiki/Technical_documentation
 https://www.virtualbox.org/manual/ch06.html
---
 
 Konfiguracja w VirtualBox dla Windows Server 2016:
-    
-
-        4 GB RAM (4096)
-
-        1x lub 2x CPU
-
-        50 GB SSD
-
-        wersja GUI
-
-        Interface sieciowy: Adapter 1: Internal Network (Sieć wewnętrzna)
-
-        Memory: Dysk z obrazem Windows_2016[...].iso
-
-        System: kolejność boot'owania - 1. Napęd optyczny | 2. HDD
-
-    
+4 GB RAM (4096)
+1x lub 2x CPU
+50 GB SSD
+wersja GUI
+Interface sieciowy: Adapter 1: Internal Network (Sieć wewnętrzna)
+Memory: Dysk z obrazem Windows_2016[...].iso
+System: kolejność boot'owania - 1. Napęd optyczny | 2. HDD
 Windows Setup - wersja Windows
-    Windows Server Standard Evaluation (Desktop Exp.)
+Windows Server Standard Evaluation (Desktop Exp.)
     
-
-### 💡 -- Dodawanie Guest Additions do Wirtualnej Maszyny
-
+Dodawanie Guest Additions do Wirtualnej Maszyny
 Zakładka w VB: Urządzenia (Devices) -- > Zamontuj obraz płyty z dodatkami gościa (Insert Guest Additions CD Image). 
-
 Wchodzimy do Komputera (explorator plików - główny katalog systemu) --> wchodzimy Prawym przyciskim myszy (Dysk CD) --> otwórz (aby wyświetlić pliki) --> odpalamy VNoxWindowsAdditions-amd64.exe 
-
 Restartujemy maszynę
 
 --- 
 
-### 📋 -- Lab01 Windows Server Installation
-
+Lab01 Windows Server Installation
 Adresacja serwerów:
-    
 10.0.0.0/24
 
 Win_10:                IP - 10.0.0.3 | Subnet mask - 255.255.255.0 | DNS - 10.0.0.1
@@ -107,95 +73,52 @@ Wykonanie adresacji maszyn: Win+R ncpa.cpl
 ---
 
 Windows 10:
-    
-    Interface sieciowy (VirtualBox): Internal Network
-
+Interface sieciowy (VirtualBox): Internal Network
 Zmiana nazwy na Windows 10:
-    
-   sysdm.cpl
-    
+sysdm.cpl
 Nazwa: PC01
-
-
-    Restart
-
-
+Restart
 Zmiana adresacji sieciowej:
-    
-    ncpa.cpl
-
+ncpa.cpl
 Win_10: 10.0.0.3 | Subnet mask - 255.255.255.0 | DNS - 10.0.0.1
 
 ---
 
 Sprawdzenie komunikacji z W10 > W2016
-
-    ping 10.0.0.1
-
-
+ping 10.0.0.1
 Sprawdzenie komunikacji z W2016 > W10
-
 Wyłączenie firewall:
-
-    Terminal jako Administrator:
-
-
-    netsh advfirewall set allprofiles state off
-
-
-    ping 10.0.0.3
-
+Terminal jako Administrator:
+netsh advfirewall set allprofiles state off
+ping 10.0.0.3
 
 ---
 
 Dołączanie W10 do domeny cyber.local
-
-    sysdm.cpl
-
-
-    Change > Member of Domain
-
-
-    Poświadczenia Administratora DC01
-
-
-    Restart
-
+sysdm.cpl
+Change > Member of Domain
+Poświadczenia Administratora DC01
+Restart
 
 Windows 10: Terminal
-
-    net user          #konta lokalne
-
-
-    net user /domain  #konta domenowe
-
-
+net user          #konta lokalne
+net user /domain  #konta domenowe
 Logowanie na `Other user`
+jkowalski | password: ******** | Sign in to: CYBER
 
-    jkowalski | password: ******** | Sign in to: CYBER
-
-
-🔗 — List of Acitve Directory cmdlets
+List of Acitve Directory cmdlets
 https://docs.microsoft.com/en-us/powershell/module/activedirectory/?view=windowsserver2022-ps
-
 #Dodawanie nowych organization unit, w Active Directory Users and Computers:
-   Cyber.local -> new -> Organizational Unit
+Cyber.local -> new -> Organizational Unit
 np: IT, Serwis, Produkcja, Kierownictwo
-
 #Aby przypisać/ założyć usera w grupie: klikamy na jednostkę - 
-   klikamy prawym i New->User
-
+klikamy prawym i New->User
 #Aby przenieść do grupy, klikamy na userze, prawym klawisem i Move i dalej wybrać katalog
-
 #wszelkie ustawienia konta są dostępne po kliknięciu na konto prawym klawiszem i Properties
-
 #Aby przenosić/ kopiować polecenia i pliki między hostem a maszyną wirtualną
 Devices-> Drag and Drop -> Bidirectional
-
 #Start - Windows PowerShell
-
 New-ADUser -Name "test4" -GivenName "test4" -SamAccountName "test4" -UserPrincipalName "test4@cyber.local" -Path "CN=Users,DC=cyber,DC=local"-AccountPassword (Read-Host "Enter password: " -AsSecureString) -Enabled $true
-
 #zapisać to jako skrypt na serwerze -> konta.bat
 @echo
 dsadd user "CN=informatyk01,OU=IT,DC=cyber,DC=local" -samid informatyk01 -upn informatyk01@cyber.local -pwd P@$$w0rd -mustchpwd yes -canchpwd yes -disabled no
