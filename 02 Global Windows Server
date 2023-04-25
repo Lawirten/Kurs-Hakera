@@ -1,0 +1,608 @@
+📅 01.10.2022 🕘 [09:00]
+
+Global Windows Server
+
+Wykładowca: Bogusław Grunwald
+@: boguslaw.grunwald@hackeru.com
+
+Chapter 1 Creating an Organization & Active Directory Management
+= - = - = - = - = - = - =  - = - = - = - = - = - = - = - = - = -
+
+ℹ️ Przerwy: 
+
+10:30 - 11:00
+12:30 - 13:15
+15:00 - 15:15
+
+🔗 -- Download Windows Machines
+
+- https://software-download.microsoft.com/download/pr/Windows_Server_2016_Datacenter_EVAL_en-us_14393_refresh.ISO
+- https://www.microsoft.com/pl-pl/windows-server/windows-admin-center
+- https://www.microsoft.com/en-US/download/details.aspx?id=45520
+
+---
+
+Sprawdzenie wersji Windows:
+
+    winver
+
+Właściwości systemu Windows:
+    
+    sysdm.cpl
+
+---
+
+🔗 -- Microsoft Download
+https://www.microsoft.com/en-us/software-download/
+
+🔗 -- Baza obrazów ISO (PL)
+https://winiso.pl/
+
+🔗 -- Dokumentacja Microsoft
+
+https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/active-directory-domain-services
+https://docs.microsoft.com/pl-pl/windows-server/get-started-19/get-started-19
+https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/using-the-organizational-domain-forest-model
+https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/active-directory-functional-levels
+https://docs.microsoft.com/en-us/deployoffice/vlactivation/configure-a-kms-host-computer-for-office
+
+🔗 -- Dodatkowe
+https://www.thomas-krenn.com/pl/wiki/Kategoria:Windows
+https://pl.wikipedia.org/wiki/Zmienna_środowiskowa
+https://nsix.pl/kb/tworzenie-kopii-zapasowej-w-systemie-windows-server/
+https://pl.if-koubou.com/articles/how-to/what-windows-10s-optional-features-do-and-how-to-turn-them-on-or-off.html
+
+🔗 -- Procesy w windows
+https://testerzy.pl/artykuly/procesy-w-windows
+
+🔗 -- Dokumentacja Vbox
+https://www.virtualbox.org/wiki/Technical_documentation
+https://www.virtualbox.org/manual/ch06.html
+--
+
+Konfiguracja w VirtualBox dla Windows Server 2016:
+    
+
+        4 GB RAM (4096)
+
+        1x lub 2x CPU
+
+        50 GB SSD
+
+        wersja GUI
+
+        Interface sieciowy: Adapter 1: Internal Network (Sieć wewnętrzna)
+
+        Memory: Dysk z obrazem Windows_2016[...].iso
+
+        System: kolejność boot'owania - 1. Napęd optyczny | 2. HDD
+
+    
+Windows Setup - wersja Windows
+    Windows Server Standard Evaluation (Desktop Exp.)
+    
+
+### 💡 -- Dodawanie Guest Additions do Wirtualnej Maszyny
+
+Zakładka w VB: Urządzenia (Devices) -- > Zamontuj obraz płyty z dodatkami gościa (Insert Guest Additions CD Image). 
+
+Wchodzimy do Komputera (explorator plików - główny katalog systemu) --> wchodzimy Prawym przyciskim myszy (Dysk CD) --> otwórz (aby wyświetlić pliki) --> odpalamy VNoxWindowsAdditions-amd64.exe 
+
+Restartujemy maszynę
+
+--- 
+
+### 📋 -- Lab01 Windows Server Installation
+
+Adresacja serwerów:
+    
+10.0.0.0/24
+
+Win_10:                IP - 10.0.0.3 | Subnet mask - 255.255.255.0 | DNS - 10.0.0.1
+Win_Server_2016_DC01:  IP - 10.0.0.1 | Subnet mask - 255.255.255.0 | DNS - 10.0.0.1
+Win_Server_2016_DC02:  IP - 10.0.0.2 | Subnet mask - 255.255.255.0 | DNS - 10.0.0.1
+
+Wykonanie adresacji maszyn: Win+R ncpa.cpl
+
+---
+
+Windows 10:
+    
+    Interface sieciowy (VirtualBox): Internal Network
+
+Zmiana nazwy na Windows 10:
+    
+   sysdm.cpl
+    
+Nazwa: PC01
+
+
+    Restart
+
+
+Zmiana adresacji sieciowej:
+    
+    ncpa.cpl
+
+Win_10: 10.0.0.3 | Subnet mask - 255.255.255.0 | DNS - 10.0.0.1
+
+---
+
+Sprawdzenie komunikacji z W10 > W2016
+
+    ping 10.0.0.1
+
+
+Sprawdzenie komunikacji z W2016 > W10
+
+Wyłączenie firewall:
+
+    Terminal jako Administrator:
+
+
+    netsh advfirewall set allprofiles state off
+
+
+    ping 10.0.0.3
+
+
+---
+
+Dołączanie W10 do domeny cyber.local
+
+    sysdm.cpl
+
+
+    Change > Member of Domain
+
+
+    Poświadczenia Administratora DC01
+
+
+    Restart
+
+
+Windows 10: Terminal
+
+    net user          #konta lokalne
+
+
+    net user /domain  #konta domenowe
+
+
+Logowanie na `Other user`
+
+    jkowalski | password: ******** | Sign in to: CYBER
+
+
+🔗 — List of Acitve Directory cmdlets
+https://docs.microsoft.com/en-us/powershell/module/activedirectory/?view=windowsserver2022-ps
+
+#Dodawanie nowych organization unit, w Active Directory Users and Computers:
+   Cyber.local -> new -> Organizational Unit
+np: IT, Serwis, Produkcja, Kierownictwo
+
+#Aby przypisać/ założyć usera w grupie: klikamy na jednostkę - 
+   klikamy prawym i New->User
+
+#Aby przenieść do grupy, klikamy na userze, prawym klawisem i Move i dalej wybrać katalog
+
+#wszelkie ustawienia konta są dostępne po kliknięciu na konto prawym klawiszem i Properties
+
+#Aby przenosić/ kopiować polecenia i pliki między hostem a maszyną wirtualną
+Devices-> Drag and Drop -> Bidirectional
+
+#Start - Windows PowerShell
+
+New-ADUser -Name "test4" -GivenName "test4" -SamAccountName "test4" -UserPrincipalName "test4@cyber.local" -Path "CN=Users,DC=cyber,DC=local"-AccountPassword (Read-Host "Enter password: " -AsSecureString) -Enabled $true
+
+#zapisać to jako skrypt na serwerze -> konta.bat
+@echo
+dsadd user "CN=informatyk01,OU=IT,DC=cyber,DC=local" -samid informatyk01 -upn informatyk01@cyber.local -pwd P@$$w0rd -mustchpwd yes -canchpwd yes -disabled no
+dsadd user "CN=informatyk02,OU=IT,DC=cyber,DC=local" -samid informatyk02 -upn informatyk02@cyber.local -pwd P@$$w0rd -mustchpwd yes -canchpwd yes -disabled no 
+dsadd user "CN=informatyk03,OU=IT,DC=cyber,DC=local" -samid informatyk03 -upn informatyk03@cyber.local -pwd P@$$w0rd -mustchpwd yes -canchpwd yes -disabled no 
+dsadd user "CN=informatyk04,OU=IT,DC=cyber,DC=local" -samid informatyk04 -upn informatyk04@cyber.local -pwd P@$$w0rd -mustchpwd yes -canchpwd yes -disabled no 
+dsadd user "CN=informatyk05,OU=IT,DC=cyber,DC=local" -samid informatyk05 -upn informatyk05@cyber.local -pwd P@$$w0rd -mustchpwd yes -canchpwd yes -disabled no  
+pause
+    
+   Tworzenie grupy:
+dsadd group "CN=Serwis,CN=Users,DC=cyber,DC=local" -secgrp yes -scope g
+
+
+Dodawanie użytkowników do grupy:
+dsmod group "CN=Serwis,CN=Users,DC=cyber,DC=local" -addmbr "CN=test3,CN=Users,DC=cyber,DC=local"
+
+
+### 📋 -- Lab03 AD User & Group Management
+
+ustawiamy godziny logowania w template -> prawym klawiszem na template i Account-> logon Hours i wybieramy zakres godzin/ godziny
+
+#Mapowanie katalogu jako katalog domowy userowi z posiomu domeny:
+
+    tworzymy folder na serwerze c:\home
+
+    należy udostępnić go w sieci -> uprawnienia dla wszystkich 
+
+    w ustawieniach konta w AD własciwości usera -> profile w "home folder" zaznaczyć connect, wybrac literkę np. O i \\DC01\home\%username%
+
+    profil migrujący - dodać link do folderu na serwerze do Profile path
+
+
+
+MMC - Microsoft Management Console - tam dodajemy przystawki (tworzymy zbór narzędzi najczęściej używanych)
+
+
+REG  ADD HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System\CredSSP\Parameters\ /v AllowEncryptionOracle /t REG_DWORD /d 2
+
+Tworzymy nową maszynę typu Windows2016 - DC02 (tak samo jak poprzednią)
+Win_Server_2016_DC02:  IP - 10.0.0.2 | Subnet mask - 255.255.255.0 | DNS - 10.0.0.1
+Na tej maszynie skonfigurujemy server DHCP.  
+
+
+=======================================================================================
+
+📅 02.10.2022 🕘 [09:00]
+
+Global Windows Server
+
+Wykładowca: Bogusław Grunwald
+@: boguslaw.grunwald@hackeru.com
+
+Chapter 2: Working with Services & GPO Management
+= - = - = - = - = - = - =  - = - = - = - = - = - 
+
+ℹ️ Przerwy: 
+
+10:30 - 11:00
+12:30 - 13:15
+15:00 - 15:15
+
+
+### 📋 -- Lab04 Server Manager & Login Process
+
+Z poziomu DO01 wybieramy Add other server to manage i dodajemy DC02 (find now).
+Z poziomu D001 instalujemy nową rolę DHCP Server na serwerze DC02.
+Complete DHCP configuration - kończymy proces instalacji DHCP.
+Sprawdzamy na DC02 czy dhcp się zainstalowało.
+
+z Poziomu DC01 prawym klawiszem na serwer DC02 i wybieramy PowerShell i wpisujemy komendę:
+   Restart-Computer -ComputerName DC02
+
+
+
+Replikcja bazy danych AD na DC02:
+dodajemy nową rolę na DC02 (z poziomu DC01, Server Manager Dashboard) -> Active Directory Domain Services (reszta opcji domyślnie). 
+W kolejnym kroku klikamy Promote-> Add a domain controller to an exisiting domain. 
+Uwaga! należy zmienić konto (change) na administratora domeny (Administrator z DC01):
+   CYBER\Administrator
+Instalujemy Domain Name System (DNS) sever i Global Catalog (GC) + hasło do odzyskiwania bazy danych.
+Wybieramy skąd chcemy replikować -> DC01
+Reszta opcji domyślnie.
+
+Aby włączyć kosz w AD należy wejść w Tools->Active Directory Administrative Center
+nastepnie rozwinąć cyber (local) i po prawej stronie (task) włączyć kosz.
+Aby usunąć konta z kosza należy wpisać komendę w PowerShell:
+
+Get-ADObject -Filter {isDeleted -eq $True -and Name -like '*informatyk04*'} -IncludeDeletedObjects| Remove-ADObject
+
+
+===========================
+
+lokalizacja pliku hosts
+C:\Windows\System32\drivers\​etc\hosts
+
+ipconfig
+ipconfig /displaydns  - #podręczny cache dns-a
+ipconfig /flushdns  -#czyszczenie podręcznego cache
+
+nslookup
+nslookup -type=ns
+nslookup -type=mx onet.pl
+nslookup -type=A onet.pl
+
+🔗 — DHCP
+https://pl.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol
+
+🔗 — DNS record types
+https://en.wikipedia.org/wiki/List_of_DNS_record_types
+https://root-servers.org/
+
+🔗 — DNS checks
+https://www.ionos.com/digitalguide/server/tools/nslookup/
+
+### 📋 -- Lab02 DNS Installation & Configuration
+
+Otwieramy: Tools->DNS
+rozwijamy: rozwijamy DNS i DC01 dalej: Forward Lookup zone, prawym klawiszem i new zone  (testowa)
+wybieramy primary, next
+
+#teraz musimy dodać wpis A
+right click
+new host a or aaa
+w name wpisujemy nazwę
+np.: hackeru
+( FQDN samo się edytuje )
+ustalamy powiązany adres IP - np 172.20.10.10
+add host
+
+#sprawdzamy na stacji windows10
+  nslookup hackeru.testowa
+  nslookup 172.20.10.10 - nie działa bo musimy stworzyć rekord ptr
+
+#II sposób (z reverse)
+right click na forward lookup zones, new zone
+wybieramy primary
+next
+replication scope
+to all dns servers running in domain
+next
+zone name:
+podajemy nazwę domeny- id sieci 10.0.0
+next
+dynamic update
+default - allow only secure dynamic updates (recomm. for AD )
+next
+finish
+z prawej strony widzimy utwowrzoną strefę.
+
+#teraz musimy dodać wpis A
+right click
+new host a or aaa
+w name wpisujemy nazwę
+np.:  hackeru 
+( FQDN samo się edytuje )
+ustalamy powiązany adres IP - np 10.0.0.5
+zaznaczamy create PTR record
+add host
+
+#sprawdzamy na stacji windows10
+  nslookup hackeru
+  nslookup 10.0.0.5
+
+#Serwer DHCP (na DC01)
+dodajemy nową rolę na DC01 -> DHCP Server
+#Konfiguracja servera DHCP
+Tools
+DHCP
+
+#Konfiguracja servera DHCP
+Tools
+DHCP
+Rozwijamy server DC01.Cyber.local
+Prawym klawiszem na IPv4
+new scope (uruchomi się kreator)
+nazwa: Pula_10.0.0.0
+Range:
+   Start IP address : 10.0.0.1
+   End IP address: 10.0.0.253
+    
+   Lenght: 24
+   next
+Add exclusions and Delay:
+   10.0.0.1 – 10.0.0.10 i Add
+Limited to:  
+   8 days
+Dodatkowe opcje:
+   Router – 10.0.0.254 + Add
+Domain Name and DNS Servers:
+    Cyber.local -10.0.0.1
+    DC02 -10.0.0.2
+Wins Servers – puste
+Aktywujemy new scope. 
+Next 
+Finish
+
+#Sprawdzamy na Windows10
+  w ustawieniach karty sieciowej wybieramy w ip4 (właściwości) DHCP - czyli automatyczne pobieranie adresu IP i dns
+  cmd
+  ipconfig /all - widzimy nasz dhcp, nowy adres i serverDNS
+
+#Konfiguracja rezerwacji DHCP
+
+    Kopiujemy MAC-Address z WIN10. Po stronie servera z termiala: arp -a
+
+    DHCP > Nowa rezerwacja PC01 | IP 10.0.0.150 | MAC-Address
+
+    Windows 10 > Terminal
+
+    ipconfig /release #zwalnia adres IP i przekazuje go do puli na serwerze
+
+    ipconfig /renew #pobiera nowy adres z serwera
+
+
+#Zablokowanie PC01 w celu odmowy przydzielenia IP
+
+    WinServer2016: DHCP > Filters > Deny > New Filter
+
+    Prawy klawisz myszy na Deny > Enable
+
+    Weryfikacja po stronie klienta W10
+
+    ipconfig /release
+
+    ipconfig /renew
+
+    ipconfig
+
+    klient nie otrzymuje adresu IP
+
+
+### 📋 -- Lab01 DHCP Installation & Configuration
+
+Konfiguracja w trybie Failover
+
+    DC01 > Usunąć wszystkie filtry z DHCP oraz rezerwację
+
+    DHCP (prawy klawisz myszy) Add Server > DC02
+
+    Replikujemy na DC02 bazę DHCP
+
+    DC01 > IPv4 (prawy klawisz myszy) > Configure Failover
+
+    Partner Server > Add Server > DC02
+
+    Mode: Load balance | Shared Secret: ********
+
+    Finish
+
+    DC01 > IPv4 (prawy klawisz myszy) > Replicate Failover Scopes
+
+
+#Zakłócenie pracy serwera (DHCP starvation attack)
+
+🔗 -- What is a DHCP Starvation Attack?
+https://www.cbtnuggets.com/blog/technology/networking/what-is-a-dhcp-starvation-attack
+
+Kali > Interface: NAT
+
+    sudo apt update
+
+    sudo apt install yersinia
+
+
+Zmiana interface'u sieciowego na: Internal Network.
+
+Win10: 
+
+    ipconfig /release
+
+
+Kali:
+
+    sudo yersinia -G
+
+
+    DHCP > Launch Attack > sending DISCOVER packet
+
+    Win10 : ipconfig /renew
+
+    Serwer wydał wszystkie adresy IP z puli - maszyna wyscyca zasoby sprzętowe
+
+    Zatrzymanie ataku: Lists attacks > Stop
+
+    W celu przywrócenia stabilności środowiska należy zrestarować wszystkie maszyny
+
+
+🔗 -- Understanding and Preventing DHCP Starvation Attacks
+https://ritcsec.wordpress.com/2022/05/06/understanding-and-preventing-dhcp-starvation-attacks/
+
+
+---
+
+GPO (Group Policy Objects)
+
+Terminal > Run as Admin
+
+    gpedit.msc
+
+    gpmc.msc
+
+
+Group Policy Management
+
+Domains > cyber.local > Default Domain Policy
+
+Wprowadzenie utworzonych polityk GPO
+
+    gpupdate /force
+
+
+🔗 -- Kolejność przetwarzania i wdrażania zasad GPO
+https://pasja-informatyki.pl/sieci-komputerowe/zasady-grup-kolejnosc-zasad/
+
+***
+
+### 💡 -- Extra Miles
+
+    Ustaw opcje dotyczącą złożoności hasła
+
+    Ustaw minimalną długość hasła na 8 znaków
+
+    Ustaw ilość pamiętanych haseł na 10
+
+    Zmień max okres ważności hasła na 180 dni
+
+    Ustaw próg blokady konta na 3 nieudane próby logowania
+
+    Ustaw opcję monitorowania zmiany hasła 7 dni przed jego wygaśnięciem.
+
+    Ustaw tytuł komunikatu powitalnego dla użytkowników na następujący:
+
+    "SYSTEM TELEINFORMATYCZNY HackerU"
+
+8. Ustaw tekst komunikatu dla użytkowników próbujących się zalogować na następujący:
+
+    "Witamy na szkoleniu z Windows Server 2016"
+
+9. Zabroń dostępu do Rejestru dla wszystkich użytkowników.
+
+WinServer2016:
+
+    Dysk c:\
+
+    Utworzyć katalogi \Dane \Kopie \Programy
+
+    Udostępniamy te katalogi z opcją `Full Control`
+
+    Linki wklejamy do Nowego pliku wykonywalnego na Pulpicie dyski.bat (Save as | All files)
+
+
+    net use x: \\10.0.0.1\Dane
+
+    net use y: \\10.0.0.1\Kopie
+
+    net use z: \\10.0.0.1\Programy
+
+
+    Kopiujemy plik Ctrl+C
+
+    Domains > cyber.local > Default Domain Policy > User Configuration > Polices > Windows Settings > Scripts (Logon/Logoff) : (prawy klawisz myszy) Properties
+
+    Showfiles > Paste
+
+    Add > Browse > dyski.bat
+
+    Apply > OK
+
+
+Windows 10:
+
+    gpupdate /force
+
+    ponowne logowanie użytkownika
+
+    dyski zostały podmontowane w widoku `This PC`
+
+
+
+### -- 💡 Instalacja nowego oprogramowania
+
+https://www.mozilla.org/pl/firefox/all/#product-desktop-release
+
+    Wybieramy Windows 64-bit MSI > Pobierz teraz
+
+    Kopiujemy plik na Server DC01 (Firefox Setup 105.0.1.msi)
+
+    Umieszczamy w nowym katalogu c:\msi\
+
+    Udostępniamy katalog c:\msi\ > Advanced Sharing > Read
+
+    Domains > cyber.local > Default Domain Policy > User Configuration > Polices > Software Settings > Software Installation (prawy klawisz myszy) New > Package
+
+    Podajemy ściezkę dostępu do instalatora //DC01/msi/Firefox Setup 105.0.1.msi
+
+    Po chwili pokazuje się zmiana w GPO
+
+    Mozilla Firefox 105.0.1 x64 pl (prawy klawisz myszy) > Properties > Deployment > Install this application at logon
+
+    Security > Authenticated Users > Allow Full Control
+
+    Ustawienie większej szczegółowości pokazywanych komunikatów Domains > cyber.local > Default Domain Policy > User Configuration > Polices > Administrative Templates Policy definitions > System > Dispaly highly detailed status messages > Enable
+
+    Zastosowanie nowych polityk gpupdate /force
+
+    Przy nowym zalogowaniu pojawia się komunikat: "Installing managed software Mozilla Firefox 105.0.1 x64 pl..."
+
+
+***
+
