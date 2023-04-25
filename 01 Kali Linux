@@ -26,8 +26,6 @@ https://www.geeksforgeeks.org/linux-directory-structure/
 Linux Command Cheat Sheet
 https://www.guru99.com/linux-commands-cheat-sheet.html
 
-
-
 Sprawdzenie ilości zajętego miejsca na dysku:
 du -sh /var/log
 Konfiguracja uprawnień grupy sudo:
@@ -49,38 +47,20 @@ cat /etc/shadow
 
 ***
 
-🔗 -- GNU Bash – więcej niż Sh
+GNU Bash – więcej niż Sh
 https://ai.ia.agh.edu.pl/_media/pl:dydaktyka:unix:gjn-bash.pdf
-
-***
-
 Sprawdzenie dostępnych powłok w systemie:
-
 cat /etc/shells
-
-***
-
 Zawartość zmiennej środowiskowej $SHELL:
-
 echo $SHELL
 
-***
-
-🔗 -- Bash Scripting Tutorial for Beginners
+Bash Scripting Tutorial for Beginners
 https://linuxconfig.org/bash-scripting-tutorial-for-beginners 
-
-***
-
 Weryfikacja czy inne urządzenie sieciowe jest osiągalne w sieci:
-
 ping -c 4 8.8.8.8
 
-***
-
 Instrukcja do poszczególnych komend:
-
 man ping
-
 / wyszukiwanie frazy
 n następne wystąpienie
 N poprzednie wystąpienie
@@ -89,35 +69,15 @@ q wyjście
 lub 
 
 ping --help
-
-***
-
 Wyświetla całość lub część środowiska
-
 printenv
-
-***
-
 Utworzenie pliku
-
 touch plik1
-
-***
-
 Sprawdzenie typu pliku
-
 file plik1
-
-***
-
 Wyświetlenie aktualnego katalogu (Print Working Directory)
-
 pwd
-
-***
-
 Dowiązanie symboliczne
-
 # utworzenie pliku
 touch plik1
 cat plik1
@@ -126,12 +86,9 @@ cat plik1
 
 # dowiązanie
 ln -s plik1 plik2
-
 ls -lah
-
 # dodanie kolejnej frazy do pliku1
 echo "text2" >> plik1
-
 # wyświetlenie - zawartość jest identyczna
 cat plik1
 cat plik2
@@ -139,237 +96,856 @@ cat plik2
 ***
 
 Usunięcie pliku
-
 rm plik1
 
 ***
 
 Dowiązanie twarde
-
 ln plik1 /opt/plik3
-
 cat /opt/plik3
-
 ls -lah /opt
 
 ***
-
-🔗 -- Manual komend on-line:
+Manual komend on-line:
 https://explainshell.com/
 
-***
-
-### 📋 -- Lab01 File System Navigation
-
+Lab01 File System Navigation
 pwd
-
 /opt
-
 cd /home/kali/Desktop # Tab podpowiada istniejącą ścieżkę
-
 ls -lah
-
 ls -lah /boot
-
 cd
-
 cd ~
-
 cd /home/kali
 
 ***
 
 Utworzenie folderu
-
 mkdir folder1
-
 Utworzenie wielu folderów
-
 mkdir folder{6..10}
 
 ***
 
 Usunięcie folderu
-
 rm -d folder10
-
 lub 
-
 rmdir folder2
 
 ***
 
 Usunięcie wielu folderów
-
 rm -d folder{4..6}
-
 lub
-
 rm -d folder*
-
 # `*` = wildcard
 rmdir - usuwanie katalogu
 
 ***
 
 Tworzenie wielu plików jednym poleceniem:
-    touch plik{1..7}
-    
-
+touch plik{1..7}
 Tworzenie katalogów typu parent
-
 mkdir -p /folder4/folder5/folder6
-
 Rekursywne kasowanie katalogów
 rm -r /folder4
-
 Przenoszenie/zmiana nazwy
 mv folder1 folder10
-
 mv folder10 folder3/folder10
-
 Przenosiny pod inną nazwą:
-    
-    mv plik2 folder2/plikZ
-    
-
+mv plik2 folder2/plikZ
 Kopiowanie plików pod inna nazwą
-
 cp plik1 plik2
-
 Strumienie danych:
     
     stdin - wejście danych
     stdout - wyjście danych
     stderr - wyjście błędów
     
-
 echo "Hello" > plik1 - przekierowanie wynkiu komendy do pliku plik1
 recho "Kolejny tekst" >> plik1 - dodanie do pliku1 tekstu wyniku komendy echo o treści "Kolejny tekst"
-
 
 Edytory tekstu:
     mousepad
     gedit
     
 Działanie aplikacji w tle:
-    gedit /home/kali/Desktop/pli1 &
+gedit /home/kali/Desktop/pli1 &
     
-
 Edytory tekstowe:
-    nano
-    🔗 -- nano Cheat Sheet
-
-    https://www.nano-editor.org/dist/latest/cheatsheet.html
-
-
-    vim
-
-vim:
-    - wychodzenie z edytora :q, wychodzenie bezwarunkowe - :!q
-    
-    Tryby pracy:
-         tryb command - /wyszukiwany tekst, :101 przechodzi do 101 linni tekstu
-
-        tryb Insert - klawisz "I", wychodzimy klawisz Esc
-
-    Zapis i wyjście - :wq
-
-    w trybie command pod zaznaczeniu tekstu po wcisnięciu 2 razy yy kopiujemy do schowka i możemy wkleić zaznaczony wcześniej tekst plawiszem p
-
-
-    Kasowanie tekstu - po zaznaczeniu tekstu naciskamy 2 razy d. 
-
-
-    Szczegółowa dokumentacji vim: 
-
-    https://vim.rtorr.com/
-
-
-    Manipulacja strumieniami: grep, awk, sed:
-
-
-    grep - filtrowanie danych, przykład:
-
-    ps aux |grep zsh
-
-
-    ps aux |grep -v "[[]" - pokazuje procesy bez znaku [ w nazwie (bez procesów kernela)
-
-
-    awk - filtrowanie po kolumnach, przykład:
-
-    ps aux | grep awk '{print $9,$11}'
-
-
-    sed, zamienia tekst na teskt, przykład:
-
-    sed 's/tekst1/teskt2/'
-
-    ps aux | awk '{print $9,$11}' | grep -v "[[]" | sed 's/07:55/XXX/'
-
-
-
-    Wyszukiwanie plików: find, locate.
-
-    Przykłady:
-
-    find / -type f -name dpkg
-
-
-    Rodzaje wyszukiwań w linux przy pomocy komedny find:
-
-    https://technikinformatyk.pl/soisk/linux-wyszukiwanie-plikow-find/
-
-
-    locate - szybkie wyszukiwanie plików
-
-    Zaczynamy od uaktualnienia bazy plików - updatedb
-
-
-
-    Multipipe, wielokrotne stosowanie |, przykład:
-
-    ps aux | awk '{print $1}' | sort | uniq | grep -v "USER"
-
-
-    Zadanie z plikiem auth.log:
-
-    cat auth.log | grep "Failed password" | sed 's/^.*from//' | sed 's/.port.*//' | sort | uniq -c | sort -n
-
-
-
-    Operatory logiczne, przykłady w linku: http://www.w3big.com/pl/linux/linux-shell-basic-operators.html#gsc.tab=0
-
-
-    Komendy pozostałe:
-
-
-    head plik - wyświetla pierwsze 10 linni pliku plik
-
-    tail plik - wyświetla ostatnie 10 linni pliku plik
-
-    wc pokazuje statystykę pliku, liczba linni, wyrazów
-
-
-    Przykład operatora logicznego &&
-
-    head -n 2  /etc/passwd && tail -n 5 /etc/passwd
-
-    head -n 2  /etc/passwd ; tail -n 5 /etc/passwd
-
-
-    Pozostałe komendy do wyświetlania plików less i more, służą do wyświetlenia pliku stronami.
-
-
-    Rozwiązanie zadania:
-
-
-    firefox && ping -c 3 8.8.8.8
-
-    cat /etc/passwd | awk -F ':' '{print $1}'
-
-    head -n 5 /etc/passwd && tail -n 3 /etc/passwd
+nano
+nano Cheat Sheet
+https://www.nano-editor.org/dist/latest/cheatsheet.html
+
+vim
+wychodzenie z edytora :q, wychodzenie bezwarunkowe - :!q
+
+Tryby pracy:
+tryb command - /wyszukiwany tekst, :101 przechodzi do 101 linni tekstu
+tryb Insert - klawisz "I", wychodzimy klawisz Esc
+Zapis i wyjście - :wq
+w trybie command pod zaznaczeniu tekstu po wcisnięciu 2 razy yy kopiujemy do schowka i możemy wkleić zaznaczony wcześniej tekst plawiszem p
+Kasowanie tekstu - po zaznaczeniu tekstu naciskamy 2 razy d. 
+Szczegółowa dokumentacji vim: 
+https://vim.rtorr.com/
+Manipulacja strumieniami: grep, awk, sed:
+grep - filtrowanie danych, przykład:
+ps aux |grep zsh
+ps aux |grep -v "[[]" - pokazuje procesy bez znaku [ w nazwie (bez procesów kernela)
+awk - filtrowanie po kolumnach, przykład:
+ps aux | grep awk '{print $9,$11}'
+sed, zamienia tekst na teskt, przykład:
+sed 's/tekst1/teskt2/'
+ps aux | awk '{print $9,$11}' | grep -v "[[]" | sed 's/07:55/XXX/'
+
+Wyszukiwanie plików: find, locate.
+Przykłady:
+find / -type f -name dpkg
+Rodzaje wyszukiwań w linux przy pomocy komedny find:
+https://technikinformatyk.pl/soisk/linux-wyszukiwanie-plikow-find/
+locate - szybkie wyszukiwanie plików
+Zaczynamy od uaktualnienia bazy plików - updatedb
+
+Multipipe, wielokrotne stosowanie |, przykład:
+ps aux | awk '{print $1}' | sort | uniq | grep -v "USER"
+Zadanie z plikiem auth.log:
+cat auth.log | grep "Failed password" | sed 's/^.*from//' | sed 's/.port.*//' | 
+Operatory logiczne, przykłady w linku: http://www.w3big.com/pl/linux/linux-shell-basic-operators.html#gsc.tab=0
+
+Komendy pozostałe:
+
+head plik - wyświetla pierwsze 10 linni pliku plik
+tail plik - wyświetla ostatnie 10 linni pliku plik
+wc pokazuje statystykę pliku, liczba linni, wyrazów
+
+Przykład operatora logicznego &&
+head -n 2  /etc/passwd && tail -n 5 /etc/passwd
+head -n 2  /etc/passwd ; tail -n 5 /etc/passwd
+
+Pozostałe komendy do wyświetlania plików less i more, służą do wyświetlenia pliku stronami.
+Rozwiązanie zadania:
+firefox && ping -c 3 8.8.8.8
+cat /etc/passwd | awk -F ':' '{print $1}'
+head -n 5 /etc/passwd && tail -n 3 /etc/passwd
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  
+
+Chapter 2 Network Configuration & Configuring Services
+= - = - = - = - = - = - =  - = - = - = - = - = - = - =
+
+---------------ZARZĄDZANIE GRUPAMI I UŻYTKOWNIKAMI------------------
+
+uzupełnienie do tego tematu:
+https://www.cyberciti.biz/faq/understanding-etcpasswd-file-format/
+
+#dodawanie nowego użytkownika:
+useradd nazwa_usera
+#przejście na konto użytkownika:
+su - nazwa_usera
+#zamiana hasła:
+passwd nazwa_usera
+#przypisanie użytkownika do grupy kali i dodanie do katalogu domowego w home (-m) oraz nadanie powłoki (-s):
+useradd -G kali -m -e 2022-12-31 -s /bin/bash -c "Adam Kowalski" adam
+#sprawdzenie ustawień:
+chage -l adam
+#dodawanie nowego użytkownika - II sposób:
+adduser nazwa_usera
+#weryfikacja:
+cat /etc/passwd |tail -n 10
+ważność haseł:
+http://www.ulos.pl/okres-waznosci-hasel
+
+#wyświetlanie grup:
+cat /etc/group
+#sprawdzamy do jakich grup należy user kali:
+groups kali
+#Usuwanie usera:
+deluser john
+rm -dr john #usuwamy katalog domowy i pliki usera john
+#tworzenie grupy:
+groupadd nazwa_gr
+addgroup nazwa_gr
+Jaka jest różnica między useradd a adduser?
+https://linuxhint.com/difference-between-useradd-adduser/
+  
+#wyświetlanie końcówki pliku:
+cat /etc/passwd |tail 
+cat /etc/group |tail
+#dodanie usera do grupy:
+gpasswd -a adam admini
+#usuwanie usera z grupy:
+gpasswd -d adam admini
+#dodanie usera do grupy - II sposób:
+usermod -a -G admini mark
+#usuwanie grupy:
+delgroup admini
+
+Lab05 Managing Users & Groups
+
+adduser adam ; adduser david ; adduser tom
+cat /etc/passwd | tail
+addgroup admins ; addgroup developers
+cat /etc/group | tail
+gpasswd -a adam admins ; gpasswd -a david admins
+cat /etc/group | tail
+passwd tom
+gpasswd -d adam admins
+
+--------------------UPRAWNIENIA--------------------------
+
+uzupełnienie do tego tematu:
+https://www.thegeekdiary.com/linux-file-directory-permissions-cheat-sheet/
+
+#plik z hash-ami haseł:
+/etc/shadow
+#uprawnienia zaawansowane:
+/etc/sudoers
+#dodajemy wpis do pliku sudoers, aby Tom mógł wykonywać komendę cat z uprawnieniami root:
+tom  ALL=  NOPASSWD:  /usr/bin/cat
+#aby wykonać to polecenie z uprawnieniem root przez Tom-a:
+sudo cat /etc/shadow
+#zwraca ścieżkę do polecenia:
+which cat
+
+Jak wykorzystać zwiększone uprawnienia
+https://gtfobins.github.io
+
+#typy uprawnień:
+r - read
+w - write
+x - execute
+#typy userów:
+u - user - właściciel obiektu
+g - group
+o - others
+#dodawanie uprawnień
+  +
+#zabieranie uprawnień
+  -
+#reprezentacja liczbowa uprawnień:
+ 4 - (r) read  (2^2)
+ 2 - (w) write  (2^1)
+ 1 - (x) execute (2^0)
+np.:
+7 = 4+2+1 = rwx
+6 = 4+2+0 = rw-
+542 = r-x r-- -w-
+777 = rwx rwx rwx
+
+chmod Calculator
+https://chmod-calculator.com/
+
+#nadawanie uprawnień:
+#sprawdzanie jakie są uprawnienia:
+ls -lah
+#uprawnienie wykownywania dla właściciela pliku
+chmod u+x plik8  
+#grupa i inni prawo do zapisu:
+chmod go+w plik8 
+#wszyscy dodanie prawa do wykonywania:
+chmod +x plik8
+#wszyscy zabranie prawa do wykonywania:
+chmod -x plik8
+#zabieramy właścicielowi prawo do edycji i zapisu:
+chmod u-w plik8
+#dodawanie uprawnień do pliku:
+chmod 542 plik8
+#zestaw domyślnych uprawnień
+umask
+opis instrukcji:
+https://pl.wikipedia.org/wiki/Umask
+
+#zmiania właściciela obiektu
+chown tom:admins folderX
+
+Lab06 Changing Permissions
+chmod u+wx plik9
+chown adam plik9
+chown :admins plik9
+chmod o+x plik9
+ls - lah
+
+--------------------SYSTEM MONITORING--------------------------
+#lista procesów
+ps
+#lista wsystkich pracsów w systemie
+ps aux
+ps aux | grep -v root
+#odpowiednik ps aux, ale interaktywnie się odświeża:
+top
+#ulepszona wersja top:
+htop
+#zabicie procesu: 
+kill -9 id_procesu
+#rozmiar dysku i partycji:
+df -h
+#sprawdzenie pamięci ram:
+free -m
+ 
+-----------LINUX NETWORK--------
+#wyświetla adresy ip jakie są na interfejsach:
+ifconfig
+ifconfig | grep inet 
+ip a
+ip route
+#inne ważne komendy:
+ip neighbour
+# wyświetla tzw. tablicę routingu
+route
+traceroute 8.8.8.8
+traceroute -I 8.8.8.8
+#aby srawdzić nasz adres ip - jak jesteśmy widoczni w Internecie:
+curl ifconfig.me
+#polecenie diagnostyczne (protokół ICMP):
+ping wp.pl
+ping 192.168.8.1
+#zmiana ustawień IP:
+Edit connections->Wired connection1->IPv4 Srttings + wprowadzenie adresu IP
+#pobranie adresu IP z serwera DHCP
+dhclient  
+#zwolnienie adresu IP (release)
+dhclient -r 
+#ustawienie adresu IP i maski na interfejsie
+ifconfig eth0 192.168.8.222 netmask 255.255.255.0 
+ip route add default via 192.168.8.1 dev eth0
+#ustawienie adresu IP w pliku konfiguracyjnym:
+nano /etc/network/interfaces
+##dodać do pliku##
+auto eth0
+iface eth0 inet static 
+address 192.168.8.77/24
+gateway 192.168.8.1
+##dodać do pliku##
+#restart ustawień sieciowych - aby porał ustawienia z pliku konf.
+systemctl restart networking.service
+
+instrukcja krok po kroku jak zmienić ustawienia sieciowe:
+https://hackeru-my.sharepoint.com/:b:/p/k_marczuk/Eb16q6Fm6x9CoH8g6v7zPOUBRMLlGWTB2CWHRypMFT0tnw?e=rA7tWJ
+
+DNS - Domain Name System
+#edycja pliku konf. DNS 
+nano /etc/resolv.conf
+#sprawdzenie rozwiązywania nazw przez DNS
+nslookup hackeru.co.il 
+#odpytanie serwera DNS 8.8.8.8 o nazwę rekordu MX (rekord serwera pocztowego) dla domeny wp.pl
+DIG MX wp.pl @8.8.8.8 
+  
+DNS: co to jest? Jak działa? Jak wybrać i zmienić DNS na bezpieczne?
+https://kwestiabezpieczenstwa.pl/dns/
+#nslookup | host - rozwiązuje nazwy domen na numery IP serwerów
+nslookup wp.pl
+Non-authoritative answer:
+Name:   wp.pl
+Address: 212.77.98.9
+nslookup wp.pl 1.1.1.1
+
+lub
+host wp.pl
+wp.pl has address 212.77.98.9
+
+#iptables - konfiguracja firewall'a
+Dodawanie i usuwanie reguł na firewall'a dla wp.pl
+#dodawanie
+iptables -A INPUT -s 212.77.98.9 -j DROP 
+#usuwanie
+iptables -D INPUT -s 212.77.98.9 -j DROP 
+lub z podaniem domeny
+iptables -A INPUT -s wp.pl -j DROP 
+
+Lab01 Networking Commands
+ip a
+ifconfig
+
+#Ustawienie statycznego adresu IP
+dhclient
+dhclient -r
+#ustawienie adresu statycznego
+ifconfig etho 192.168.8.138 netmask 255.255.255.0
+#ustawienie bramy domyślnej
+ip route add default via 192.168.8.1 dev eth0
+ping 8.8.8.8
+
+lub
+Ustawienie statycznego IP z GUI przez Network Manager
+https://hackeru-my.sharepoint.com/:b:/p/k_marczuk/Eb16q6Fm6x9CoH8g6v7zPOUBRMLlGWTB2CWHRypMFT0tnw?e=rA7tWJ
+
+***
+
+#apt - manager pakietów
+cat /etc/apt/sources.list
+apt update #uaktualnia wszystkie narzędzia w systemie do najnowszych, dostępnych wersji
+apt upgrade #upgrade'uje całą dystrybucję systemu do najnowszej dostępnej, wykonanie zajmuje zdecydowanie więcej czasu
+#Instalacja Hacktronian
+cd /opt
+git clone https://github.com/thehackingsage/hacktronian
+ls
+nano README.md
+> Installation in Linux
+chmod +x install.sh
+./install.sh
+
+[✔]========================================================================[✔]
+[✔] ✔✔✔ All Is Done!! you can execute tool by typing hacktronian !! ✔✔✔ [✔
+[✔]========================================================================[✔]
+
+
+    chmod +x hacktronian.py
+
+
+    ./hacktronian.py
+
+
+ _   _    _    ____ _  _______ ____   ___  _   _ ___    _    _   _ 
+ | | | |  / \  / ___| |/ /_   _|  _ \ / _ \| \ | |_ _|  / \  | \ | |
+ | |_| | / _ \| |   | ' /  | | | |_) | | | |  \| || |  / _ \ |  \| |
+ |  _  |/ ___ \ |___| . \  | | |  _ <| |_| | |\  || | / ___ \| |\  |
+ |_| |_/_/   \_\____|_|\_\ |_| |_| \_\_ __/|_| \_|___/_/   \_\_| \_|
+ 
+ [!] This Tool Must Run As ROOT [!] https://linktr.ee/thehackingsage
+
+   {1}--Information Gathering
+   {2}--Password Attacks
+   {3}--Wireless Testing
+   {4}--Exploitation Tools
+   {5}--Sniffing & Spoofing
+   {6}--Web Hacking
+   {7}--Private Web Hacking
+   {8}--Post Exploitation
+   {0}--Install The HACKTRONIAN
+   {99}-Exit
+ 
+hacktronian~# 
+
+***
+
+Lab02 Package Managers
+
+as 'root'
+apt install wdiff
+wdiff --help
+apt remove wdiff
+
+***
+
+git clone https://github.com/trustedsec/unicorn
+./unicorn.py
+
+***
+
+# lista wszystkich usług zainstalowanych w systemie
+service --status-all
+# status usługi
+service apache2 status
+# start usługi 
+service apache2 start
+Drugi terminal: aktywne połączenia sieciowe
+netstat -tulpn
+
+# wyjaśnienie przełączników do netstat
+https://explainshell.com/explain?cmd=netstat+-tulpn   
+
+lub
+
+#systemctl -  możemy je stosować zamiennie z service
+systemctl status apache2
+#włączenie usługi na stałe, działa po restarcie maszyny
+systemctl enable apache2 #włączenie
+systemctl disable apache2 # wyłączenie
+
+***
+
+Lab03 Telnet
+#instalacja pakietu
+apt install telnet -y
+#uruchmienie netcat na porcie 23
+nc -lvp 23
+#sprawdzenie połączeń sieciowych
+netstat -tulpn
+#nawiązanie połączenia ze swoim IP
+telnet 192.168.8.138 23
+#wyjście z telnet
+^]
+
+#instlacja serwera telnet
+apt install telnetd -y
+apt install openbsd-inetd
+service openbsd-inetd start
+service --status-all | grep openbsd
+netstat -tulpn
+
+***
+
+Lab04 SSH
+#uruchomienie usługi SSH
+service shh start
+#połączenie z ssh
+ssh kali@192.168.8.138
+yes
+password:****
+#połączenie aktywne
+
+#Windows - cmd
+ssh kali@192.168.8.77
+yes
+password:****
+
+#konfiguracja ssh
+nano /etc/ssh/sshd_config
+#Port 22 - należy odkomentować i wprowadzić własny numer portu, linia zakomentowana to usługa otwarta domyślnie na porcie 22
+
+***
+
+Lab05 FTP
+
+#instalacja serwera FTP
+apt install vsftpd
+#uruchomienie usługi
+service vsftpd start
+#zmiany w pliku konfiguracyjnym
+nano /etc/vsftpd.conf
+#odkomentowujemy linię
+write_enable=YES 
+service vsftpd restart
+netstat -tulpn
+#Windows > tylko Internet Explorer > pasek adresu
+ftp://192.168.8.77
+
+Okno logowania:
+User name: kali
+Password: ****
+lub cmd
+ftp 192.168.8.77
+User: kali
+Password: ****
+
+FTP Client Commands
+https://www.ibm.com/docs/en/scbn?topic=SSRJDU/gateway_services/ftp_globalec/SCN_Summary_of_FTP_Client_Commands_b.html
+#transfer pliku przez ftp
+put plikzwindows.txt
+
+***
+
+Lab06 SMB
+
+#Zmiana konfiguracji
+nano /etc/samba/smb.conf
+#w pliku
+workgroup = smbgroup
+#na końcu pliku 
+[my_share]
+path = /samba/shares
+valid users = @smbgroup
+browseable = yes
+read only = no
+writable = yes
+#utworzenie grupy
+addgroup smbgroup
+#nowy użytkownik 'user'
+useradd user -G smbgroup
+#hasło do samby dla 'user'
+smbpasswd -a user
+New Password: ***
+Retype Pass:  ***
+
+#Zasób deklarowany w poliku konfiguracyjnym
+
+mkdir -p /samba/shares
+#uprawnienia do zasobu + właściel zasobu 'user'
+chmod -R 770 /samba/shares
+chown user:smbgroup /samba/shares
+#start usługi
+service smbd start
+#Windows
+Mój Komputer > C:/ (prawy klawisz myszy) Mapuj dysk sieciowy
+Z:
+\\192.168.8.77\my_share
+Logowanie na 'user'
+
+***
+
+Konfiguracja Samba (konfiguracja samby.txt)
+
+1. Wchodzimy plik konfiguracyjny samby: nano /etc/samba/smb.conf
+2. Zmieniamy linijkę z workgroup na: workgroup = smbgroup
+3. Na samym końcu pliku deklarujemy nasz zasób: 
+
+[my_share]
+path = /samba/shares
+valid users = @smbgroup
+browseable = yes
+read only = no
+writable = yes
+
+zapisujemy plik: Ctrl + o + enter
+
+4. tworzymy grupę: addgroup smbgroup
+5. dodajemy nowego użytkownika i przypisujemy go do grupy: useradd user -G smbgroup
+6. nadajemy hasło do samby dla użytkownika user: smbpasswd -a user 
+7. tworzymy folder do naszego zasobu: mkdir -p /samba/shares
+8. nadajemy uprawnienia: chmod -R 770 /samba/shares
+9. ustalamy właściciela i grupę zasobu: chown user:smbgroup /samba/shares
+10 uruchamiamy usługę: service smbd start
+
+11. łączymy się z zasobem:
+(Linux): smbclient -U user \\\\nasz_adres_ip\\my_share
+(Windows): klikamy PPM na ikonę "Ten komputer" "Mapuj dysk sieciowy" wpisujemy w okno: \\nasz_adres_ip\my_share
+zaznaczamy opcję: "połącz przy użyciu innych poświadczeń"
+wpisujemy login "user" i nadane mu wcześniej hasło
+
+***
+
+### 💡 -- Extra Miles: SFTP
+
+
+#zmiany w pliku konfiguracyjnym
+nano /etc/ssh/sshd_config
+#na końcu pliku dodajemy
+Match group sftp
+ChrootDirectory /home
+X11Forwarding no
+AllowTcpForwarding no
+ForceCommand internal-sftp
+#Grupa sftp
+addgroup sftp
+#dodanie usera 'kali' do grupy
+usermod -a -G sftp kali
+#start usługi
+service ssh start
+
+***
+
+cat /etc/passwd
+cat /etc/passwd
+passwd root
+cat /etc/passwd
+cat /etc/shadow
+exit
+pwd
+cat /etc/shells
+clear
+ping -c 4 8.8.8.8
+ping 8.8.8.8
+man ping
+man ls
+ls --help
+printenv
+ls
+cd /
+ls
+ls -l
+file vmlinuz
+touch plik1
+ls -l
+file plik1
+file /boot/vmlinuz-5.18.0-kali5-amd64
+cd /bin
+cd ..
+cd /bin
+ls -lah
+cd /etc
+ls -lah
+cd .
+cd ..
+cd /home/kali
+pwd
+ls
+cd /home/kali/Desktop
+pwd
+cd ..
+cd Desktop
+ls /home/kali/Desktop/..
+ls /home/kali/Desktop/../Desktop
+cd /usr/share
+ls ../../dev
+ls /dev
+cd
+pwd
+cd /usr/share
+cd ~
+cd /root
+ls -lahR /srv
+clear
+ls -lah
+cd /home/kali/Desktop
+touch plik1
+cat plik1
+echo "text" > plik1
+cat plik1
+ln -s plik1 plik2
+ls -lah
+cat plik2
+echo "text2" >> plik1
+cat plik1
+cat plik2
+rm plik1
+ls -lah
+cat plik2
+touch plik1
+ls -lah
+echo "text2" > plik1
+cat plik1
+cat plik2
+ln plik1 /opt/plik3
+rm plik1
+ls
+rm plik2
+ls
+mkdir .folder1
+ls
+ls -a
+ls -la
+ls -lah 
+clear
+ls -lah /bin 
+cd /bin
+ls
+ls -lah
+ls /boot
+ls /boot/grub
+ls -lah /dev
+ls -lah /etc
+cat /etc/passwd
+cat /etc/shadow
+ls /home
+cd /usr/lib
+ls
+ldd /bin/ls
+ls /media
+ls /mnt
+pwd
+cd /mnt
+ls /opt
+ls /proc
+ls /root
+ps aux | grep cron
+ps aux | grep cron
+cat /run/crond.pid
+ls /sbin
+ls /srv
+ls /sys
+ls /tmp
+ls /usr
+ls /var
+ls /var/log
+cat /var/log/syslog 
+ls /var/log
+ls /var
+du -sh /var/log
+clear
+cat /etc/sudoers
+clear
+whoami
+su - kali
+su kali
+ls
+rm plik3
+clear
+ls
+rm -d folder3
+ls
+clear
+mkdir folder1
+ls
+cd folder1
+ls
+pwd
+clear
+mkdir folder{a..d}
+ls
+mdkir -p folder1/folder2/folder3
+mkdir -p folder1/folder2/folder3
+ls -R folder1
+ls
+rm -r folder*
+ls
+touch plik1
+ls
+touch plik{2..5}
+ls
+rm plik*
+ls
+clear
+cat /etc/hosts
+su - kali
+cat /etc/passwd
+find / -type f -name log 
+find / -type f -name dpkg
+find / -type f -name dpkg 2>/dev/null\n
+find / -type d -name apt 2>/dev/null\n
+find / -size +100M
+find / -size +100M 2>/dev/null
+find --help
+man find
+find /home -perm 777
+find /var -type f -name *.conf
+updatedb 
+locate test.txt
+locate *.hash
+locate --help
+locate -c -i readme.md
+ps aux
+ps aux | awk '{print $1}' 
+ps aux | awk '{print $1}' | sort
+ps aux | awk '{print $1}' | sort
+ps aux | awk '{print $1}' | sort | uniq | grep -v "USER"
+mv /home/kali/Downloads/auth.log /home/kali/Desktop
+cd /home/kali/Desktop
+ls
+cat auth.log | wc -l 
+cat auth.log | head -n 40
+cat auth.log | grep "Failed password" | wc -l
+cat auth.log | grep "Failed password" | head -n 40
+cat auth.log | grep "Failed password" | sed 's/^.*from/X/'
+cat auth.log | grep "Failed password" | sed 's/^.*from//'
+cat auth.log | grep "Failed password" | sed 's/^.*from//' | head -n 20
+cat auth.log | grep "Failed password" | sed 's/^.*from//' | wc -l
+cat auth.log | grep "Failed password" | sed 's/^.*from//' | head -n 20
+cat auth.log | grep "Failed password" | sed 's/^.*from//' | sed 's/.port.*//'
+cat auth.log | grep "Failed password" | sed 's/^.*from//' | sed 's/.port.*//' | sort 
+cat auth.log | grep "Failed password" | sed 's/^.*from//' | sed 's/.port.*//' | sort | uniq
+cat auth.log | grep "Failed password" | sed 's/^.*from//' | sed 's/.port.*//' | sort | uniq -c 
+cat auth.log | grep "Failed password" | sed 's/^.*from//' | sed 's/.port.*//' | sort | uniq -c | sort -n
+whois 91.241.13.112
+whois 77.221.147.3
+clear
+date ; ping -c 2 1.1.1.1 ; cat /etc/hosts
+ls /root || date
+mkdir /root/folder1
+ls /root || date
+ls /root && date
+gedit &
+ls
+head auth.log
+tail auth.log
+head -n 4 auth.log
+tail -n 15auth.log
+tail -n 15 auth.log
+head -n 2 /etc.passwd & tail -n 5 etc/passwd
+head -n 2 /etc/passwd & tail -n 5 /etc/passwd
+head -n 2 /etc/passwd && tail -n 5 /etc/passwd
+head -n 2 /etc/passwd ; tail -n 5 /etc/passwd
+cat /etc/passwd | head -n 15
+cat /etc/passwd | head -n 15 | tail -n 5
+ls
+less auth.log
+more auth.log
+clear
+ls /etc
+ls -lah /etc
+ls -lah /etc | awk '{print $3}' | sort | uniq 
+ls -lah /etc | awk '{print $3}' | sort | uniq | awk NF
+clear
+su - kali
+
+ps aux | head 
+hostnamectl
+cat /proc/version
+uname -r
+cat /etc/os-release
+apt install terminator
+sudo su
+echo $XDG_CURRENT_DESKTOP
 
 
 
@@ -809,729 +1385,6 @@ Historia komend:
   207  ip a
   208  sudo su
 
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  
-
-
-📅 25.09.2022 🕘 [09:00]
-
-Chapter 2 Network Configuration & Configuring Services
-= - = - = - = - = - = - =  - = - = - = - = - = - = - =
-
-ℹ️ Przerwy: 
-
-10:30 - 10:45
-12:30 - 13:00
-15:00 - 15:15
-
-***
----------------ZARZĄDZANIE GRUPAMI I UŻYTKOWNIKAMI------------------
-
-🔗 -- uzupełnienie do tego tematu:
-https://www.cyberciti.biz/faq/understanding-etcpasswd-file-format/
-
-#dodawanie nowego użytkownika:
-  useradd nazwa_usera
-#przejście na konto użytkownika:
-  su - nazwa_usera
-#zamiana hasła:
-  passwd nazwa_usera
-#przypisanie użytkownika do grupy kali i dodanie do katalogu domowego w home (-m) oraz nadanie powłoki (-s):
-  useradd -G kali -m -e 2022-12-31 -s /bin/bash -c "Adam Kowalski" adam
-#sprawdzenie ustawień:
-  chage -l adam
-#dodawanie nowego użytkownika - II sposób:
-  adduser nazwa_usera
-#weryfikacja:
-  cat /etc/passwd |tail -n 10
-🔗 -- ważność haseł:
-http://www.ulos.pl/okres-waznosci-hasel
-
-#wyświetlanie grup:
-  cat /etc/group
-#sprawdzamy do jakich grup należy user kali:
-  groups kali
-#Usuwanie usera:
-  deluser john
-  rm -dr john #usuwamy katalog domowy i pliki usera john
-#tworzenie grupy:
-  groupadd nazwa_gr
-  addgroup nazwa_gr
-🔗 -- Jaka jest różnica między useradd a adduser?
-https://linuxhint.com/difference-between-useradd-adduser/
-  
-#wyświetlanie końcówki pliku:
-  cat /etc/passwd |tail 
-  cat /etc/group |tail
-#dodanie usera do grupy:
-  gpasswd -a adam admini
-#usuwanie usera z grupy:
-  gpasswd -d adam admini
-#dodanie usera do grupy - II sposób:
-  usermod -a -G admini mark
-#usuwanie grupy:
-  delgroup admini
-
-### 📋 -- Lab05 Managing Users & Groups
-
-adduser adam ; adduser david ; adduser tom
-cat /etc/passwd | tail
-addgroup admins ; addgroup developers
-cat /etc/group | tail
-gpasswd -a adam admins ; gpasswd -a david admins
-cat /etc/group | tail
-passwd tom
-gpasswd -d adam admins
-
---------------------UPRAWNIENIA--------------------------
-
-🔗 -- uzupełnienie do tego tematu:
-https://www.thegeekdiary.com/linux-file-directory-permissions-cheat-sheet/
-
-#plik z hash-ami haseł:
-/etc/shadow
-#uprawnienia zaawansowane:
-/etc/sudoers
-#dodajemy wpis do pliku sudoers, aby Tom mógł wykonywać komendę cat z uprawnieniami root:
-  tom  ALL=  NOPASSWD:  /usr/bin/cat
-#aby wykonać to polecenie z uprawnieniem root przez Tom-a:
-  sudo cat /etc/shadow
-#zwraca ścieżkę do polecenia:
-  which cat
-
-🔗 -- Jak wykorzystać zwiększone uprawnienia
-https://gtfobins.github.io
-
-#typy uprawnień:
-r - read
-w - write
-x - execute
-#typy userów:
-u - user - właściciel obiektu
-g - group
-o - others
-#dodawanie uprawnień
-  +
-#zabieranie uprawnień
-  -
-#reprezentacja liczbowa uprawnień:
- 4 - (r) read  (2^2)
- 2 - (w) write  (2^1)
- 1 - (x) execute (2^0)
-np.:
-7 = 4+2+1 = rwx
-6 = 4+2+0 = rw-
-542 = r-x r-- -w-
-777 = rwx rwx rwx
-
-🔗 -- chmod Calculator
-https://chmod-calculator.com/
-
-#nadawanie uprawnień:
-#sprawdzanie jakie są uprawnienia:
-  ls -lah
-#uprawnienie wykownywania dla właściciela pliku
-  chmod u+x plik8  
-#grupa i inni prawo do zapisu:
-  chmod go+w plik8 
-#wszyscy dodanie prawa do wykonywania:
-  chmod +x plik8
-#wszyscy zabranie prawa do wykonywania:
-  chmod -x plik8
-#zabieramy właścicielowi prawo do edycji i zapisu:
-  chmod u-w plik8
-#dodawanie uprawnień do pliku:
-  chmod 542 plik8
-#zestaw domyślnych uprawnień
-  umask
-🔗 -- opis instrukcji:
-https://pl.wikipedia.org/wiki/Umask
-
-#zmiania właściciela obiektu
-  chown tom:admins folderX
-
-### 📋 -- Lab06 Changing Permissions
-chmod u+wx plik9
-chown adam plik9
-chown :admins plik9
-chmod o+x plik9
-ls - lah
-
---------------------SYSTEM MONITORING--------------------------
-#lista procesów
-  ps
-#lista wsystkich pracsów w systemie
-  ps aux
-  ps aux | grep -v root
-#odpowiednik ps aux, ale interaktywnie się odświeża:
-  top
-#ulepszona wersja top:
-  htop
-#zabicie procesu: 
-  kill -9 id_procesu
-#rozmiar dysku i partycji:
-  df -h
-#sprawdzenie pamięci ram:
-  free -m
- 
------------LINUX NETWORK--------
-#wyświetla adresy ip jakie są na interfejsach:
-  ifconfig
-  ifconfig | grep inet 
-  ip a
-  ip route
-#inne ważne komendy:
-  ip neighbour
-# wyświetla tzw. tablicę routingu
-  route
-  traceroute 8.8.8.8
-  traceroute -I 8.8.8.8
-#aby srawdzić nasz adres ip - jak jesteśmy widoczni w Internecie:
-  curl ifconfig.me
-#polecenie diagnostyczne (protokół ICMP):
-  ping wp.pl
-  ping 192.168.8.1
-#zmiana ustawień IP:
-  Edit connections->Wired connection1->IPv4 Srttings + wprowadzenie adresu IP
-#pobranie adresu IP z serwera DHCP
-  dhclient  
-#zwolnienie adresu IP (release)
-  dhclient -r 
-#ustawienie adresu IP i maski na interfejsie
-  ifconfig eth0 192.168.8.222 netmask 255.255.255.0 
-  ip route add default via 192.168.8.1 dev eth0
-#ustawienie adresu IP w pliku konfiguracyjnym:
-  nano /etc/network/interfaces
-  ##dodać do pliku##
-    auto eth0
-    iface eth0 inet static 
-    address 192.168.8.77/24
-    gateway 192.168.8.1
-  ##dodać do pliku##
-#restart ustawień sieciowych - aby porał ustawienia z pliku konf.
-  systemctl restart networking.service
-
-🔗 -- instrukcja krok po kroku jak zmienić ustawienia sieciowe:
-https://hackeru-my.sharepoint.com/:b:/p/k_marczuk/Eb16q6Fm6x9CoH8g6v7zPOUBRMLlGWTB2CWHRypMFT0tnw?e=rA7tWJ
-
-DNS - Domain Name System
-#edycja pliku konf. DNS 
-  nano /etc/resolv.conf
-#sprawdzenie rozwiązywania nazw przez DNS
-  nslookup hackeru.co.il 
-#odpytanie serwera DNS 8.8.8.8 o nazwę rekordu MX (rekord serwera pocztowego) dla domeny wp.pl
-  DIG MX wp.pl @8.8.8.8 
-  
-🔗 -- DNS: co to jest? Jak działa? Jak wybrać i zmienić DNS na bezpieczne?
-https://kwestiabezpieczenstwa.pl/dns/
-
-#nslookup | host - rozwiązuje nazwy domen na numery IP serwerów
-
-    nslookup wp.pl
-
-
-Non-authoritative answer:
-Name:   wp.pl
-Address: 212.77.98.9
-
-    nslookup wp.pl 1.1.1.1
-
-
-lub
-
-    host wp.pl
-
-
-wp.pl has address 212.77.98.9
-
-
-
-#iptables - konfiguracja firewall'a
-
-Dodawanie i usuwanie reguł na firewall'a dla wp.pl
-
-#dodawanie
-
-    iptables -A INPUT -s 212.77.98.9 -j DROP 
-
-
-#usuwanie
-
-    iptables -D INPUT -s 212.77.98.9 -j DROP 
-
-
-lub z podaniem domeny
-
-    iptables -A INPUT -s wp.pl -j DROP 
-
-
-
-### 📋 -- Lab01 Networking Commands
-
-    ip a
-
-
-    ifconfig
-
-
-#Ustawienie statycznego adresu IP
-
-    dhclient
-
-    dhclient -r
-
-
-#ustawienie adresu statycznego
-
-    ifconfig etho 192.168.8.138 netmask 255.255.255.0
-
-
-#ustawienie bramy domyślnej
-
-    ip route add default via 192.168.8.1 dev eth0
-
-
-    ping 8.8.8.8
-
-
-lub
-
-Ustawienie statycznego IP z GUI przez Network Manager
-🔗 -- https://hackeru-my.sharepoint.com/:b:/p/k_marczuk/Eb16q6Fm6x9CoH8g6v7zPOUBRMLlGWTB2CWHRypMFT0tnw?e=rA7tWJ
-
-***
-
-#apt - manager pakietów
-
-    cat /etc/apt/sources.list
-
-
-    apt update #uaktualnia wszystkie narzędzia w systemie do najnowszych, dostępnych wersji
-
-
-    apt upgrade #upgrade'uje całą dystrybucję systemu do najnowszej dostępnej, wykonanie zajmuje zdecydowanie więcej czasu
-
-
-#Instalacja Hacktronian
-
-    cd /opt
-
-
-    git clone https://github.com/thehackingsage/hacktronian
-
-
-    ls
-
-
-    nano README.md
-
-
-> Installation in Linux
-
-
-    chmod +x install.sh
-
-
-    ./install.sh
-
-
-[✔]========================================================================[✔]
-[✔] ✔✔✔ All Is Done!! you can execute tool by typing hacktronian !! ✔✔✔ [✔
-[✔]========================================================================[✔]
-
-
-    chmod +x hacktronian.py
-
-
-    ./hacktronian.py
-
-
- _   _    _    ____ _  _______ ____   ___  _   _ ___    _    _   _ 
- | | | |  / \  / ___| |/ /_   _|  _ \ / _ \| \ | |_ _|  / \  | \ | |
- | |_| | / _ \| |   | ' /  | | | |_) | | | |  \| || |  / _ \ |  \| |
- |  _  |/ ___ \ |___| . \  | | |  _ <| |_| | |\  || | / ___ \| |\  |
- |_| |_/_/   \_\____|_|\_\ |_| |_| \_\_ __/|_| \_|___/_/   \_\_| \_|
- 
- [!] This Tool Must Run As ROOT [!] https://linktr.ee/thehackingsage
-
-   {1}--Information Gathering
-   {2}--Password Attacks
-   {3}--Wireless Testing
-   {4}--Exploitation Tools
-   {5}--Sniffing & Spoofing
-   {6}--Web Hacking
-   {7}--Private Web Hacking
-   {8}--Post Exploitation
-   {0}--Install The HACKTRONIAN
-   {99}-Exit
- 
-hacktronian~# 
-
-***
-
-### 📋 -- Lab02 Package Managers
-
-as 'root'
-
-    apt install wdiff
-
-
-    wdiff --help
-
-
-    apt remove wdiff
-
-
-    ***
-
-
-    git clone https://github.com/trustedsec/unicorn
-
-
-    ./unicorn.py
-
-
-***
-
-# lista wszystkich usług zainstalowanych w systemie
-
-    service --status-all
-
-
-# status usługi
-
-    service apache2 status
-
-
-# start usługi 
-
-    service apache2 start
-
-
-Drugi terminal: aktywne połączenia sieciowe
-    netstat -tulpn
-
-# wyjaśnienie przełączników do netstat
- https://explainshell.com/explain?cmd=netstat+-tulpn   
-
-lub
-
-#systemctl -  możemy je stosować zamiennie z service
-
-    systemctl status apache2
-
-
-#włączenie usługi na stałe, działa po restarcie maszyny
-
-
-    systemctl enable apache2 #włączenie
-
-
-    systemctl disable apache2 # wyłączenie
-
-
-***
-
-### 📋 -- Lab03 Telnet
-
-#instalacja pakietu
-
-    apt install telnet -y
-
-
-#uruchmienie netcat na porcie 23
-
-    nc -lvp 23
-
-
-#sprawdzenie połączeń sieciowych
-
-    netstat -tulpn
-
-
-#nawiązanie połączenia ze swoim IP
-
-    telnet 192.168.8.138 23
-
-
-#wyjście z telnet
-
-    ^]
-
-
-
-#instlacja serwera telnet
-
-    apt install telnetd -y
-
-    apt install openbsd-inetd
-
-
-    service openbsd-inetd start
-
-
-    service --status-all | grep openbsd
-
-
-    netstat -tulpn
-
-
-    ***
-
-
-### 📋 -- Lab04 SSH
-
-
-#uruchomienie usługi SSH
-
-
-    service shh start
-
-
-#połączenie z ssh
-
-    ssh kali@192.168.8.138
-
-    yes
-
-    password:****
-
-
-    #połączenie aktywne
-
-
-
-#Windows - cmd
-
-    ssh kali@192.168.8.77
-
-    yes
-
-    password:****
-
-
-#konfiguracja ssh
-
-    nano /etc/ssh/sshd_config
-
-
-    #Port 22 - należy odkomentować i wprowadzić własny numer portu, linia zakomentowana to usługa otwarta domyślnie na porcie 22
-
-
-    ***
-
-
-    ### 📋 -- Lab05 FTP
-
-
-    #instalacja serwera FTP
-
-
-    apt install vsftpd
-
-
-#uruchomienie usługi
-
-
-    service vsftpd start
-
-
-#zmiany w pliku konfiguracyjnym
-
-    nano /etc/vsftpd.conf
-
-
-    #odkomentowujemy linię
-
-    write_enable=YES 
-
-
-    service vsftpd restart
-
-
-    netstat -tulpn
-
-
-
-#Windows > tylko Internet Explorer > pasek adresu
-
-    ftp://192.168.8.77
-
-
-    Okno logowania:
-
-    User name: kali
-
-    Password: ****
-
-
-lub cmd
-
-
-    ftp 192.168.8.77
-
-    User: kali
-
-    Password: ****
-
-
-🔗 -- FTP Client Commands
-https://www.ibm.com/docs/en/scbn?topic=SSRJDU/gateway_services/ftp_globalec/SCN_Summary_of_FTP_Client_Commands_b.html
-
-#transfer pliku przez ftp
-
-
-    put plikzwindows.txt
-
-
-***
-
-### 📋 -- Lab06 SMB
-
-#Zmiana konfiguracji
-
-    nano /etc/samba/smb.conf
-
-
-    #w pliku
-
-    workgroup = smbgroup
-
-
-    #na końcu pliku 
-
-    [my_share]
-
-    path = /samba/shares
-
-    valid users = @smbgroup
-
-    browseable = yes
-
-    read only = no
-
-    writable = yes
-
-
-#utworzenie grupy
-
-    addgroup smbgroup
-
-
-#nowy użytkownik 'user'
-
-    useradd user -G smbgroup
-
-
-#hasło do samby dla 'user'
-
-    smbpasswd -a user
-
-    New Password: ***
-
-    Retype Pass:  ***
-
-
-#Zasób deklarowany w poliku konfiguracyjnym
-
-
-    mkdir -p /samba/shares
-
-
-#uprawnienia do zasobu + właściel zasobu 'user'
-
-    chmod -R 770 /samba/shares
-
-    chown user:smbgroup /samba/shares
-
-
-#start usługi
-
-
-    service smbd start
-
-
-
-#Windows
-
-Mój Komputer > C:/ (prawy klawisz myszy) Mapuj dysk sieciowy
-
-Z:
-\\192.168.8.77\my_share
-
-Logowanie na 'user'
-
-***
-
-🔗 -- Konfiguracja Samba (konfiguracja samby.txt)
-
-1. Wchodzimy plik konfiguracyjny samby: nano /etc/samba/smb.conf
-2. Zmieniamy linijkę z workgroup na: workgroup = smbgroup
-3. Na samym końcu pliku deklarujemy nasz zasób: 
-
-[my_share]
-path = /samba/shares
-valid users = @smbgroup
-browseable = yes
-read only = no
-writable = yes
-
-zapisujemy plik: Ctrl + o + enter
-
-4. tworzymy grupę: addgroup smbgroup
-5. dodajemy nowego użytkownika i przypisujemy go do grupy: useradd user -G smbgroup
-6. nadajemy hasło do samby dla użytkownika user: smbpasswd -a user 
-7. tworzymy folder do naszego zasobu: mkdir -p /samba/shares
-8. nadajemy uprawnienia: chmod -R 770 /samba/shares
-9. ustalamy właściciela i grupę zasobu: chown user:smbgroup /samba/shares
-10 uruchamiamy usługę: service smbd start
-
-11. łączymy się z zasobem:
-(Linux): smbclient -U user \\\\nasz_adres_ip\\my_share
-(Windows): klikamy PPM na ikonę "Ten komputer" "Mapuj dysk sieciowy" wpisujemy w okno: \\nasz_adres_ip\my_share
-        zaznaczamy opcję: "połącz przy użyciu innych poświadczeń"
-        wpisujemy login "user" i nadane mu wcześniej hasło
-
-
-***
-
-### 💡 -- Extra Miles: SFTP
-
-
-#zmiany w pliku konfiguracyjnym
-
-    nano /etc/ssh/sshd_config
-
-
-    #na końcu pliku dodajemy
-
-    Match group sftp
-
-    ChrootDirectory /home
-
-    X11Forwarding no
-
-    AllowTcpForwarding no
-
-    ForceCommand internal-sftp
-
-
-#Grupa sftp
-
-    addgroup sftp
-
-
-#dodanie usera 'kali' do grupy
-
-    usermod -a -G sftp kali
-
-
-#start usługi
-
-    service ssh start
-
-
-***
-
 historia komend (25.09.2022)
 
   236  cat /etc/passwd | tail
@@ -1960,4 +1813,5 @@ historia komend (25.09.2022)
   659  usermod -a -G sftp kali
   660  service ssh start
   661  netstat -tupan
+
 
