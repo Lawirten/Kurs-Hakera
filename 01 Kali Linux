@@ -1,100 +1,50 @@
-📅 24.09.2022 🕘 [09:00]
-
 Global Linux Fundamentals
-
 Chapter 1 Intro to Linux & Users, Groups and Permissions
 = - = - = - = - = - = - =  - = - = - = - = - = - = - = - 
 
-prowadzący: Karol Marczuk
-k.marczuk@hackeru.com
-
-ℹ️ Przerwy: 
-
-10:30 - 10:45
-12:30 - 13:30
-15:00 - 15:15
-
-pytania odnośnie egzaminu i final project:
-    
-support@mimuw.edu.pl
-
----
-
-🔗 --- The Linux Kernel Archives
+The Linux Kernel Archives
 kernel.org
 
 ***
 
 Instalacja terminala Terminator
-
 sudo apt install terminator
 
 ***
 
 Lista wszystkich użytkowników w systemie
-
 cat /etc/passwd
 
 ***
 
-🔗 -- FHS (file hierarchy standard)
+FHS (file hierarchy standard)
 https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
-
-***
-
-🔗 -- Linux File Hierarchy Structure
+Linux File Hierarchy Structure
 https://www.geeksforgeeks.org/linux-file-hierarchy-structure/
-
-🔗 -- Linux Directory Structure
+Linux Directory Structure
 https://www.geeksforgeeks.org/linux-directory-structure/
-
-***
-
-🔗 -- Linux Command Cheat Sheet
+Linux Command Cheat Sheet
 https://www.guru99.com/linux-commands-cheat-sheet.html
 
-***
+
 
 Sprawdzenie ilości zajętego miejsca na dysku:
-
 du -sh /var/log
-
-***
-
 Konfiguracja uprawnień grupy sudo:
-
 sudo cat /etc/sudoers
-
-***
-
 Sprawdzenie aktualnie zalogowanego użytkownika:
-
 whoami
-
-***
-
 Zalogowanie na użytkownika kali
-
 su - kali
-
-***
-
 Zalogowanie na użytkownika root
-
 su - root
 
 ***
 
 Nadanie hasła dla użytkownika root
-
 passwd root
-
 New password: *****
-
-***
-
 Sprawdzenie hasha hasła dla root
-
 cat /etc/shadow
 
 ***
